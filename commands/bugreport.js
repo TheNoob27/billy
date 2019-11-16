@@ -8,7 +8,7 @@ let bug = {
   bug: "",
   how: "",
   effect: "",
-  extra: ""
+  extra: null
 }
 
 //start refund request
@@ -94,7 +94,7 @@ async function bugname() {
     
     collector.on("end", () => {
       if (stopped) return message.author.send("You took too long to provide the effect on gameplay.")
-      end(dm)
+      extra(dm)
     })
  }
   
@@ -102,23 +102,26 @@ async function bugname() {
    let embed = new Discord.RichEmbed()
   .setTitle("New Bug Report")
   .setColor(colors.help)
-  .setDescription("**Do you have any images, evidence, or media that could help in any way?** If so, post **one** image/link. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
+  .setDescription("**Do you have any images, evidence, or media that could help in any way?** If so, post **one** image/link. If not, just say `no` or `none` \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
   
     message.author.send(embed)
     
     let filter = m => m.author.id == message.author.id
   let collector = dm.createMessageCollector(filter, {time: 60000})
-  let stopped = true
+ // let stopped = true
   
   collector.on("collect", m => {
-    stopped = false
-    if (m.content.)
-    bug.effect = m.content
+    //stopped = false
+    if (m.content.includes("http")) {
+      bug.extra = m.content
+    } else if (m.attachments.first()){
+      bug.extra = m.attachments.first().proxyURL
+    }
     collector.stop()
   })
     
     collector.on("end", () => {
-      if (stopped) return message.author.send("You took too long to provide the effect on gameplay.")
+     // if (stopped) return message.author.send("You took too long to provide the effect on gameplay.")
       end(dm)
     })
  }
@@ -129,7 +132,7 @@ async function bugname() {
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("**Are you happy with these results?** Yes or no. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how + "\n**Effect On Gameplay**: "+bug.effect)
-  
+  if (bug.extra) embed.setImage(bug.extra)
     message.author.send(embed)
     
     let filter = m => m.author.id == message.author.id && (m.content.toLowerCase() == "yes" || m.content.toLowerCase() == "no")
@@ -157,6 +160,7 @@ async function bugname() {
       .addField("How It Is Done", bug.how)
       .addField("Effect On Gameplay", bug.effect)
       .setColor(colors.color)
+      if (bug.extra) embed.setImage(bug.extra)
       
      client.channels.get("645316197478563840").send(embed)   
       return message.author.send("Bug report sent successfully!")
