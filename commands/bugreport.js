@@ -112,9 +112,7 @@ async function bugname() {
   
   collector.on("collect", m => {
     //stopped = false
-    if (m.content.includes("http")) {
-      bug.extra = m.content
-    } else if (m.attachments.first()){
+    if (m.attachments.first()){
       bug.extra = m.attachments.first().proxyURL
     }
     collector.stop()
@@ -133,6 +131,7 @@ async function bugname() {
   .setColor(colors.help)
   .setDescription("**Are you happy with these results?** Yes or no. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how + "\n**Effect On Gameplay**: "+bug.effect)
   if (bug.extra) embed.setImage(bug.extra)
+
     message.author.send(embed)
     
     let filter = m => m.author.id == message.author.id && (m.content.toLowerCase() == "yes" || m.content.toLowerCase() == "no")
