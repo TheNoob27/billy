@@ -14,7 +14,7 @@ function username() {
   let embed = new Discord.RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
-  .setDescription("Your refund request will be sent, but first supply some information. \n**What is the username of the account that lost the item?**")
+  .setDescription("Your refund request will be sent, but first supply some information. \n**What is the username of the ROBLOX account that lost the item?**")
   .setFooter("Didn't mean to send a refund request? Just say cancel to cancel.")
   let dm
   try {
@@ -73,6 +73,76 @@ function username() {
     })
   }
   
+ function item(dm) {
+   let embed = new Discord.RichEmbed()
+  .setTitle("New Refund Request")
+  .setColor(colors.help)
+  .setDescription("**What did you lose?** \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date)
+  
+    message.author.send(embed)
+    
+    let filter = m => m.author.id == message.author.id
+  let collector = dm.createMessageCollector(filter, {time: 60000})
+  let stopped = true
+  
+  collector.on("collect", m => {
+    stopped = false
+    refund.item = m.content
+    collector.stop()
+  })
+    
+    collector.on("end", () => {
+      if (stopped) return message.author.send("You took too long to provide the item you lost.")
+      
+    })
+ }
+  
+  function how(dm) {
+    let embed = new Discord.RichEmbed()
+  .setTitle("New Refund Request")
+  .setColor(colors.help)
+  .setDescription("**How did you lose this item?** \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item)
+  
+    message.author.send(embed)
+    
+    let filter = m => m.author.id == message.author.id
+  let collector = dm.createMessageCollector(filter, {time: 120000})
+  let stopped = true
+  
+  collector.on("collect", m => {
+    stopped = false
+    refund.how = m.content
+    collector.stop()
+  })
+    
+    collector.on("end", () => {
+      if (stopped) return message.author.send("You took too long to provide how you lost the item.")
+      
+    })
+  }
+  
+  function additional(dm) {
+    let embed = new Discord.RichEmbed()
+  .setTitle("New Refund Request")
+  .setColor(colors.help)
+  .setDescription("**Any additional details that would help?** If not, just say `no` or `none`. \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item + "\n**How The Item Was Lost**: "+refund.how)
+  
+    message.author.send(embed)
+    
+    let filter = m => m.author.id == message.author.id
+  let collector = dm.createMessageCollector(filter, {time: 180000})
+  let stopped = true
+  collector.on("collect", m => {
+    stopped = false
+    refund.additional = m.content
+    collector.stop()
+  })
+    
+    collector.on("end", () => {
+      if (stopped) return message.author.send("You took too long to provide if you had additional details.")
+      
+    })
+  }
   
 }
 module.exports.help = {
