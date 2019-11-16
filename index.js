@@ -48,7 +48,7 @@ client.on('error', console.error);
 client.on('ready', () => {
   console.log(`${client.user.username} is online!`);
   console.log(`Logged in as ${client.user.tag}`)
-  client.user.setActivity("Kahoot!", {type: "PLAYING"});
+  client.user.setActivity("Field of Battle", {type: "PLAYING"});
 
 });
 

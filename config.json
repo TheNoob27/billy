@@ -1,5 +1,6 @@
 {
   "prefix": "b!",
   "color": "#36393e",
-  "help": ""
+  "help": "#778ba2",
+  "error": "#ff0000"
 }
