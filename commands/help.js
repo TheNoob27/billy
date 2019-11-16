@@ -9,7 +9,7 @@ let infocmd = ``
 //let modcmd = ``
 
 info.map(cmd => {
-  infocmd += `${prefix}${cmd.help.usage.replace("k!", "")} \n`
+  infocmd += `${prefix}${cmd.help.usage.replace("b!", "")} \n`
 })
   
 /*mod.map(cmd => {
