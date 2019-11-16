@@ -134,13 +134,53 @@ function username() {
   let stopped = true
   collector.on("collect", m => {
     stopped = false
+    if (m.content.toLowerCase() == "no" || m.content.toLowerCase() == "none") {
+      refund.additional = "None"
+      collector.stop()
+    } else {
     refund.additional = m.content
     collector.stop()
+    }
   })
     
     collector.on("end", () => {
       if (stopped) return message.author.send("You took too long to provide if you had additional details.")
       
+    })
+  }
+  
+  
+  function end(dm) {
+    let embed = new Discord.RichEmbed()
+  .setTitle("New Refund Request")
+  .setColor(colors.help)
+  .setDescription("**Are you happy with these results?** Yes or no. \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item + "\n**How The Item Was Lost**: "+refund.how+"\n**Additional Details**: "+refund.additional)
+  
+    message.author.send(embed)
+    
+    let filter = m => m.author.id == message.author.id && (m.content.toLowerCase() == "yes" || m.content.toLowerCase() == "no")
+  let collector = dm.createMessageCollector(filter, {time: 60000})
+  let stopped = true
+  let happy = false
+  
+  collector.on("collect", m => {
+    stopped = false
+    if (m.content.toLowerCase() == "no") {
+      collector.stop()
+    } else {
+    happy = true
+    collector.stop()
+    }
+  })
+    
+    collector.on("end", () => {
+      if (stopped) return message.author.send("You took too long to specify if you were happy or not, so the refund was not posted.")
+      if (!happy) return message.author.send("Refund request cancelled, nothing was submitted.")
+      
+      let embed = new Discord.RichEmbed()
+      .setTitle("Refund Request")
+      .addField("Username", refund.username)
+      .addField("Date of Loss")
     })
   }
   
