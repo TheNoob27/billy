@@ -67,7 +67,7 @@ function username() {
   })
     
     collector.on("end", () => {
-      if (stopped) return message.author.send("Took too long to provide a date.")
+      if (stopped) return message.author.send("You took too long to provide a date.")
       
       
     })
