@@ -7,7 +7,8 @@ module.exports.run = async (client, message, args, colors) => {
 let bug = {
   bug: "",
   how: "",
-  effect: ""
+  effect: "",
+  extra: ""
 }
 
 //start refund request
@@ -52,12 +53,12 @@ async function bugname() {
     let embed = new Discord.RichEmbed()
   .setTitle("New Bug Report")
   .setColor(colors.help)
-  .setDescription("**How was the bug caused/What caused the bug?** \n\n**Bug**: "+bug.bug)
+  .setDescription("**What caused the bug?** \n\n**Bug**: "+bug.bug)
   
     message.author.send(embed)
     
     let filter = m => m.author.id == message.author.id
-  let collector = dm.createMessageCollector(filter, {time: 60000})
+  let collector = dm.createMessageCollector(filter, {time: 180000})
   let stopped = true
   
   collector.on("collect", m => {
@@ -75,14 +76,14 @@ async function bugname() {
   
  function effect(dm) {
    let embed = new Discord.RichEmbed()
-  .setTitle("New Refund Request")
+  .setTitle("New Bug Report")
   .setColor(colors.help)
   .setDescription("**How does this affect the gameplay?** \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
   
     message.author.send(embed)
     
     let filter = m => m.author.id == message.author.id
-  let collector = dm.createMessageCollector(filter, {time: 60000})
+  let collector = dm.createMessageCollector(filter, {time: 120000})
   let stopped = true
   
   collector.on("collect", m => {
@@ -93,70 +94,41 @@ async function bugname() {
     
     collector.on("end", () => {
       if (stopped) return message.author.send("You took too long to provide the effect on gameplay.")
-      how(dm)
+      end(dm)
     })
  }
   
-  function how(dm) {
-    let embed = new Discord.RichEmbed()
-  .setTitle("New Refund Request")
+  function extra(dm) {
+   let embed = new Discord.RichEmbed()
+  .setTitle("New Bug Report")
   .setColor(colors.help)
-  .setDescription("**How did you lose this item?** \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item)
+  .setDescription("**Do you have any images, evidence, or media that could help in any way?** If so, post **one** image/link. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
   
     message.author.send(embed)
     
     let filter = m => m.author.id == message.author.id
-  let collector = dm.createMessageCollector(filter, {time: 120000})
+  let collector = dm.createMessageCollector(filter, {time: 60000})
   let stopped = true
   
   collector.on("collect", m => {
     stopped = false
-    refund.how = m.content
+    if (m.content.)
+    bug.effect = m.content
     collector.stop()
   })
     
     collector.on("end", () => {
-      if (stopped) return message.author.send("You took too long to provide how you lost the item.")
-      
-      additional(dm)
-    })
-  }
-  
-  function additional(dm) {
-    let embed = new Discord.RichEmbed()
-  .setTitle("New Refund Request")
-  .setColor(colors.help)
-  .setDescription("**Any additional details that would help?** If not, just say `no` or `none`. \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item + "\n**How The Item Was Lost**: "+refund.how)
-  
-    message.author.send(embed)
-    
-    let filter = m => m.author.id == message.author.id
-  let collector = dm.createMessageCollector(filter, {time: 180000})
-  let stopped = true
-  collector.on("collect", m => {
-    stopped = false
-    if (m.content.toLowerCase() == "no" || m.content.toLowerCase() == "none") {
-      refund.additional = "None"
-      collector.stop()
-    } else {
-    refund.additional = m.content
-    collector.stop()
-    }
-  })
-    
-    collector.on("end", () => {
-      if (stopped) return message.author.send("You took too long to provide if you had additional details.")
-      
+      if (stopped) return message.author.send("You took too long to provide the effect on gameplay.")
       end(dm)
     })
-  }
+ }
   
   
   function end(dm) {
     let embed = new Discord.RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
-  .setDescription("**Are you happy with these results?** Yes or no. \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item + "\n**How The Item Was Lost**: "+refund.how+"\n**Additional Details**: "+refund.additional)
+  .setDescription("**Are you happy with these results?** Yes or no. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how + "\n**Effect On Gameplay**: "+bug.effect)
   
     message.author.send(embed)
     
@@ -180,16 +152,14 @@ async function bugname() {
       if (!happy) return message.author.send("Refund request cancelled, nothing was submitted.")
       
       let embed = new Discord.RichEmbed()
-      .setTitle("Refund Request")
-      .addField("Username", refund.username)
-      .addField("Date Of Loss", refund.date)
-      .addField("Item Lost", refund.item)
-      .addField("How The Item Was Lost", refund.how)
-      .addField("Additional Details", refund.additional)
+      .setTitle("Bug Report")
+      .addField("Bug", bug.bug)
+      .addField("How It Is Done", bug.how)
+      .addField("Effect On Gameplay", bug.effect)
       .setColor(colors.color)
       
      client.channels.get("645316197478563840").send(embed)   
-      return message.author.send("Refund request sent successfully!")
+      return message.author.send("Bug report sent successfully!")
     })
   }
   
