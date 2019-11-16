@@ -23,7 +23,7 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.config = config
-client.cooldowns = new db.table("cooldowns")
+//client.cooldowns = new db.table("cooldowns")
 
 
 let init = async () => {
@@ -49,7 +49,7 @@ client.on('ready', () => {
   console.log(`${client.user.username} is online!`);
   console.log(`Logged in as ${client.user.tag}`)
   client.user.setActivity("Field of Battle", {type: "PLAYING"});
-
+  client.owner = config.owner
 });
 
 
@@ -159,7 +159,7 @@ client.on('message', async message => {
       
       return message.channel.send(help)
     } else
-	  commandfile.run(client,message,args,colors,owner,prefix).catch(err => {
+	  commandfile.run(client,message,args,colors,prefix).catch(err => {
       /*let submitchance = ["no", "yes", "no", "no"]
       let submit = ""
       let h = submitchance[Math.floor(Math.random() * submitchance.length)]
@@ -200,7 +200,7 @@ client.on('message', async message => {
       
       return message.channel.send(help)
     } else
-	  alias.run(client,message,args,colors,owner,prefix).catch(err => {  
+	  alias.run(client,message,args,colors,prefix).catch(err => {  
       /*
       let submitchance = ["no", "yes", "no", "no"]
       let submit = ""
