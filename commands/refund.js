@@ -10,7 +10,10 @@ let refund = {
   additional: ""
 }
 
-function username() {
+//start refund request
+username()
+
+async function username() {
   let embed = new Discord.RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
@@ -18,7 +21,7 @@ function username() {
   .setFooter("Didn't mean to send a refund request? Just say cancel to cancel.")
   let dm
   try {
-    dm = message.author.createDM
+    dm = await message.author.createDM()
     message.author.send(embed)   
   } catch(err) {
     return message.channel.send("Sorry, I could not send you a DM, and no refund request could be made.")
@@ -69,7 +72,7 @@ function username() {
     collector.on("end", () => {
       if (stopped) return message.author.send("You took too long to provide a date.")
       
-      
+      item(dm)
     })
   }
   
@@ -93,7 +96,7 @@ function username() {
     
     collector.on("end", () => {
       if (stopped) return message.author.send("You took too long to provide the item you lost.")
-      
+      how(dm)
     })
  }
   
@@ -118,6 +121,7 @@ function username() {
     collector.on("end", () => {
       if (stopped) return message.author.send("You took too long to provide how you lost the item.")
       
+      additional(dm)
     })
   }
   
@@ -146,6 +150,7 @@ function username() {
     collector.on("end", () => {
       if (stopped) return message.author.send("You took too long to provide if you had additional details.")
       
+      end(dm)
     })
   }
   
@@ -180,7 +185,14 @@ function username() {
       let embed = new Discord.RichEmbed()
       .setTitle("Refund Request")
       .addField("Username", refund.username)
-      .addField("Date of Loss")
+      .addField("Date Of Loss", refund.date)
+      .addField("Item Lost", refund.item)
+      .addField("How The Item Was Lost", refund.how)
+      .addField("Additional Details", refund.additional)
+      .setColor(colors.color)
+      
+     client.channels.get("645316197478563840").send(embed)   
+      return message.author.send("Refund request sent successfully!")
     })
   }
   
@@ -190,5 +202,5 @@ module.exports.help = {
   aliases: [],
   description: "Submit a refund request.",
   usage: `b!refund`,
-  category: "Info"
+  category: "FOB"
 }

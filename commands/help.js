@@ -3,7 +3,7 @@ const Discord = require('discord.js')
 
 module.exports.run = async (client, message, args, colors, prefix) => {
 let info = client.commands.filter(cmd => cmd.help.category == "Info")
-//let mod = client.commands.filter(cmd => cmd.help.category == "Moderation")
+let fob = client.commands.filter(cmd => cmd.help.category == "FOB")
 
 let infocmd = ``
 //let modcmd = ``
