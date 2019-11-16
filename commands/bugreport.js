@@ -102,7 +102,7 @@ async function bugname() {
    let embed = new Discord.RichEmbed()
   .setTitle("New Bug Report")
   .setColor(colors.help)
-  .setDescription("**Do you have any images, evidence, or media that could help in any way?** If so, post **one** image/link. If not, just say `no` or `none` \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
+  .setDescription("**Do you have any images, evidence, or media that could help in any way?** If so, post **one** image. If not, just say anything. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
   
     message.author.send(embed)
     
