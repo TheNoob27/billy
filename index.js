@@ -1,15 +1,15 @@
-
 const Discord = require("discord.js")
 const ms = require("parse-ms")
 const db = require("quick.db")
 const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 const config = require('./config.json')
+/*
 const http = require('http');
 const express = require('express');
-const app = express();
+const app = express();*/
 let prefix = config.prefix
-app.get("/", (request, response) => {
+/*app.get("/", (request, response) => {
   console.log(Date(Date.now()).toString() + ": Ping Received");
   response.sendStatus(200);
 });
@@ -17,7 +17,7 @@ app.listen(process.env.PORT);
 setInterval(() => {
   http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 }, 280000);
-
+*/
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
