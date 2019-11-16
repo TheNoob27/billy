@@ -41,7 +41,7 @@ function username() {
   })
   
   collector.on("end", () => {
-    if (cancelled) return message.author.send("Cancelled thr re")
+    if (cancelled) return message.author.send("Cancelled the refund request.")
     if (stopped) return message.author.send("You took too long to provide a valid username.")
     
     date(dm)
@@ -55,6 +55,22 @@ function username() {
   .setDescription("**When did you lose this item?** \n\n**Username**: "+refund.username)
   
     message.author.send(embed)
+    
+    let filter = m => m.author.id == message.author.id
+  let collector = dm.createMessageCollector(filter, {time: 60000})
+  let stopped = true
+  
+  collector.on("collect", m => {
+    stopped = false
+    refund.date = m.content
+    collector.stop()
+  })
+    
+    collector.on("end", () => {
+      if (stopped) return message.author.send("Took too long to provide a date.")
+      
+      
+    })
   }
   
   
