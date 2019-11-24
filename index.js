@@ -51,7 +51,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`)
   client.user.setActivity("Field of Battle", {type: "PLAYING"});
   client.owner = config.owner
-  //setTimeout(() => client.channels.get("648056524094046239").fetchMessage("648159091100876802"), 10000)
+ setTimeout(() => client/*.guilds.get("648056524094046239")*/.channels.get("648130760259272704").fetchMessage("648159091100876802"), 10000)
 });
 
 
