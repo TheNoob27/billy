@@ -20,6 +20,23 @@ function setup() {
     
     let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
     let collector = msg.createReactionCollector(filter, {time: 300000})
+    
+    collector.on("collect", r => {
+      let user = r.users.last()
+      
+      if (r.emoji == "⚔️") {
+        let find = game.players.find(player => player.id == user.id)
+        if (find) return;
+        
+        game.players.push({
+          id: user.id,
+          level: 1,
+          hp: 100
+        })
+        
+      }
+      
+    })
   })
 
   }
