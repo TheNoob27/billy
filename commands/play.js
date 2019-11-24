@@ -26,7 +26,7 @@ function setup() {
     
     collector.on("collect", r => {
       let user = r.users.last()
-      console.log(game.players)
+      
       if (r.emoji == "⚔️") {
         let find = game.players.find(player => player.id == user.id)
         if (find) return;
@@ -53,7 +53,9 @@ function setup() {
     })
     
     collector.on("end", () => {
-      message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol)")
+      let rounds = Math.ceil(Math.random() * 5) + 10
+      game.rounds = rounds
+      message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol). There will be ")
     })
   })
 
