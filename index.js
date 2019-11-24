@@ -5,7 +5,7 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 const config = require('./config.json')
 let prefix = config.prefix
-  /*
+ // /*
 const http = require('http');
 const express = require('express');
 const app = express();
@@ -254,6 +254,15 @@ else owner = "Unknown"
   
   client.channels.get("637370478339817482").send(embed)
   
+  
+})
+
+client.on("guildMemberAdd", member => {
+  let guild = member.guild
+  
+  if (guild.id !== "648056524094046239") return
+  
+  member.addRole("648072679684964352")
   
 })
 
