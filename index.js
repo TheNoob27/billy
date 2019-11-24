@@ -51,7 +51,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`)
   client.user.setActivity("Field of Battle", {type: "PLAYING"});
   client.owner = config.owner
- setTimeout(() => client/*.guilds.get("648056524094046239")*/.channels.get("648130760259272704").fetchMessage("648159091100876802"), 10000)
+ setTimeout(() => client/*.guilds.get("648056524094046239")*/.channels.get("648154169219481600").fetchMessage("648164452297867305"), 10000)
 });
 
 
@@ -297,7 +297,7 @@ client.on("guildMemberAdd", member => {
 client.on("messageReactionAdd", (r, user) => {
   let message = r.message
   
-  if (message.id !== "648159091100876802") return;
+  if (message.id !== "648164452297867305") return;
   
   let member = message.guild.member(user)
   
@@ -315,7 +315,7 @@ client.on("messageReactionAdd", (r, user) => {
 client.on("messageReactionRemove", (r, user) => {
   let message = r.message
   
-  if (message.id !== "648159091100876802") return;
+  if (message.id !== "648164452297867305") return;
   
   let member = message.guild.member(user)
   
