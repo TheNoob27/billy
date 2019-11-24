@@ -310,7 +310,7 @@ client.on("messageReactionAdd", async (r, user) => {
     .setFooter((3 - infs > 0 ? 3 - infs +" more times and they will be banned from adding reactions to messages." : "They are now banned from adding reactions to messages."))
     .setTimestamp()
     if (infs >= 3) message.guild.member(user).addRole("648213925888000026")
-    user.send("That emoji is not allowed!" + infs == 3 ? " You are now banned from adding reactions to messages." : "")
+    user.send("That emoji is not allowed!" + (infs == 3 ? " You are now banned from adding reactions to messages." : ""))
     
     return client.channels.get("648199918632304671").send(embed)
   } else {
