@@ -55,7 +55,7 @@ function setup() {
     collector.on("end", () => {
       let rounds = Math.ceil(Math.random() * 5) + 10
       game.rounds = rounds
-      message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol). There will be ")
+      message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol). There will be "+rounds+" enemies to fight and stuff.")
     })
   })
 
