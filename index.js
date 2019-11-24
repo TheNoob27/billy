@@ -297,6 +297,18 @@ client.on("guildMemberAdd", member => {
 client.on("messageReactionAdd", (r, user) => {
   let message = r.message
   
+  if (["🍆", "🍑", "🖕"].includes(r.emoji.name)) {
+    r.remove(user)
+    let embed = new Discord.RichEmbed()
+    .setAuthor(user.tag, user.displayAvatarURL)
+    .setTitle("Inappropriate Reaction")
+    .setColor(config.error)
+    .setDescription("**"+user.tag+"** reacted to [a message](https://discordapp.com/channels/"+message.guild.id+"/"+message.channel.id+"/"+message.id+") in <#"+message.channel.id+"> with the emoji "+r.emoji+".")
+    .setFooter("Message sent by "+ message.author.username, message.author.displayAvatarURL)
+    
+    
+    
+  } else {
   if (message.id !== "648164452297867305") return;
   
   let member = message.guild.member(user)
@@ -309,6 +321,7 @@ client.on("messageReactionAdd", (r, user) => {
     if (member.roles.has("648156899509796871")) return;
     member.addRole("648156899509796871")
     user.send("You have been given the Giveaway Ping role.")
+  }
   }
 })
 
