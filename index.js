@@ -62,13 +62,14 @@ client.on('resume', () => console.log('I have reconnected!'));
 
 client.on('message', async message => { 
   if (message.channel.type == "dm") {
-    let embed = new Discord.RichEmbed()
-    .setDescription("Hey there! My commands work best in an actual server, but since you're here.. \nInvite me: [Quick](https://discordapp.com/oauth2/authorize?client_id=636621290479812638&permissions=8&scope=bot) / [Less perms](https://discordapp.com/api/oauth2/authorize?client_id=636621290479812638&permissions=288832&scope=bot)  \n  Upvote the bot [here](https://top.gg/bot/636621290479812638/vote) -- Both highly appreciated!")
-    .setColor(config.help)
-    // message.channel.send(embed)
+  
   } else {
   
   if (message.author.bot) return;
+    
+    if (message.guild.id == "648056524094046239") {
+      
+    }
   
   if (!message.guild.me.hasPermission("SEND_MESSAGES")) {
     return message.author.send("I can't even speak :( \nPlease get someone to enable the permission `SEND MESSAGES` for me!")
