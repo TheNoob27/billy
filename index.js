@@ -51,6 +51,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`)
   client.user.setActivity("Field of Battle", {type: "PLAYING"});
   client.owner = config.owner
+  client.channels.get()
 });
 
 
