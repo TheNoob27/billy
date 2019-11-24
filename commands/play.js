@@ -9,7 +9,8 @@ function setup() {
   
   let game = {
     players: [],
-    rounds: null
+    rounds: null,
+    team: null
   }
   
   let embed = new Discord.RichEmbed()
@@ -55,10 +56,19 @@ function setup() {
     collector.on("end", () => {
       let rounds = Math.ceil(Math.random() * 5) + 10
       game.rounds = rounds
-      message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol). There will be "+rounds+" enemies to fight and stuff.")
+      let teams = ["Humans", "Orcs"]
+      game.team = teams[Math.floor(Math.random() * teams.length)]
+      
+      message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol). There will be "+rounds+" enemies to fight and stuff, and ur on the "+ game.team+" team.")
     })
   })
 
+  }
+  
+  function play(game) {
+    let orcs = ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"] //orcs
+    let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
+    
   }
 
 }
