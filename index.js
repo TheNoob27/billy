@@ -68,6 +68,11 @@ client.on('message', async message => {
   if (message.author.bot) return;
     
     if (message.guild.id == "648056524094046239") {
+      let demonslayer = "648072745715761182"
+      let gemcollector = "648072843912806410"
+      
+      let requiredweek = (Date.now() - message.member.joinedAt) > 604800000
+      
       
     }
   
