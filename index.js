@@ -296,7 +296,7 @@ client.on("guildMemberAdd", member => {
 
 client.on("messageReactionAdd", async (r, user) => {
   let message = r.message
-  if (message.guild.id != "648056524094046239") return
+  if (message.guild.id != "648056524094046239") return;
   
   if (["🍆", "🍑", "🖕"].includes(r.emoji.name)) {
     r.remove(user)
@@ -306,11 +306,12 @@ client.on("messageReactionAdd", async (r, user) => {
     .setAuthor(user.tag, user.displayAvatarURL)
     .setTitle("Inappropriate Reaction")
     .setColor(config.error)
-    .setDescription("**"+user.tag+"** reacted to [a message](https://discordapp.com/channels/"+message.guild.id+"/"+message.channel.id+"/"+message.id+") in <#"+message.channel.id+"> with the emoji "+r.emoji+"."+ (infs >= 3 ? "\n***This user has now been given the <@&828282828288282> role as they have reacted with inappropriate reactions too many times. They can no longer add new reactions to messages.***": ""))
+    .setDescription("**"+user.tag+"** reacted to [a message](https://discordapp.com/channels/"+message.guild.id+"/"+message.channel.id+"/"+message.id+") in <#"+message.channel.id+"> with the emoji "+r.emoji+"."+ (infs >= 3 ? "\n***This user has now been given the <@&648213925888000026> role as they have reacted with inappropriate reactions too many times. They can no longer add new reactions to messages.***": ""))
     .setFooter((3 - infs > 0 ? 3 - infs +" more times and they will be banned from adding reactions to messages." : "They are now banned from adding reactions to messages."))
     .setTimestamp()
-    if (infs >= 3)
-    user.send("That emoji is not allowed!")
+    if (infs >= 3) message.guild.member(user).addRole("648213925888000026")
+    user.send("That emoji is not allowed!" + infs == 3 ? " You are now banned from adding reactions to messages." : "")
+    
     return client.channels.get("648199918632304671").send(embed)
   } else {
   if (message.id !== "648164452297867305") return;

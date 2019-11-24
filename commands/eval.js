@@ -41,7 +41,7 @@ exports.run = async (client, message, args, colors, prefix) => {
               .setDescription(`**Executed in ${hrDiff[0] > 0 ? `${hrDiff[0]}s` : ''}${hrDiff[1] / 1000000}ms.**`)
               .addField("Input", `\`\`\`javascript\n${toEval}\n\`\`\``)
               .addField("Output", `\`\`\`javascript\n${evaluated}\n\`\`\``)
-              .setColor(colors.color)
+              .setColor(colors.invis)
               
               return message.channel.send(embed)
                // message.channel.send(`*Executed in ${hrDiff[0] > 0 ? `${hrDiff[0]}s` : ''}${hrDiff[1] / 1000000}ms.*\`\`\`javascript\n${evaluated}\n\`\`\``, { maxLength: 1900 })
@@ -57,7 +57,7 @@ exports.run = async (client, message, args, colors, prefix) => {
               .setDescription(`***ERROR***`)
               .addField("Input", `\`\`\`javascript\n${toEval}\n\`\`\``)
               .addField("Output", `\`\`\`javascript\n${e.stack}\n\`\`\``)
-              .setColor(colors.color)
+              .setColor(colors.invis)
               
               return message.channel.send(embed)
             //message.channel.send(`Error whilst evaluating: \`${e.message}\``)
