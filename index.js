@@ -293,6 +293,35 @@ client.on("guildMemberAdd", member => {
   
 })
 
+client.on("messageReactionAdd", (r, user) => {
+  let message = r.message
+  
+  if (message.id !== "648154728836104216") return;
+  
+  let member = message.guild.member(user)
+  if (member.roles.has("648123633658626087")) return;
+  
+  if (r.emoji == "⚔️" || "⚔️".includes(r.emoji.name)) {
+    member.addRole("648123633658626087")
+    user.send("You have been given the Demon Farmer role.")
+  }
+})
+
+client.on("messageReactionRemove", (r, user) => {
+  let message = r.message
+  
+  if (message.id !== "648154728836104216") return;
+  
+  let member = message.guild.member(user)
+  if (!member.roles.has("648123633658626087")) return;
+  
+  if (r.emoji == "⚔️" || "⚔️".includes(r.emoji.name)) {
+    member.removeRole("648123633658626087")
+    user.send("You have been removed from the Demon Farmer role.")
+  }
+  
+})
+
 // ____________^ server stuff ^_______________ 
 
 
