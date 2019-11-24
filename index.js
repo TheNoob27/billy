@@ -51,7 +51,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}`)
   client.user.setActivity("Field of Battle", {type: "PLAYING"});
   client.owner = config.owner
- setTimeout(() => client/*.guilds.get("648056524094046239")*/.channels.get("648154169219481600").fetchMessage("648164452297867305"), 10000)
+ client.channels.get("648154169219481600").fetchMessage("648164452297867305")
 });
 
 
@@ -296,6 +296,7 @@ client.on("guildMemberAdd", member => {
 
 client.on("messageReactionAdd", (r, user) => {
   let message = r.message
+  if (message.guild.id != "648056524094046239") return
   
   if (["🍆", "🍑", "🖕"].includes(r.emoji.name)) {
     r.remove(user)
@@ -306,8 +307,8 @@ client.on("messageReactionAdd", (r, user) => {
     .setDescription("**"+user.tag+"** reacted to [a message](https://discordapp.com/channels/"+message.guild.id+"/"+message.channel.id+"/"+message.id+") in <#"+message.channel.id+"> with the emoji "+r.emoji+".")
     .setFooter("Message sent by "+ message.author.username, message.author.displayAvatarURL)
     
-    
-    
+    user.send("That emoji is not allowed!")
+    return client.channels.get("648199918632304671").send(embed)
   } else {
   if (message.id !== "648164452297867305") return;
   
