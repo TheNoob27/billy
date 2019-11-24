@@ -74,6 +74,7 @@ client.on('message', async message => {
       let requiredweek = (Date.now() - message.member.joinedAt) > 604800000
       let requiredmonth = (Date.now() - message.member.jonedAt) > 2628002880
       
+      
       if (requiredweek && !message.member.roles.has(demonslayer)) {
         message.member.addRole(demonslayer)
         let embed = new Discord.RichEmbed()
