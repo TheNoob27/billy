@@ -72,7 +72,26 @@ client.on('message', async message => {
       let gemcollector = "648072843912806410"
       
       let requiredweek = (Date.now() - message.member.joinedAt) > 604800000
+      let requiredmonth = (Date.now() - message.member.jonedAt) > 2628002880
       
+      if (requiredweek && !message.member.roles.has(demonslayer)) {
+        message.member.addRole(demonslayer)
+        let embed = new Discord.RichEmbed()
+        .setTitle("Congratulations")
+        .setDescription("You have been in this server for over a week! This means you get the role <@&"+demonslayer+">!")
+        .setColor("#aa0e0e")
+        .setTimestamp()
+        return message.channel.send(embed)
+      }
+      if (requiredmonth && !message.member.roles.has(gemcollector)) {
+        message.member.addRole(gemcollector)
+        let embed = new Discord.RichEmbed()
+        .setTitle("Congratulations")
+        .setDescription("You have been in this server for ***over a month***! This means you get the role <@&"+gemcollector+">!")
+        .setColor("#cdd389")
+        .setTimestamp()
+        return message.channel.send(embed)
+      }
       
     }
   
@@ -266,7 +285,8 @@ else owner = "Unknown"
 client.on("guildMemberAdd", member => {
   let guild = member.guild
   
-  if (guild.id !== "648056524094046239") return
+  if (guild.id !== "648056524094046239") return;
+  if (member.user.bot) return;
   
   member.addRole("648072679684964352")
   
