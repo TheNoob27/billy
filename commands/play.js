@@ -101,17 +101,24 @@ function setup() {
       enemy.hp = 100
       enemy.damage = 11
     } else if (e == "Mage") {
-      enemy.hp = 155
+      enemy.hp = 135
       enemy.damage = 16
     } else if (e == "Archer") {
-      enemy.hp = 165
+      enemy.hp = 145
       enemy.damage = 15
     } else if (e == "Knight" || e == "Smasher") {
-      enemy.hp = 225
+      enemy.hp = 169
       enemy.damage = 18
     } else if (e == "Captain" || e == "Warrior") {
-      enemy.hp
-    }
+      enemy.hp = 195
+      enemy.damage = 22
+    } else if (e == "Blademaster") {
+      enemy.hp = 210
+      enemy.damage = 25
+    } else if (e == "Guard" || e == "Elite Blademaster") {
+      enemy.ho = 235
+      enemy.damage = 27
+    } else if (e == "")
     
     return enemy
   }
