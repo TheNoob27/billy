@@ -84,11 +84,18 @@ function setup() {
     let collector = embed.createReactionCollector(filter, {time: 300000})
   }
 
+  
+  function getenemy(game) {
+    let enemy = {
+      name: null,
+      hp: null
+    }
+  }
 }
 module.exports.help = {
   name: "play",
   aliases: ["battle"],
-  description: "Play a game that is supposed to mimic FOB",
+  description: "Play a game that is supposed to mimic FOB.",
   usage: `b!play`,
   category: "Soon"
 }
