@@ -1,4 +1,4 @@
-const db = require('quick.db')
+//const db = require('quick.db')
 const Discord = require('discord.js')
 
 module.exports.run = async (client, message, args, colors) => {
@@ -41,13 +41,14 @@ function setup() {
           hp: 100,
           tag: user.tag
         })
+        game.playerlist.push()
         
           players.push(user.tag)
         
         msg.edit(embed = new Discord.RichEmbed()
                  .setColor(colors.color)
                  .setDescription("A new game is starting! React with ⚔️ to join! \n React with ✅ to start, but the game will start automatically in 5 minutes.")
-                 .addField("Players", "**"+ players.join("\n") +"**")
+                 .addField("Players", "**"+ game.playerlist.join("\n") +"**")
                              )
       } else {
         if (user.id != message.author.id) return
