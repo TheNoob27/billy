@@ -11,6 +11,7 @@ function setup() {
   
   let game = {
     players: [],
+    playerlist: [],
     rounds: null,
     team: null,
     enemyteam: []
@@ -41,7 +42,7 @@ function setup() {
           hp: 100,
           tag: user.tag
         })
-        game.playerlist.push()
+        game.playerlist.push(user.id)
         
           players.push(user.tag)
         
