@@ -74,7 +74,7 @@ function setup() {
   }
   
   function play(game) {
-    let enemy = game.enemyteam[Math.floor(Math.random() * game.enemyteam)]
+    let enemy = getenemy(game)
     
     let embed = new Discord.RichEmbed()
     .setTitle("Field of Battle")
@@ -91,6 +91,20 @@ function setup() {
       hp: null,
       damage: null
     }
+    
+    let enemies = game.enemyteam
+    enemy.name = enemies[Math.floor(Math.random() * enemies)]
+    
+    let e = enemy.name
+    
+    if (e == "Grunt" || e == "Soldier") {
+      enemy.hp = 100
+      enemy.damage = 11
+    } else if (e == "Mage") {
+      enemy.hp = 165
+      enemy.damage = 
+    }
+    
   }
 }
 module.exports.help = {
