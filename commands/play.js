@@ -89,7 +89,7 @@ function setup() {
       await msg.react("⚔️")
       
     let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
-    let collector = msg.createReactionCollector(filter, {time: 20000})
+    let collector = msg.createReactionCollector(filter, {time: 300000})
     let alldied = false
     
     let updatedmg = setInterval(() => {
@@ -133,10 +133,9 @@ function setup() {
     }
     */
     let enemies = game.enemyteam
-    console.log(enemies)
    // enemy.name = enemies[Math.floor(Math.random() * enemies)]
     
-    let e = enemies[Math.floor(Math.random() * enemies.length)] //enemy.name
+    let e = enemies[Math.floor(Math.random() * enemies)] //enemy.name
     let hp = 0
     let damage = 0
     
@@ -150,41 +149,30 @@ function setup() {
       hp = 145
       damage = 15
     } else if (e == "Knight" || e == "Smasher") {
-      hp = 169
-      damage = 18
+      .hp = 169
+      .damage = 18
     } else if (e == "Captain" || e == "Warrior") {
-      hp = 195
-      damage = 22
+      enemy.hp = 195
+      enemy.damage = 22
     } else if (e == "Blademaster") {
-      hp = 210
-      damage = 25
+      enemy.hp = 210
+      enemy.damage = 25
     } else if (e == "Guard" || e == "Elite Blademaster") {
-      hp = 235
-      damage = 27
+      enemy.hp = 235
+      enemy.damage = 27
     } else if (e == "Warlord") {
-      hp = 250
-      damage = 28
+      enemy.hp = 250
+      enemy.damage = 28
     } else if (e == "Tyrant" || e == "Giant") {
-      hp = 405
-      damage = 33
+      enemy.hp = 405
+      enemy.damage = 33
     } else if (e == "KorKron Elite" || e == "Royal Guard") {
-      hp = 300
-      damage = 40
+      enemy.hp = 300
+      enemy.damage = 40
     }
     
-    console.log({
-      name: e,
-      hp: hp,
-      damage: damage
-    })
-    
-    return {
-      name: e,
-      hp: hp,
-      damage: damage
-    }
+    return enemy
   }
-  
 }
 module.exports.help = {
   name: "play",
