@@ -50,7 +50,7 @@ function setup() {
         msg.edit(embed = new Discord.RichEmbed()
                  .setColor(colors.color)
                  .setDescription("A new game is starting! React with ⚔️ to join! \n React with ✅ to start, but the game will start automatically in 5 minutes.")
-                 .addField("Players", "**"+ game.playerlist.join("\n") +"**")
+                 .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
                              )
       } else {
         if (user.id != message.author.id) return
@@ -68,7 +68,8 @@ function setup() {
     let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
     game.enemyteam = game.team == "Humans" ? orcs : humans
       
-      message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol). There will be "+rounds+" enemies to fight and stuff, and ur on the "+ game.team+" team.")
+      message.channel.send("Game starting. There will be "+rounds+" enemies to fight and stuff, and ur on the "+ game.team+" team.")
+      play(game)
     })
   })
 
@@ -89,6 +90,7 @@ function setup() {
       
     let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
     let collector = msg.createReactionCollector(filter, {time: 300000})
+    let alldied = false
     
     let updatedmg = setInterval(() => {
       msg.edit(new Discord.RichEmbed()
@@ -98,9 +100,25 @@ function setup() {
     .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
     )
     }, 5000)
+    
     collector.on("collect", r => {
       let user = r.users.last()
-      enemy.hp
+      let player = game.players.find(p => p.id == user.id)
+      enemy.hp -= player.damage
+      
+      if (Math.random() > 0.5) {
+        player.hp -= enemy.damage
+      if (player.hp <= 0) {
+        message.channel.send("**"+player.tag+"** died!")
+        for (var i = 0; i < game.players.length; i++) {
+          if (game.players[i].id == user.id) game.players.slice(i, 1)
+        }
+        
+        if (game.players.length < 1) {
+          message.channel.send("Everyone died!")
+        }
+      }
+      }
     })
       
     })
@@ -108,29 +126,31 @@ function setup() {
 
   
   function getenemy(game) {
-    let enemy = {
+   /* let enemy = {
       name: null,
       hp: null,
       damage: null
     }
-    
+    */
     let enemies = game.enemyteam
-    enemy.name = enemies[Math.floor(Math.random() * enemies)]
+   // enemy.name = enemies[Math.floor(Math.random() * enemies)]
     
-    let e = enemy.name
+    let e = enemies[Math.floor(Math.random() * enemies)] //enemy.name
+    let hp = 0
+    let damage = 0
     
     if (e == "Soldier" || e == "Grunt") {
-      enemy.hp = 100
-      enemy.damage = 11
+      hp = 100
+      damage = 11
     } else if (e == "Mage") {
-      enemy.hp = 135
-      enemy.damage = 16
+      hp = 135
+      damage = 16
     } else if (e == "Archer") {
-      enemy.hp = 145
-      enemy.damage = 15
+      hp = 145
+      damage = 15
     } else if (e == "Knight" || e == "Smasher") {
-      enemy.hp = 169
-      enemy.damage = 18
+      .hp = 169
+      .damage = 18
     } else if (e == "Captain" || e == "Warrior") {
       enemy.hp = 195
       enemy.damage = 22
