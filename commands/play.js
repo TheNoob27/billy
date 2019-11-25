@@ -116,9 +116,15 @@ function setup() {
       enemy.hp = 210
       enemy.damage = 25
     } else if (e == "Guard" || e == "Elite Blademaster") {
-      enemy.ho = 235
+      enemy.hp = 235
       enemy.damage = 27
-    } else if (e == "")
+    } else if (e == "Warlord") {
+      enemy.hp = 250
+      enemy.damage = 28
+    } else if (e == "Tyrant" || e == "Giant") {
+      enemy.hp = 405
+      
+    }
     
     return enemy
   }
