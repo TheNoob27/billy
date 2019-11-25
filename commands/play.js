@@ -89,8 +89,10 @@ function setup() {
       await msg.react("⚔️")
       
     let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
-    let collector = msg.createReactionCollector(filter, {time: 300000})
+    let collector = msg.createReactionCollector(filter, {time: 20000})
     let alldied = false
+    let enemydied = false
+    
     
     let updatedmg = setInterval(() => {
       msg.edit(new Discord.RichEmbed()
@@ -106,6 +108,18 @@ function setup() {
       let player = game.players.find(p => p.id == user.id)
       enemy.hp -= player.damage
       
+      if (enemy.hp <= 0) {
+        clearInterval(updatedmg)
+        msg.edit(new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
+    .addField("Enemy's HP", "0/" + hp)
+    .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    )
+        enemydied = true
+        collector.stop()
+      }
+      
       if (Math.random() > 0.5) {
         player.hp -= enemy.damage
       if (player.hp <= 0) {
@@ -115,42 +129,57 @@ function setup() {
         }
         
         if (game.players.length < 1) {
-          message.channel.send("Everyone died!")
+          clearInterval(updatedmg)
+          
+          msg.edit(new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
+    .addField("Enemy's HP", enemy.hp + "/" + hp)
+    .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    )
+          
+          alldied = true
+          collector.stop() //message.channel.send("Everyone died!")
         }
       }
       }
     })
       
+      collector.on("end", () => {
+        if (alldied) return message.channel.send("Aw man! Everyone died!")
+        if (enemydied) return message.channel.send("Yay, the enemy died!")
+        
+        return message.channel.send("You took too long.")
+      })
     })
   }
 
   
   function getenemy(game) {
-   /* let enemy = {
+    let enemy = {
       name: null,
       hp: null,
       damage: null
     }
-    */
-    let enemies = game.enemyteam
-   // enemy.name = enemies[Math.floor(Math.random() * enemies)]
     
-    let e = enemies[Math.floor(Math.random() * enemies)] //enemy.name
-    let hp = 0
-    let damage = 0
+    let enemies = game.enemyteam
+   enemy.name = enemies[Math.floor(Math.random() * enemies.length)]
+    
+  
+    let e = enemy.name
     
     if (e == "Soldier" || e == "Grunt") {
-      hp = 100
-      damage = 11
+      enemy.hp = 100
+      enemy.damage = 11
     } else if (e == "Mage") {
-      hp = 135
-      damage = 16
+      enemy.hp = 135
+      enemy.damage = 16
     } else if (e == "Archer") {
-      hp = 145
-      damage = 15
+      enemy.hp = 145
+      enemy.damage = 15
     } else if (e == "Knight" || e == "Smasher") {
-      .hp = 169
-      .damage = 18
+      enemy.hp = 169
+      enemy.damage = 18
     } else if (e == "Captain" || e == "Warrior") {
       enemy.hp = 195
       enemy.damage = 22
@@ -173,6 +202,8 @@ function setup() {
     
     return enemy
   }
+  
+  function end()
 }
 module.exports.help = {
   name: "play",
