@@ -69,7 +69,7 @@ function setup() {
   function play(game) {
     let orcs = ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"] //orcs
     let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
-    game.enemyteam = game.team == "Orcs"
+    game.enemyteam = game.team == "Humans" ? orcs : humans
   }
 
 }
