@@ -3,7 +3,9 @@ const Discord = require('discord.js')
 
 module.exports.run = async (client, message, args, colors) => {
 
+  let enemycount = 0
   setup()
+  
   
 function setup() {
   
@@ -59,6 +61,9 @@ function setup() {
       game.rounds = rounds
       let teams = ["Humans", "Orcs"]
       game.team = teams[Math.floor(Math.random() * teams.length)]
+      let orcs = ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"] //orcs
+    let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
+    game.enemyteam = game.team == "Humans" ? orcs : humans
       
       message.channel.send("Game starting (well it isnt, but it wouldve been starting now lol). There will be "+rounds+" enemies to fight and stuff, and ur on the "+ game.team+" team.")
     })
@@ -67,9 +72,13 @@ function setup() {
   }
   
   function play(game) {
-    let orcs = ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"] //orcs
-    let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
-    game.enemyteam = game.team == "Humans" ? orcs : humans
+    let enemy = game.enemyteam
+    let embed = new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1) + "")
+    
+    let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
+    let collector = humans.createReactionCollector(filter, {time: 300000})
   }
 
 }
