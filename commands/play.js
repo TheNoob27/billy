@@ -75,10 +75,15 @@ function setup() {
   
   function play(game) {
     let enemy = getenemy(game)
+    let hp = enemy.hp
     
     let embed = new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy + "!")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "!")
+    .addField("Enemy's HP", enemy.hp + "/" + hp)
+    .addField("Your Team", game.players.map(player => {
+      return ""
+    }))
     
     let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && game.players.includes()
     let collector = embed.createReactionCollector(filter, {time: 300000})
@@ -123,7 +128,10 @@ function setup() {
       enemy.damage = 28
     } else if (e == "Tyrant" || e == "Giant") {
       enemy.hp = 405
-      
+      enemy.damage = 33
+    } else if (e == "KorKron Elite" || e == "Royal Guard") {
+      enemy.hp = 300
+      enemy.damage = 40
     }
     
     return enemy
