@@ -72,13 +72,14 @@ function setup() {
   }
   
   function play(game) {
-    let enemy = game.enemyteam
+    let enemy = game.enemyteam[Math.floor(Math.random() * game.enemyteam)]
+    
     let embed = new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .addField("Enemy #"+(enemycount + 1) + "")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy + "!")
     
-    let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
-    let collector = humans.createReactionCollector(filter, {time: 300000})
+    let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && game.players.includes()
+    let collector = embed.createReactionCollector(filter, {time: 300000})
   }
 
 }
