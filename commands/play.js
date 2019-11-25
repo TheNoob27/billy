@@ -40,7 +40,8 @@ function setup() {
           id: user.id,
           level: 1,
           hp: 100,
-          tag: user.tag
+          tag: user.tag,
+          damage: 11
         })
         game.playerlist.push(user.id)
         
@@ -79,15 +80,29 @@ function setup() {
     
     let embed = new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "!")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
     .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     
     message.channel.send(embed).then(async msg => {
       await msg.react("⚔️")
       
-    let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.players.includes()
+    let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
     let collector = msg.createReactionCollector(filter, {time: 300000})
+    
+    let updatedmg = setInterval(() => {
+      msg.edit(new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
+    .addField("Enemy's HP", enemy.hp + "/" + hp)
+    .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    )
+    }, 5000)
+    collector.on("collect", r => {
+      let user = r.users.last()
+      enemy.hp
+    })
+      
     })
   }
 
