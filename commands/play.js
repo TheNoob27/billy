@@ -97,14 +97,23 @@ function setup() {
     
     let e = enemy.name
     
-    if (e == "Grunt" || e == "Soldier") {
+    if (e == "Soldier" || e == "Grunt") {
       enemy.hp = 100
       enemy.damage = 11
     } else if (e == "Mage") {
+      enemy.hp = 155
+      enemy.damage = 16
+    } else if (e == "Archer") {
       enemy.hp = 165
-      enemy.damage = 
+      enemy.damage = 15
+    } else if (e == "Knight" || e == "Smasher") {
+      enemy.hp = 225
+      enemy.damage = 18
+    } else if (e == "Captain" || e == "Warrior") {
+      enemy.hp
     }
     
+    return enemy
   }
 }
 module.exports.help = {
