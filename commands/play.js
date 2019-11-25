@@ -14,7 +14,8 @@ function setup() {
     playerlist: [],
     rounds: null,
     team: null,
-    enemyteam: []
+    enemyteam: [],
+    regen: null
   }
   
   let embed = new Discord.RichEmbed()
@@ -70,6 +71,12 @@ function setup() {
     game.enemyteam = game.team == "Humans" ? orcs : humans
       
       message.channel.send("Game starting. There will be "+rounds+" enemies to fight and stuff, and ur on the "+ game.team+" team.")
+      
+      game.regen = setInterval(() => {
+    for (var i = 0; i < game.players.length; i++) {
+      if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
+    }
+    }, 5000)
       play(game)
     })
   })
@@ -84,13 +91,14 @@ function setup() {
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
-    .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
+    .setColor(colors.color)
     
     message.channel.send(embed).then(async msg => {
       await msg.react("⚔️")
       
     let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
-    let collector = msg.createReactionCollector(filter, {time: 20000})
+    let collector = msg.createReactionCollector(filter, {time: 60000})
     let alldied = false
     let enemydied = false
     
@@ -100,7 +108,8 @@ function setup() {
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
-    .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .setColor(colors.color)
     )
     }, 5000)
     
@@ -115,7 +124,8 @@ function setup() {
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
     .addField("Enemy's HP", "0/" + hp)
-    .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .setColor(colors.color)
     )
         enemydied = true
         collector.stop()
@@ -139,7 +149,8 @@ function setup() {
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
-    .addField("Your Team", game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .setColor(colors.color)
     )
           
           alldied = true
@@ -150,10 +161,15 @@ function setup() {
     })
       
       collector.on("end", () => {
-        if (alldied) return end(game, true)
-        if (enemydied) return message.channel.send("Yay, the enemy died!")
+        enemycount += 1
         
-        return message.channel.send("You took too long.")
+        if (alldied) return end(game, true)
+        if (!alldied && !enemydied) return message.channel.send("You automatically lose, because you took too long.")
+        if (enemydied) message.channel.send("Yay, the "+enemy.name+" died!")
+        
+        if (enemycount >= game.rounds) return end(game)
+        
+        setTimeout(() => play(game), 5000)
       })
     })
   }
@@ -208,6 +224,7 @@ function setup() {
   }
   
   function end(game, alldied) {
+    clearInterval(game.regen)
     let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
     if (alldied) {
       let embed = new Discord.RichEmbed()
@@ -229,6 +246,8 @@ function setup() {
       return message.channel.send(embed)
     }
   }
+  
+  
 }
 module.exports.help = {
   name: "play",
