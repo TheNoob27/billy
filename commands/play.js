@@ -55,7 +55,8 @@ function setup() {
                  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
                              )
       } else {
-        if (user.id != message.author.id) return
+        if (user.id != message.author.id) return;
+        if (game.players.length == 0) return;
         collector.stop()
       }
       
@@ -209,6 +210,9 @@ function setup() {
     } else if (e == "Guard" || e == "Elite Blademaster") {
       enemy.hp = 235
       enemy.damage = 27
+    } else if (e == "Assassin") {
+      enemy.hp = 240
+      enemy.damage = 28
     } else if (e == "Warlord") {
       enemy.hp = 250
       enemy.damage = 28
