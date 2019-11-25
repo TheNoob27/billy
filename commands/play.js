@@ -184,6 +184,7 @@ function setup() {
       damage: damage
     }
   }
+  
 }
 module.exports.help = {
   name: "play",
