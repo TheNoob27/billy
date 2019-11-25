@@ -41,7 +41,8 @@ function setup() {
           level: 1,
           hp: 100,
           tag: user.tag,
-          damage: 11
+          damage: 11,
+          maxhp: 100
         })
         game.playerlist.push(user.id)
         
@@ -125,7 +126,10 @@ function setup() {
       if (player.hp <= 0) {
         message.channel.send("**"+player.tag+"** died!")
         for (var i = 0; i < game.players.length; i++) {
-          if (game.players[i].id == user.id) game.players.slice(i, 1)
+          if (game.players[i].id == user.id) {
+            game.players.splice(i, 1)
+            game.playerlist.splice(i, 1)
+          }
         }
         
         if (game.players.length < 1) {
@@ -146,7 +150,7 @@ function setup() {
     })
       
       collector.on("end", () => {
-        if (alldied) return message.channel.send("Aw man! Everyone died!")
+        if (alldied) return end(game, true)
         if (enemydied) return message.channel.send("Yay, the enemy died!")
         
         return message.channel.send("You took too long.")
@@ -203,7 +207,28 @@ function setup() {
     return enemy
   }
   
-  function end()
+  function end(game, alldied) {
+    let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
+    if (alldied) {
+      let embed = new Discord.RichEmbed()
+      .setTitle(enemyteam + " Win.")
+      .setDescription("Your team wasn't able to successfully kill all of the "+enemyteam+", so you lose.")
+      .setColor(colors.error)
+      .setTimestamp()
+      .setFooter("Better luck next time.")
+      
+      return message.channel.send(embed)
+    } else {
+      let embed = new Discord.RichEmbed()
+      .setTitle(game.team + " Win!")
+      .setDescription("Your team successfully killed all of the "+enemyteam+", so you win. :tada:")
+      .setColor(game.team == "Humans" ? "#1f5699" : "#3d8a29")
+      .setTimestamp()
+      .setFooter("Congratulations. Survivors: "+game.playerlist.length)
+      
+      return message.channel.send(embed)
+    }
+  }
 }
 module.exports.help = {
   name: "play",
