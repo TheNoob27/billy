@@ -88,7 +88,8 @@ function setup() {
   function getenemy(game) {
     let enemy = {
       name: null,
-      hp: null
+      hp: null,
+      damage: null
     }
   }
 }
