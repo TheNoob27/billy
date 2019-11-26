@@ -57,16 +57,21 @@ module.exports = {
  if (legendaries) {
    if (gemchance > 0.95) {
      
-     gem.name = legends[Math.floor(Math.random() * legends.length)]
+     gem.name = legends[Math.floor(Math.random() * legends.length)] // 5% chance
      gem.islegendary = true
      
-   } else if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)]
-   else if (gemchance > 0.45) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)]
-   else gem.name = common[Math.floor(Math.random() * common.length)]
+   } else if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 10% chance
+   else if (gemchance > 0.45) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 40% chance
+   else gem.name = common[Math.floor(Math.random() * common.length)] // 45% chance
    
  } else {
-   
+   if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 15% chance
+   else if (gemchance > 0.45) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 40% chance
+   else gem.name = common[Math.floor(Math.random() * common.length)]// 45% chance
  }
+    gem.code = gem.name.replace(/ /g, "").toLowerCase()
+    
+    return gem
     }
-  
+
 }
