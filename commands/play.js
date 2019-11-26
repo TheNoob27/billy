@@ -74,6 +74,11 @@ function setup() {
       message.channel.send(
       new Discord.RichEmbed()
         .setTitle("Game Starting!")
+        .addField("Team", game.team)
+        .addField("Enemies", game.rounds)
+        .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
+        .setColor(colors.color)
+        .setTimestamp()
       )
       
       game.regen = setInterval(() => {
@@ -81,7 +86,7 @@ function setup() {
       if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
     }
     }, 4000)
-      play(game)
+      setTimeout(() => play(game), 5000)
     })
   })
 
