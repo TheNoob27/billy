@@ -63,7 +63,7 @@ function setup() {
     })
     
     collector.on("end", () => {
-      let rounds = Math.ceil(Math.random() * 5) + 10
+      let rounds = Math.ceil(Math.random() * 5) + 5
       game.rounds = rounds
       let teams = ["Humans", "Orcs"]
       game.team = teams[Math.floor(Math.random() * teams.length)]
