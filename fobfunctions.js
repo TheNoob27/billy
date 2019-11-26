@@ -2,7 +2,7 @@
 
 
 module.exports = {
-  getgem: async function(
+  getgem: async functilegendarieson(
     let gem = {
       name: null,
       code: undefined
