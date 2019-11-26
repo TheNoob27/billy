@@ -168,7 +168,7 @@ function setup() {
         if (!alldied && !enemydied) return message.channel.send("You automatically lose, because you took too long.")
         if (enemydied) message.channel.send("Yay, the "+enemy.name+" died!")
         
-        if (enemycount >= game.rounds) return end(game)
+        if (enemycount >= game.rounds - 1) return general(game)
         
         setTimeout(() => play(game), 5000)
       })
