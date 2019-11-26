@@ -1,18 +1,19 @@
 
 module.exports = {
-  getgem: async function(game) {
+  getgem: async function(game, legendaries) {
     let gem = {
       name: null,
       code: undefined
     }
     
     
- let legends = 
-      "Mithril"
+ let legends = [
+      "Mithril",
       "Demonite",
       "Fury Stone",
       "Spirit Shard",
       "Dragon Bone",
+   ],
     rares = [
       "Red Diamond",
       "Grandidierite",
@@ -50,5 +51,5 @@ module.exports = {
       "Copal"
     ]
     
-    []}
-}l
+    }
+}
