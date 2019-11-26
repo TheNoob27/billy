@@ -77,7 +77,7 @@ function setup() {
     for (var i = 0; i < game.players.length; i++) {
       if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
     }
-    }, 5000)
+    }, 4000)
       play(game)
     })
   })
@@ -112,7 +112,9 @@ function setup() {
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
     .setColor(colors.color)
     )
-    }, 5000)
+    }, 2000)
+    
+    
     
     collector.on("collect", r => {
       let user = r.users.last()
@@ -284,7 +286,7 @@ function setup() {
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
     .setColor(colors.color)
     )
-    }, 5000)
+    }, 2000)
     
     collector.on("collect", r => {
       let user = r.users.last()
