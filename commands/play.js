@@ -251,7 +251,96 @@ function setup() {
     }
   }
   
+  function general(game) {
+    let enemy = {
+      name: "General",
+      hp: 1200,
+      damage: 45
+    }
+    
+    let hp = enemy.hp
+    
+    let embed = new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
+    .addField("Enemy's HP", enemy.hp + "/" + hp)
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
+    .setColor(colors.color)
+    
+    message.channel.send(embed).then(async msg => {
+      await msg.react("⚔️")
+      
+    let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
+    let collector = msg.createReactionCollector(filter, {time: 60000})
+    let alldied = false
+    let enemydied = false
+    
+    
+    let updatedmg = setInterval(() => {
+      msg.edit(new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
+    .addField("Enemy's HP", enemy.hp + "/" + hp)
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .setColor(colors.color)
+    )
+    }, 5000)
+    
+    collector.on("collect", r => {
+      let user = r.users.last()
+      let player = game.players.find(p => p.id == user.id)
+      enemy.hp -= player.damage
+      
+      if (enemy.hp <= 0) {
+        clearInterval(updatedmg)
+        msg.edit(new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
+    .addField("Enemy's HP", "0/" + hp)
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .setColor(colors.color)
+    )
+        enemydied = true
+        collector.stop()
+      }
+      
+      if (Math.random() > 0.5) {
+        player.hp -= enemy.damage
+      if (player.hp <= 0) {
+        message.channel.send("**"+player.tag+"** died!")
+        for (var i = 0; i < game.players.length; i++) {
+          if (game.players[i].id == user.id) {
+            game.players.splice(i, 1)
+            game.playerlist.splice(i, 1)
+          }
+        }
+        
+        if (game.players.length < 1) {
+          clearInterval(updatedmg)
+          
+          msg.edit(new Discord.RichEmbed()
+    .setTitle("Field of Battle")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
+    .addField("Enemy's HP", enemy.hp + "/" + hp)
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .setColor(colors.color)
+    )
+          
+          alldied = true
+          collector.stop() //message.channel.send("Everyone died!")
+        }
+      }
+      }
+    })
+      
+      collector.on("end", () => {
+        if (alldied) return end(game, true)
+        if (!alldied && !enemydied) return message.channel.send("You automatically lose, because you took too long.")
+        if (enemydied) return end(game)
+      })
+    })
   
+  }
 }
 module.exports.help = {
   name: "play",
