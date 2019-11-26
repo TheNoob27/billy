@@ -1,21 +1,18 @@
 
-
-
 module.exports = {
-  getgem: async functilegendarieson(
+  getgem: async function(game) {
     let gem = {
       name: null,
       code: undefined
     }
     
     
- et legends = 
-      "Mithril",
+ let legends = 
+      "Mithril"
       "Demonite",
       "Fury Stone",
       "Spirit Shard",
-      "Dragon Bone"
-     ,
+      "Dragon Bone",
     rares = [
       "Red Diamond",
       "Grandidierite",
