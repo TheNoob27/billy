@@ -1,9 +1,10 @@
 
 module.exports = {
-  getgem: async function(game, legendaries) {
+  getgem: async function(legendaries) {
     let gem = {
       name: null,
-      code: undefined
+      code: undefined,
+      islegendary: false
     }
     
     
@@ -51,5 +52,21 @@ module.exports = {
       "Copal"
     ]
     
+ let gemchance = Math.random()
+ 
+ if (legendaries) {
+   if (gemchance > 0.95) {
+     
+     gem.name = legends[Math.floor(Math.random() * legends.length)]
+     gem.islegendary = true
+     
+   } else if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)]
+   else if (gemchance > 0.45) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)]
+   else gem.name = common[Math.floor(Math.random() * common.length)]
+   
+ } else {
+   
+ }
     }
+  
 }
