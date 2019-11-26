@@ -51,7 +51,7 @@ function setup() {
         
         msg.edit(embed = new Discord.RichEmbed()
                  .setColor(colors.color)
-                 .setDescription("A new game is starting! React with ⚔️ to join! \n React with ✅ to start, but the game will start automatically in 5 minutes.")
+                 .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
                  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
                              )
       } else {
@@ -63,7 +63,7 @@ function setup() {
     })
     
     collector.on("end", () => {
-      let rounds = Math.ceil(Math.random() * 2)// + 10
+      let rounds = Math.ceil(Math.random() * 5) + 10
       game.rounds = rounds
       let teams = ["Humans", "Orcs"]
       game.team = teams[Math.floor(Math.random() * teams.length)]
@@ -71,7 +71,10 @@ function setup() {
     let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
     game.enemyteam = game.team == "Humans" ? orcs : humans
       
-      message.channel.send("Game starting. There will be "+rounds+" enemies to fight and stuff, and ur on the "+ game.team+" team.")
+      message.channel.send(
+      new Discord.RichEmbed()
+        .setTitle("Game Starting!")
+      )
       
       game.regen = setInterval(() => {
     for (var i = 0; i < game.players.length; i++) {
@@ -286,7 +289,7 @@ function setup() {
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
     .setColor(colors.color)
     )
-    }, 2000)
+    }, 1000)
     
     collector.on("collect", r => {
       let user = r.users.last()
