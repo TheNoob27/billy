@@ -1,6 +1,6 @@
 
 module.exports = {
-  getgem: async function(legendaries) {
+  getgem: function(legendaries) {
     let gem = {
       name: null,
       code: undefined,
