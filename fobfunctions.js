@@ -3,6 +3,11 @@
 
 module.exports = {
   getgem: async function(
+    let gem = {
+      name: null,
+      code: undefined
+    }
+    
     
  et legends = 
       "Mithril",
@@ -24,5 +29,29 @@ module.exports = {
       "Sapphire",
       "Ruby",
       "Lapis Lazuli"
-    ][]}
+    ], 
+    common = [
+      "Topaz",
+      "Garnet",
+      "Aquamarine",
+      "Spinel",
+      "Amber",
+      "Titanite",
+      "Tourmaline",
+      "Kunzite",
+      "Amethyst",
+      "Citrine",
+      "Peridot",
+      "Iolite",
+      "Onyx",
+      "Turquoise",
+      "Malachite",
+      "Feldspar",
+      "Jade",
+      "Nephrite",
+      "Olivine",
+      "Copal"
+    ]
+    
+    []}
 }l
