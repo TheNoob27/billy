@@ -1,6 +1,6 @@
 //const db = require('quick.db')
 const Discord = require('discord.js')
-const { getgem } = require("../fobfunctions.js")
+const { getgem, addxp } = require("../fobfunctions.js")
 module.exports.run = async (client, message, args, colors) => {
 
   let enemycount = 0
@@ -190,6 +190,7 @@ function setup() {
             }
             }
           
+            addxp(client.fob, helped[i], Math.ceil(enemy.hp / 25), client.users.get(helped[i]), message.channel)
           }
         }
         
@@ -278,6 +279,7 @@ function setup() {
   }
   
   function general(game) {
+    let helped = []
     let enemy = {
       name: "General",
       hp: 1200,
@@ -316,6 +318,7 @@ function setup() {
       let user = r.users.last()
       let player = game.players.find(p => p.id == user.id)
       enemy.hp -= player.damage
+      if (!helped.includes(user.id)) helped.push(user.id)
       
       if (enemy.hp <= 0) {
         clearInterval(updatedmg)
@@ -362,7 +365,23 @@ function setup() {
       collector.on("end", () => {
         if (alldied) return end(game, true)
         if (!alldied && !enemydied) return message.channel.send("You automatically lose, because you took too long.")
-        if (enemydied) return end(game)
+        if (enemydied) {
+          
+          for (var i = 0; i < helped.length; i++) {
+          if (game.playerlist.includes(helped[i])) {
+            if (Math.random() > .75) {
+            let gem = getgem()
+            if (gem.name && gem.code) {
+              client.fob.add(`${helped[i]}.inventory.gems.${gem.code}`, 1)
+              client.users.get(helped[i]).send("You got a "+gem.name+"! You now have "+ (client.fob.fetch(`${helped[i]}.inventory.gems.${gem.code}`)) + ".")
+            }
+            }
+          
+            addxp(client.fob, helped[i], Math.ceil(enemy.hp / 25), client.users.get(helped[i]), message.channel)
+          }
+        }
+          return end(game)
+        }
       })
     })
   

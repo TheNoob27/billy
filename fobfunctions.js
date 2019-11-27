@@ -86,12 +86,12 @@ module.exports = {
  }
    function levelup() {
   db.add(`${id}.level.level`, 1)
-  let newlevel =  db.fetch(`${id}.level.level`)
+  let newlevel = db.fetch(`${id}.level.level`)
   let lvlup = new RichEmbed()
   .setTitle("🎉 You levelled up! 🎉")
   .setDescription("You have levelled up! You are now level " + newlevel + '!')
   .setTimestamp()
-  .setColor("#f556dd")
+  .setColor("#f5da64")
   .setFooter(user.username, user.displayAvatarURL)
   
   channel.send(lvlup)
@@ -253,7 +253,7 @@ module.exports = {
     .setTitle("🎉 **Level 50!** 🎉")
     .setDescription("You reached level 50!! Congratulations! Here is 100k gold, to thank you for the amount of effort you put into this bot to reach level 50. The amount of XP you earned, on a Discord bot that might not even work in a few years, but you still cared. TheNoob27 and I want to thank you for playing this and enjoying it.")
     .addField("New Balance", newbalance)
-    .setColor("#f556dd")
+    .setColor("#f5da64")
     .setTimestamp()
     .setFooter("Congratulations!", user.displayAvatarURL)
     
