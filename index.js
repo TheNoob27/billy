@@ -25,7 +25,7 @@ client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.config = config
 client.cooldowns = new db.table("cooldowns")
-
+client.fob = new db.table("fob")
 
 let init = async () => {
 const cmdFiles = await readdir("./commands/");
