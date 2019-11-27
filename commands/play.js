@@ -184,7 +184,7 @@ function setup() {
           if (game.playerlist.includes(helped[i])) {
             let gem = getgem()
             if (gem.name && gem.code) {
-              client.fob.add(`${helped[i]}.inventory.gems.${gem.code}`)
+              client.fob.add(`${helped[i]}.inventory.gems.${gem.code}`, 1)
             }
           }
         }

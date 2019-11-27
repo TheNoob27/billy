@@ -10,7 +10,7 @@
     "express": "^4.16.4",
     "util": "^0.12.1",
     "discord.js": "^11.5.1",
-    "quick.db": "^6.3.2",
+    "quick.db": "latest",
     "parse-ms": "^2.0.0"
   },
   "engines": {
