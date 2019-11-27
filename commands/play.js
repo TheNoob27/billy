@@ -182,10 +182,13 @@ function setup() {
         
         for (var i = 0; i < helped.length; i++) {
           if (game.playerlist.includes(helped[i])) {
+            if (Math.random() > .75) {
             let gem = getgem()
             if (gem.name && gem.code) {
               client.fob.add(`${helped[i]}.inventory.gems.${gem.code}`, 1)
             }
+            }
+          
           }
         }
         
