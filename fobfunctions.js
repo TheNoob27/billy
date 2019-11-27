@@ -78,7 +78,7 @@ module.exports = {
   
   
   addxp: function xp(db, id, xptoadd = 0, user, channel) {
-    
+    console.log("Adding "+xptoadd+"xp to the id")
   let level = db.fetch(`${id}.level.level`)
  if (!level) {
    db.set(`${id}.level.level`, 1)
