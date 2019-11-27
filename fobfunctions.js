@@ -1,3 +1,4 @@
+const { RichEmbed } = require("discord.js")
 
 module.exports = {
   getgem: function(legendaries) {
@@ -74,27 +75,30 @@ module.exports = {
     return gem
     },
   
-  addxp: async function xp(message, xptoadd = 0, db) {
-  let level = await db.fetch(`level_${message.author.id}`)
- if (level === null) {
-   db.set(`level_${message.author.id}`, 1)
-   level = await db.fetch(`level_${message.author.id}`)
+  
+  
+  addxp: function xp(db, id, xptoadd = 0, user, channel) {
+    
+  let level = db.fetch(`${id}.level.level`)
+ if (!level) {
+   db.set(`${id}.level.level`, 1)
+   level = db.fetch(`${id}.level.level`)
  }
-  async function levelup() {
-  db.add(`level_${message.author.id}`, 1)
-  let newlevel = await db.fetch(`level_${message.author.id}`)
+   function levelup() {
+  db.add(`${id}.level.level`, 1)
+  let newlevel =  db.fetch(`${id}.level.level`)
   let lvlup = new RichEmbed()
   .setTitle("🎉 You levelled up! 🎉")
   .setDescription("You have levelled up! You are now level " + newlevel + '!')
   .setTimestamp()
   .setColor("#f556dd")
-  .setFooter(message.author.username, message.author.displayAvatarURL)
+  .setFooter(user.username, user.displayAvatarURL)
   
-  message.channel.send(lvlup)
+  channel.send(lvlup)
   } 
   
-    db.add(`xp_${message.author.id}`, xptoadd)
- let xp = await db.fetch(`xp_${message.author.id}`)
+   if (xptoadd) db.add(`${id}.level.xp`, xptoadd)
+   let xp = db.fetch(`${id}.level.xp`)
  
   if (level == 1) {
     if (xp >= 10) levelup()
@@ -242,17 +246,19 @@ module.exports = {
     
   } else if (level == 49) {
     if (xp >= 13096582) {
-    db.add(`level_${message.author.id}`, 1)
-      db.add(`money_${message.author.id}`, 100000)
-    let newbalance = await db.fetch(`money_${message.author.id}`)
+    db.add(`${id}.level.level`, 1)
+      db.add(`${id}.inventory.gold`, 100000)
+    let newbalance =  db.fetch(`${id}.inventory.gold`)
     let lvl100embed = new RichEmbed()
     .setTitle("🎉 **Level 50!** 🎉")
-    .setDescription("You reached level 50!! Congratulations! Here is 100k gold, to thank you for the amount of effort you put into this bot to reach level 50. The amount of XP you earned, on a Discord bot that might not even work in a few years, but you still cared. Gamenstuff and I want to thank you for playing this and enjoying it.")
+    .setDescription("You reached level 50!! Congratulations! Here is 100k gold, to thank you for the amount of effort you put into this bot to reach level 50. The amount of XP you earned, on a Discord bot that might not even work in a few years, but you still cared. TheNoob27 and I want to thank you for playing this and enjoying it.")
     .addField("New Balance", newbalance)
     .setColor("#f556dd")
     .setTimestamp()
-    .setFooter("Congratulations!", message.author.displayAvatarURL)
-    message.channel.send(lvl100embed)
+    .setFooter("Congratulations!", user.displayAvatarURL)
+    
+    channel.send(lvl100embed)
+      
     }
     
   } 
