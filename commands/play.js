@@ -184,14 +184,14 @@ function setup() {
         
         for (var i = 0; i < helped.length; i++) {
           if (game.playerlist.includes(helped[i])) {
-            if (Math.random() > .75) {
+            if (Math.random() > .5) {
             let gem = getgem()
             if (gem.name && gem.code) {
               client.fob.add(`${helped[i]}.inventory.gems.${gem.code}`, 1)
               client.users.get(helped[i]).send("You got a "+gem.name+"! You now have "+ (client.fob.fetch(`${helped[i]}.inventory.gems.${gem.code}`)) + ".")
             }
             }
-          
+          client.fob.add(`${helped[i]}.inventory.gold`, Math.ceil(hp / 16))
            let levelup = addxp(client.fob, helped[i], Math.ceil(hp / 25), client.users.get(helped[i]), message.channel)
            if (levelup) {
              let level = client.fob.fetch(`${helped[i]}.level.level`) || 1
@@ -388,7 +388,7 @@ function setup() {
             }
           
             addxp(client.fob, helped[i], Math.ceil(hp / 25), client.users.get(helped[i]), message.channel)
-           
+            client.fob.add(`${helped[i]}.inventory.gold`, Math.ceil(hp / 16))
           }
         }
           return end(game)
