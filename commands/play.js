@@ -129,7 +129,7 @@ function setup() {
       let user = r.users.last()
       let player = game.players.find(p => p.id == user.id)
       enemy.hp -= player.damage
-      helped.push(user.id)
+      if (!helped.includes(user.id)) helped.push(user.id)
       
       if (enemy.hp <= 0) {
         clearInterval(updatedmg)
@@ -186,6 +186,7 @@ function setup() {
             let gem = getgem()
             if (gem.name && gem.code) {
               client.fob.add(`${helped[i]}.inventory.gems.${gem.code}`, 1)
+              client.users.get(helped[i]).send("You got a "+gem.name+"! You now have "+ (client.fob.fetch(`${helped[i]}.inventory.gems.${gem.code}`)) + ".")
             }
             }
           
