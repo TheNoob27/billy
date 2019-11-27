@@ -98,7 +98,7 @@ function setup() {
     
     let embed = new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 60s.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     .setColor(colors.color)
