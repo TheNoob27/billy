@@ -192,7 +192,15 @@ function setup() {
             }
             }
           
-            addxp(client.fob, helped[i], Math.ceil(hp / 25), client.users.get(helped[i]), message.channel)
+           let levelup = addxp(client.fob, helped[i], Math.ceil(hp / 25), client.users.get(helped[i]), message.channel)
+           if (levelup) {
+             let level = client.fob.fetch(`${helped[i]}.level.level`) || 1
+             let player = game.players.find(p => p.id == helped[i])
+             player.level = level
+             player.hp = (18 * (level - 1) + 100)
+             player.maxhp = (18 * (level - 1) + 100)
+        
+           }
           }
         }
         
@@ -380,6 +388,7 @@ function setup() {
             }
           
             addxp(client.fob, helped[i], Math.ceil(hp / 25), client.users.get(helped[i]), message.channel)
+           
           }
         }
           return end(game)

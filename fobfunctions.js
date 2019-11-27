@@ -78,13 +78,17 @@ module.exports = {
   
   
   addxp: function xp(db, id, xptoadd = 0, user, channel) {
-    console.log("Adding "+xptoadd+"xp to the id")
+    console.log("Adding "+xptoadd+"xp...")
+    let levelledup = false
+    
+    
   let level = db.fetch(`${id}.level.level`)
  if (!level) {
    db.set(`${id}.level.level`, 1)
    level = db.fetch(`${id}.level.level`)
  }
    function levelup() {
+     levelledup = true
   db.add(`${id}.level.level`, 1)
   let newlevel = db.fetch(`${id}.level.level`)
   let lvlup = new RichEmbed()
@@ -263,6 +267,7 @@ module.exports = {
     
   } 
   
+    return levelledup
 }
 
 }
