@@ -44,7 +44,7 @@ function setup() {
           level: level,
           hp: (18 * (level - 1) + 100),
           tag: user.tag,
-          damage: 11,
+          damage: client.fob.fetch(user.id + ".inventory.sword.damage") || 11,
           maxhp: (18 * (level - 1) + 100)
         })
         game.playerlist.push(user.id)
