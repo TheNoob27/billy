@@ -41,12 +41,25 @@ module.exports.run = async (client, message, args, colors) => {
       "Olivine",
       "Copal"
   ]
+  let total = 0
+  
   if (inv) {
   for (var i in gemlist) {
     let code = gemlist[i].replace(/ /g, "").toLowerCase()
-    if (inv[code]) gems += gemlist[i] +": " +inv[code]
+    if (inv[code]) {
+      gems += gemlist[i] +": " +inv[code] + "\n"
+      total += inv[code]
+    }
   }
   }
+  
+  let embed = new Discord.RichEmbed()
+  .setColor(colors.color)
+  .setTitle("Gems")
+  .setDescription(gems)
+  .setFooter("Total Gem Count: " + total)
+  
+  return message.author.send(embed)
 }
 module.exports.help = {
   name: "gems",
