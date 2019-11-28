@@ -1,7 +1,18 @@
 const Discord = require('discord.js')
 
 module.exports.run = async (client, message, args, colors) => {
+  let level = client.fob.fetch(`${message.author.id}.level`)
+  if (!level) {
+    client.fob.set(`${message.author.id}.level.level`, 1)
+    level = {
+      level: 1,
+      xp: 0
+    }
+    
+  }
+  
 let levels = [
+  0,
   10,
   25,
   50,
@@ -46,12 +57,23 @@ let levels = [
   2913905,
   3618307,
   4141599,
-let lvl45 = 4816390,
-let lvl46 = 6352997,
-let lvl47 = 8247291,
-let lvl48 = 9311344,
-let lvl49 = 1037195
+  4816390,
+  6352997,
+  8247291,
+  9311344,
+  13096582
 ]
+
+let current = level.level
+let pastxp = levels[current - 1]
+let required = levels[current]
+
+let embed = new Discord.RichEmbed()
+.setColor(colors.color)
+.setTitle("Level")
+.addField("Level", current)
+.addField("Total XP", level.xp)
+.addField("Progress", `${level.xp}`)
 }
 module.exports.help = {
   name: "level",
