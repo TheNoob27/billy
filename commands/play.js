@@ -143,7 +143,7 @@ function setup() {
     .setColor(colors.color)
     )
         enemydied = true
-        collector.stop()
+        return collector.stop()
       }
       
       if (Math.random() > 0.5) {
