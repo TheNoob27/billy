@@ -83,8 +83,7 @@ function setup() {
         .setTimestamp()
       )
       
-      game.regen = setInterval(() => {
-        
+      game.regen = setInterval(() => { 
     for (var i = 0; i < game.players.length; i++) {
       if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
     }
