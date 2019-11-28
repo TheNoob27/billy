@@ -73,7 +73,7 @@ let embed = new Discord.RichEmbed()
 .setTitle("Level Stats")
 .addField("Level", current)
 .addField("Total XP", level.xp)
-.addField("Progress", `${level.xp - pastxp}/${required}`)
+.addField("Progress", `${level.xp - pastxp}/${required - pastxp}`)
 
 return message.author.send(embed)
 }

@@ -318,7 +318,7 @@ function setup() {
     
     
     let updatedmg = setInterval(() => {
-      console.log(enemy.name + ": "+ enemy.hp)
+      //console.log(enemy.name + ": "+ enemy.hp)
       msg.edit(new Discord.RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him. You have 4 minutes.")

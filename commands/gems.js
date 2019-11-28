@@ -47,7 +47,7 @@ module.exports.run = async (client, message, args, colors) => {
   for (var i in gemlist) {
     let code = gemlist[i].replace(/ /g, "").toLowerCase()
     if (inv[code]) {
-      gems += gemlist[i] +": " +inv[code] + "\n"
+      gems += "**"+gemlist[i] +"**: " +inv[code] + "\n"
       total += inv[code]
     }
   }
