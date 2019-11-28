@@ -38,13 +38,13 @@ function setup() {
         if (find) return;
         
         let level = client.fob.fetch(`${user.id}.level.level`) || 1
-        
+        let dmg = client.fob.fetch(`${user.id}.inventory.sword.damage`) || 11
         game.players.push({
           id: user.id,
           level: level,
           hp: (18 * (level - 1) + 100),
           tag: user.tag,
-          damage: client.fob.fetch(user.id + ".inventory.sword.damage") || 11,
+          damage: dmg,
           maxhp: (18 * (level - 1) + 100)
         })
         game.playerlist.push(user.id)
@@ -118,7 +118,7 @@ function setup() {
     let updatedmg = setInterval(() => {
       msg.edit(new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
     .setColor(colors.color)
@@ -300,7 +300,7 @@ function setup() {
     
     let embed = new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him. You have 4 minutes.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     .setColor(colors.color)
@@ -309,7 +309,7 @@ function setup() {
       await msg.react("⚔️")
       
     let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
-    let collector = msg.createReactionCollector(filter, {time: 120000})
+    let collector = msg.createReactionCollector(filter, {time: 240000})
     let alldied = false
     let enemydied = false
     
@@ -317,7 +317,7 @@ function setup() {
     let updatedmg = setInterval(() => {
       msg.edit(new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
+    .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him. You have 4 minutes.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
     .setColor(colors.color)
