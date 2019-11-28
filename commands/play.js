@@ -403,5 +403,5 @@ module.exports.help = {
   aliases: ["battle"],
   description: "Play a game that is supposed to mimic FOB.",
   usage: `b!play`,
-  category: "Soon"
+  category: "FOB"
 }

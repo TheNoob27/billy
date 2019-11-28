@@ -205,5 +205,5 @@ module.exports.help = {
   aliases: [],
   description: "Submit a refund request.",
   usage: `b!refund`,
-  category: "FOB"
+  category: "Info"
 }

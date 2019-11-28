@@ -172,5 +172,5 @@ module.exports.help = {
   aliases: ["bug", "reportbug"],
   description: "Submit a bug report.",
   usage: `b!bugreport`,
-  category: "FOB"
+  category: "Info"
 }
