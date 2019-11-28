@@ -83,7 +83,9 @@ function setup() {
         .setTimestamp()
       )
       
+      let times = 0
       game.regen = setInterval(() => { 
+        console.log("Regen number "+ ++times)
     for (var i = 0; i < game.players.length; i++) {
       if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
     }
@@ -116,6 +118,7 @@ function setup() {
     
     
     let updatedmg = setInterval(() => {
+      //console.log(enemy.name + ": "+ enemy.hp)
       msg.edit(new Discord.RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
@@ -315,6 +318,7 @@ function setup() {
     
     
     let updatedmg = setInterval(() => {
+      console.log(enemy.name + ": "+ enemy.hp)
       msg.edit(new Discord.RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him. You have 4 minutes.")
@@ -322,7 +326,7 @@ function setup() {
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
     .setColor(colors.color)
     )
-    }, 1000)
+    }, 1500)
     
     collector.on("collect", r => {
       let user = r.users.last()
