@@ -70,10 +70,12 @@ let required = levels[current]
 
 let embed = new Discord.RichEmbed()
 .setColor(colors.color)
-.setTitle("Level")
+.setTitle("Level Stats")
 .addField("Level", current)
 .addField("Total XP", level.xp)
-.addField("Progress", `${level.xp}`)
+.addField("Progress", `${level.xp - pastxp}/${required}`)
+
+return message.author.send(embed)
 }
 module.exports.help = {
   name: "level",
