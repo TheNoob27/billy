@@ -61,8 +61,8 @@ if (!game && message.author.id != client.owner) return;
     
     collector.on("end", () => {
       if (game.players.length < 1) return message.channel.send("No-one joined!")
-      fight(game)
-      
+      if (args[0] == "skip") gemrain(game)
+      else fight(game)
     })
   })
   }
