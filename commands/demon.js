@@ -61,7 +61,7 @@ if (!game && message.author.id != client.owner) return;
     
     collector.on("end", () => {
       if (game.players.length < 1) return message.channel.send("No-one joined!")
-      setTimeout(() => fight(game), 5000)
+      fight(game)
       
     })
   })
@@ -113,7 +113,7 @@ if (!game && message.author.id != client.owner) return;
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     .setColor(colors.demon)
     )
-    }, 1500)
+    }, 2000)
     
     
     
@@ -141,13 +141,18 @@ if (!game && message.author.id != client.owner) return;
         message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
         for (var i = 0; i < game.playerlist.length; i++) {
           if (game.playerlist[i] == target.player.id) {
+            let current = game.players[i]
+            game.players.slice(i, 1)
             game.playerlist.splice(i, 1)
-            setTimeout(() => game.playerlist.push(target.player.id), 7000)
-            
-            target = {
+            setTimeout(() => {
+              game.players.push(current)
+              game.playerlist.push(target.player.id)
+              
+              target = {
               player: game.players[Math.floor(Math.random() * game.players.length)]
             }
-            
+            }, 7000)
+          
             break;
           }
         }
@@ -156,10 +161,15 @@ if (!game && message.author.id != client.owner) return;
       }
       
       if (Math.random() > 0.85) {
+        let current
         message.channel.send("**"+player.tag+"** got flung!")
         for (var i = 0; i < game.playerlist.length; i++) {
           if (game.playerlist[i] == target.player.id) {
             game.playerlist.splice(i, 1)
+          } 
+          if (game.players[i] == target.player) {
+            current = game.players[i]
+            game.players.slice(i, 1)
           }
         }
         
@@ -172,7 +182,10 @@ if (!game && message.author.id != client.owner) return;
         setTimeout(() => {
           message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
         
-            setTimeout(() => game.playerlist.push(target.player.id), 7000)
+            setTimeout(() => {
+              if (current) game.players.push(current)
+              game.playerlist.push(target.player.id)
+            }, 7000)
             
         }, (Math.random() * 8999) + 1000)
       }
