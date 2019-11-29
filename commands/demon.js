@@ -116,7 +116,7 @@ if (!game && message.author.id != client.owner) return;
     })
   }
   
-  function gemrain() {
+  function gemrain(game) {
     let legendary = null
     let gems = []
     for (var i = 0; i < 25; i++) {
@@ -130,7 +130,26 @@ if (!game && message.author.id != client.owner) return;
     }
     
     if (!legendary) gems[Math.floor(Math.random() * gems.length)] = getgem(true, true)
+    
+    
   }
+  
+  function collectgem(game, gems, legend) {
+      let user = client.users.get(game.playerlist[Math.floor(Math.random() * game.playerlist.length)])
+      
+      let jokes = ["Is it a Mithril, or a Copal 🤔", 
+                   "It's probably just a Spinel 😔",
+                   "I think thats a Fury Stone 👀", 
+                   "This better be a good gem 😩",
+                  "NO! They're gonna get it before me 😡",
+                  "I better get this 🤞",
+                  "I think I should just leave it "]
+      let embed = new Discord.RichEmbed()
+      .setTitle("Gem Rain")
+      .setDescription("You have spotted a gem! Do you want to collect it?")
+      .setColor("RANDOM")
+      
+    }
 }
 module.exports.help = {
   name: "demon",
