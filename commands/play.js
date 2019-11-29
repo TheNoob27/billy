@@ -185,7 +185,10 @@ function setup() {
         enemycount += 1
         
         if (alldied) return end(game, true)
-        if (!alldied && !enemydied) return message.channel.send("You automatically lose, because you took too long.")
+        if (!alldied && !enemydied) {
+          clearInterval(game.regen)
+          return message.channel.send("You automatically lose, because you took too long.")
+        }
         if (enemydied) message.channel.send("Yay, the "+enemy.name+" died!")
         
         for (var i = 0; i < helped.length; i++) {
@@ -381,7 +384,10 @@ function setup() {
       
       collector.on("end", () => {
         if (alldied) return end(game, true)
-        if (!alldied && !enemydied) return message.channel.send("You automatically lose, because you took too long.")
+        if (!alldied && !enemydied) {
+          clearInterval(game.regen)
+          return message.channel.send("You automatically lose, because you took too long.")
+        }
         if (enemydied) {
           
           for (var i = 0; i < helped.length; i++) {

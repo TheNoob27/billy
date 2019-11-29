@@ -5,10 +5,72 @@ if (!game && message.author.id != client.owner) return;
   colors["demon"] = "#632f2f"
   
   function setup() {
+    let embed = new Discord.RichEmbed()
+  .setColor(colors.demon)
+  .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
+  .addField("Players", "​")
+  message.channel.send(embed).then(async msg => {
+    await msg.react("⚔️")
+    await msg.react("✅")
     
+    let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
+    let collector = msg.createReactionCollector(filter, {time: 300000})
+    let players = []
+    
+    collector.on("collect", r => {
+      let user = r.users.last()
+      
+      if (r.emoji == "⚔️") {
+        let find = game.players.find(player => player.id == user.id)
+        if (find) return;
+        
+        let level = client.fob.fetch(`${user.id}.level.level`) || 1
+        let dmg = client.fob.fetch(`${user.id}.inventory.sword.damage`) || 11
+        game.players.push({
+          id: user.id,
+          level: level,
+          hp: (18 * (level - 1) + 100),
+          tag: user.tag,
+          damage: dmg,
+          maxhp: (18 * (level - 1) + 100)
+        })
+        game.playerlist.push(user.id)
+        
+          players.push(user.tag)
+        
+        msg.edit(embed = new Discord.RichEmbed()
+  .setColor(colors.demon)
+  .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
+  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
+                             )
+      } else {
+        if (user.id != message.author.id) return;
+        if (game.players.length == 0) return;
+        collector.stop()
+      }
+      
+    })
+    
+    collector.on("end", () => {
+      
+      setTimeout(() => fight(game), 5000)
+      
+    })
+  })
   }
   
-  function fight() {
+  function fight(newgame) {
+    if (newgame) game = newgame
+    
+    let times = 0
+      game.regen = setInterval(() => { 
+        console.log("Regen number "+ ++times)
+    for (var i = 0; i < game.players.length; i++) {
+      if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
+    }
+    }, 4000)
+    
+    
     let enemy = {
       name: "Demon",
       hp: 1882,
@@ -109,7 +171,11 @@ if (!game && message.author.id != client.owner) return;
     })
       
       collector.on("end", () => {
-        if (!enemydied) return message.channel.send("You automatically lose, because you took too long.")
+        clearInterval(game.regen)
+        if (!enemydied) {
+          clearInterval(game.regen)
+          return message.channel.send("You automatically lose, because you took too long.")
+        }
         if (enemydied) message.channel.send("The Demon has been defeated!!! \n\nWait, it's raining... gems.")
        
         gemrain()
@@ -132,7 +198,7 @@ if (!game && message.author.id != client.owner) return;
     
     if (!legendary) gems[Math.floor(Math.random() * gems.length)] = getgem(true, true)
     
-    
+    collectgem(game, gems)
   }
   
   function collectgem(game, gems) {
@@ -143,8 +209,10 @@ if (!game && message.author.id != client.owner) return;
                    "I think thats a Fury Stone 👀", 
                    "This better be a good gem 😩",
                   "NO! They're gonna get it before me 😡",
-                  "I better get this 🤞",
-                  "I think I should just leave it 😬"]
+                  "I better get this gem 🤞",
+                  "I think I should just leave it 😬",
+                  "Oooh this looks shiny 🤩",
+                  "Please be a red, please be a reddd 🙏"]
       
       let embed = new Discord.RichEmbed()
       .setTitle("Gem Rain")
