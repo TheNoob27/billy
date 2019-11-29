@@ -10,9 +10,13 @@ if (!game && message.author.id != client.owner) return;
   function fight() {
     let enemy = {
       name: "Demon",
-      hp: 1882
+      hp: 1882,
+      damage: 66
     }
     let hp = enemy.hp
+    let target = {
+      player: game.players[Math.floor(Math.random() * game.players.length)]
+    }
     
     let embed = new Discord.RichEmbed()
     .setTitle("Field of Battle")
@@ -60,19 +64,55 @@ if (!game && message.author.id != client.owner) return;
         return collector.stop()
       }
       
-      if (Math.random() > 0.5) {
-        player.hp -= enemy.damage
-      if (player.hp <= 0) {
-        message.channel.send("**"+player.tag+"** died! T")
+      if (Math.random() > 0.7) {
+        target.player.hp -= enemy.damage
+      if (target.player.hp <= 0) {
+        message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
         for (var i = 0; i < game.playerlist.length; i++) {
-          if (game.playerlist[i] == user.id) {
+          if (game.playerlist[i] == target.player.id) {
             game.playerlist.splice(i, 1)
-            setTimeout(() => game.playerlist.push(user.id), 7000)
+            setTimeout(() => game.playerlist.push(target.player.id), 7000)
+            
+            target = {
+              player: game.players[Math.floor(Math.random() * game.players.length)]
+            }
+            
             break;
           }
         }
         
       }
+      }
+      
+      if (Math.random() > 0.85) {
+        message.channel.send("**"+player.tag+"** got flung!")
+        for (var i = 0; i < game.playerlist.length; i++) {
+          if (game.playerlist[i] == target.player.id) {
+            game.playerlist.splice(i, 1)
+          }
+        }
+        
+        if (target.player == player) {
+          target = {
+            player: game.players[Math.floor(Math.random() * game.players.length)]
+          };
+        }
+        
+        setTimeout(() => {
+          message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
+        for (var i = 0; i < game.playerlist.length; i++) {
+          if (game.playerlist[i] == target.player.id) {
+            game.playerlist.splice(i, 1)
+            setTimeout(() => game.playerlist.push(target.player.id), 7000)
+            
+            target = {
+              player: game.players[Math.floor(Math.random() * game.players.length)]
+            }
+            
+            break;
+          }
+        }
+        }, (Math.random() * 8999) + 1000)
       }
     })
       
