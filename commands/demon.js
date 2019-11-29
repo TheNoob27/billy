@@ -1,9 +1,19 @@
 const Discord = require('discord.js')
 
 module.exports.run = async (client, message, args, colors, prefix, game) => {
-if (!game && message.author.id != client.owner) return
+if (!game && message.author.id != client.owner) return;
   
+  function setup() {
+    
+  }
   
+  function fight() {
+    
+  }
+  
+  function gems() {
+    
+  }
 }
 module.exports.help = {
   name: "demon",
