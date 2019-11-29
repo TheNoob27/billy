@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const { getgem } = require("../fobfunctions.js")
 module.exports.run = async (client, message, args, colors, prefix, game) => {
 if (!game && message.author.id != client.owner) return;
+  colors["demon"] = "#632f2f"
   
   function setup() {
     
@@ -23,7 +24,7 @@ if (!game && message.author.id != client.owner) return;
     .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
     .addField("Demon's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
-    .setColor(colors.color)
+    .setColor(colors.demon)
     
     message.channel.send(embed).then(async msg => {
       await msg.react("⚔️")
@@ -40,7 +41,7 @@ if (!game && message.author.id != client.owner) return;
     .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
     .addField("Demon's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
-    .setColor(colors.color)
+    .setColor(colors.demon)
     )
     }, 1500)
     
@@ -55,7 +56,7 @@ if (!game && message.author.id != client.owner) return;
         clearInterval(updatedmg)
         msg.edit(new Discord.RichEmbed()
     .setTitle("Field of Battle")
-    .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
+    .setDescription("**The Demon has been defeated!!**")
     .addField("Demon's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     .setColor(colors.color)
@@ -172,6 +173,7 @@ if (!game && message.author.id != client.owner) return;
             gems.slice(1)
             collector.stop()
           } else {
+            user.send("You have decided not to collect this gem. Too bad, because it was a "+gems[0].name+"!")
             toolong = false
             denied = true
             collector.stop()
@@ -185,13 +187,18 @@ if (!game && message.author.id != client.owner) return;
             
             let gem = gems[0]
             client.fob.add(`${newuser.id}.inventory.gems.${gem.code}`, 1)
-            newuser.send("You got a "+gem.name+"! You now have "+ (client.fob.fetch(`${newuser.id}.inventory.gems.${gem.code}`)) + ".")
+            newuser.send(reason + "\n\nYou got a "+gem.name+"! You now have "+ (client.fob.fetch(`${newuser.id}.inventory.gems.${gem.code}`)) + ".")
             if (gem.islegendary) {
-              message.channel.send("**"+user.tag+" got a "+ gem.name +"!**")
+              message.channel.send("**"+newuser.tag+" got a "+ gem.name +"!**")
             }
-            user.send(reason + "\n\n")
             
             gems.slice(1)
+          } else {
+            if (gems.length > 0) {
+              return message.channel.send("The Gem Rain is over!")
+            } else {
+             return collectgem(game, gems)
+            }
           }
         })
       })
