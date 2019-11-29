@@ -298,7 +298,7 @@ function setup() {
     let helped = []
     let enemy = {
       name: "General",
-      hp: 1200,
+      hp: 1162,
       damage: 45
     }
     
