@@ -305,13 +305,13 @@ if (!game && message.author.id != client.owner) return;
             }
             
             gems.slice(1)
-          } else {
+          }       
             if (gems.length <= 0) {
               return message.channel.send("The Gem Rain is over!")
             } else {
              return setTimeout(() => collectgem(game, gems), 50)
             }
-          }
+          
         })
       })
     }
