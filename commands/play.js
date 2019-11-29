@@ -276,8 +276,9 @@ function setup() {
   function end(game, alldied) {
     clearInterval(game.regen)
     let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
-    if (alldied) {
-      game.players = players 
+    game.players = players
+    
+    if (alldied) { 
       let embed = new Discord.RichEmbed()
       .setTitle(enemyteam + " Win.")
       .setDescription("Your team wasn't able to successfully kill all of the "+enemyteam+", so you lose.")
@@ -293,7 +294,7 @@ function setup() {
           game.playerlist = game.players.map(p => p.id)
           require("./demon.js").run(client, message, args, colors, "", game)
         }
-        })
+        }, Math.random() * 4000 + 5000)
       } else return
     } else {
       let embed = new Discord.RichEmbed()
@@ -303,7 +304,17 @@ function setup() {
       .setTimestamp()
       .setFooter("Congratulations. Survivors: "+game.playerlist.length)
       
-      return message.channel.send(embed)
+      message.channel.send(embed)
+      
+      if (game.players.length > 1) {
+        setTimeout(() => {
+        if (Math.random() < 14.3) {
+          game.playerlist = game.players.map(p => p.id)
+          require("./demon.js").run(client, message, args, colors, "", game)
+        }
+        }, Math.random() * 4000 + 5000)
+      } else return
+      
     }
   }
   

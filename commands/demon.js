@@ -4,7 +4,15 @@ module.exports.run = async (client, message, args, colors, prefix, game) => {
 if (!game && message.author.id != client.owner) return;
   colors["demon"] = "#632f2f"
   
+  if (!game) setup()
+  else fight()
+  
   function setup() {
+    let game = {
+    players: [],
+    playerlist: [],
+    regen: null
+    }
     let embed = new Discord.RichEmbed()
   .setColor(colors.demon)
   .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
