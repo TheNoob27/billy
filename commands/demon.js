@@ -128,7 +128,7 @@ if (!game && message.author.id != client.owner) return;
         msg.edit(new Discord.RichEmbed()
     .setTitle("Field of Battle")
     .setDescription("**The Demon has been defeated!!**")
-    .addField("Demon's HP", enemy.hp + "/" + hp)
+    .addField("Demon's HP", "0/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     .setColor(colors.color)
     )
