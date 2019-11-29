@@ -136,6 +136,8 @@ if (!game && message.author.id != client.owner) return;
       }
       
       if (Math.random() > 0.5) { // attack
+        let targetplayer = target.player
+        
         target.player.hp -= enemy.damage
       if (target.player.hp <= 0) {
         message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
@@ -145,14 +147,14 @@ if (!game && message.author.id != client.owner) return;
             game.players.splice(i, 1)
             game.playerlist.splice(i, 1)
             setTimeout(() => {
-              let level = client.fob.fetch(`${user.id}.level.level`) || 1
-        let dmg = client.fob.fetch(`${user.id}.inventory.sword.damage`) || 11
+              let level = client.fob.fetch(`${targetplayer.id}.level.level`) || 1
+        let dmg = client.fob.fetch(`${targetplayer.id}.inventory.sword.damage`) || 11
         
               let push = {
-                id: user.id,
+                id: targetplayer.id,
           level: level,
           hp: (18 * (level - 1) + 100),
-          tag: user.tag,
+          tag: targetplayer.tag,
           damage: dmg,
           maxhp: (18 * (level - 1) + 100)
               }
@@ -172,19 +174,17 @@ if (!game && message.author.id != client.owner) return;
       } // attack
       
       if (Math.random() > 0.9) { // fling
-        let current
+        let current = target.player
+        
         message.channel.send("**"+player.tag+"** got flung!")
         for (var i = 0; i < game.playerlist.length; i++) {
-          if (game.playerlist[i] == target.player.id) {
+          if (game.playerlist[i] == user.id) {
             game.playerlist.splice(i, 1)
-          } 
-          if (game.players[i] == target.player) {
-            current = game.players[i]
             game.players.splice(i, 1)
           }
         }
         
-        if (target.player == player) {
+        if (!target.player && game.playerlist.length) {
           target = {
             player: game.players[Math.floor(Math.random() * game.players.length)]
           };
@@ -194,12 +194,23 @@ if (!game && message.author.id != client.owner) return;
           message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
         
             setTimeout(() => {
-              game.players.push(current)
-              game.playerlist.push(current.id)
+              let level = client.fob.fetch(`${current.id}.level.level`) || 1
+        let dmg = client.fob.fetch(`${current.id}.inventory.sword.damage`) || 11
+        
+              let push = {
+                id: current.id,
+          level: level,
+          hp: (18 * (level - 1) + 100),
+          tag: current.tag,
+          damage: dmg,
+          maxhp: (18 * (level - 1) + 100)
+              }
+              game.players.push(push)
+              game.playerlist.push(push.id)
             }, 7000)
             
         }, (Math.random() * 8999) + 1000)
-      }
+      } // fling
     })
       
       collector.on("end", () => {
