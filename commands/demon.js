@@ -121,6 +121,7 @@ if (!game && message.author.id != client.owner) return;
       let user = r.users.last()
       let player = game.players.find(p => p.id == user.id)
       if (Math.random() > 0.3) enemy.hp -= player.damage
+      else enemy.hp -= Math.ceil(player.damage / 3)
       
       if (enemy.hp <= 0) {
         clearInterval(updatedmg)
@@ -221,7 +222,7 @@ if (!game && message.author.id != client.owner) return;
         }
         if (enemydied) message.channel.send("The Demon has been defeated!!! \n\nWait, it's raining... gems.")
        
-        gemrain()
+        gemrain(game)
       })
     })
   }
@@ -241,7 +242,7 @@ if (!game && message.author.id != client.owner) return;
     
     if (!legendary) gems[Math.floor(Math.random() * gems.length)] = getgem(true, true)
     
-    collectgem(game, gems)
+   setTimeout(() => collectgem(game, gems), 4000)
   }
   
   function collectgem(game, gems) {
@@ -305,10 +306,10 @@ if (!game && message.author.id != client.owner) return;
             
             gems.slice(1)
           } else {
-            if (gems.length > 0) {
+            if (gems.length <= 0) {
               return message.channel.send("The Gem Rain is over!")
             } else {
-             return collectgem(game, gems)
+             return setTimeout(() => collectgem(game, gems), 50)
             }
           }
         })

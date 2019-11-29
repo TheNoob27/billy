@@ -297,6 +297,7 @@ client.on("guildMemberAdd", member => {
 
 client.on("messageReactionAdd", async (r, user) => {
   let message = r.message
+  if (message.channel.type == "dm") return;
   if (message.guild.id != "648056524094046239") return;
   
   if (["🍆", "🍑", "🖕"].includes(r.emoji.name)) {
