@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-
+const { getgem } = require("../fobfunctions.js")
 module.exports.run = async (client, message, args, colors, prefix, game) => {
 if (!game && message.author.id != client.owner) return;
   
@@ -100,18 +100,9 @@ if (!game && message.author.id != client.owner) return;
         
         setTimeout(() => {
           message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
-        for (var i = 0; i < game.playerlist.length; i++) {
-          if (game.playerlist[i] == target.player.id) {
-            game.playerlist.splice(i, 1)
+        
             setTimeout(() => game.playerlist.push(target.player.id), 7000)
             
-            target = {
-              player: game.players[Math.floor(Math.random() * game.players.length)]
-            }
-            
-            break;
-          }
-        }
         }, (Math.random() * 8999) + 1000)
       }
     })
@@ -120,13 +111,25 @@ if (!game && message.author.id != client.owner) return;
         if (!enemydied) return message.channel.send("You automatically lose, because you took too long.")
         if (enemydied) message.channel.send("The Demon has been defeated!!! \n\nWait, it's raining... gems.")
        
-        gems()
+        gemrain()
       })
     })
   }
   
-  function gems() {
+  function gemrain() {
+    let legendary = null
+    let gems = []
+    for (var i = 0; i < 25; i++) {
+      let gem 
+      if (legendary) gem = getgem()
+      else gem = getgem(true)
+      
+      if (gem.islegendary) legendary = gem.name
+      
+      gems.push(gem)
+    }
     
+    if (!legendary) gems[Math.floor(Math.random() * gems.length)] = getgem(true, true)
   }
 }
 module.exports.help = {

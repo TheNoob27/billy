@@ -1,7 +1,7 @@
 const { RichEmbed } = require("discord.js")
 
 module.exports = {
-  getgem: function(legendaries) {
+  getgem: function(legendaries, legendonly) {
     let gem = {
       name: null,
       code: undefined,
@@ -53,6 +53,14 @@ module.exports = {
       "Copal"
     ]
     
+ if (legendonly) {
+   gem.name = legends[Math.floor(Math.random() * legends.length)]
+   gem.islegendary = true
+   gem.code = gem.name.replace(/ /g, "").toLowerCase()
+    
+   return gem;
+ }
+ 
  let gemchance = Math.random()
  
  if (legendaries) {
