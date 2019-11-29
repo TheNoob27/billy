@@ -5,6 +5,7 @@ module.exports.run = async (client, message, args, colors) => {
 
   let enemycount = 0
   setup()
+  let players 
   
   
 function setup() {
