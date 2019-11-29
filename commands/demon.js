@@ -143,12 +143,34 @@ if (!game && message.author.id != client.owner) return;
                    "This better be a good gem 😩",
                   "NO! They're gonna get it before me 😡",
                   "I better get this 🤞",
-                  "I think I should just leave it "]
+                  "I think I should just leave it 😬"]
+      
       let embed = new Discord.RichEmbed()
       .setTitle("Gem Rain")
-      .setDescription("You have spotted a gem! Do you want to collect it?")
+      .setDescription("You have spotted a gem! Do you want to collect it? You have 10 seconds to decide.")
       .setColor("RANDOM")
+      .setFooter(jokes[Math.floor(Math.random() * jokes.length)])
       
+      user.send(embed).then(async msg => {
+       await msg.react("✅");
+       await msg.react("❌")
+        
+        let filter = (reaction, u) => ["✅","❌"].includes(reaction.emoji.name) && u.id == user.id
+        let collector = msg.createReactionCollector(filter, {time: 10000})
+        let toolong = true
+        
+        collector.on("collect", r => {
+          if (r.emoji == "✅") {
+            toolong = false
+            let gem = gems[0]
+            client.fob.add(`${message.author.id}.inventory.gems.${gem.code}`)
+            user.send("You got a "+gem.name+"! You now have "+ client.fob.fetch())
+          } else {
+            toolong = false
+          }
+          
+        })
+      })
     }
 }
 module.exports.help = {
