@@ -134,7 +134,7 @@ if (!game && message.author.id != client.owner) return;
     
   }
   
-  function collectgem(game, gems, legend) {
+  function collectgem(game, gems) {
       let user = client.users.get(game.playerlist[Math.floor(Math.random() * game.playerlist.length)])
       
       let jokes = ["Is it a Mithril, or a Copal 🤔", 
@@ -158,17 +158,41 @@ if (!game && message.author.id != client.owner) return;
         let filter = (reaction, u) => ["✅","❌"].includes(reaction.emoji.name) && u.id == user.id
         let collector = msg.createReactionCollector(filter, {time: 10000})
         let toolong = true
+        let denied = false
         
         collector.on("collect", r => {
           if (r.emoji == "✅") {
             toolong = false
             let gem = gems[0]
-            client.fob.add(`${message.author.id}.inventory.gems.${gem.code}`)
-            user.send("You got a "+gem.name+"! You now have "+ client.fob.fetch())
+            client.fob.add(`${user.id}.inventory.gems.${gem.code}`, 1)
+            user.send("You got a "+gem.name+"! You now have "+ (client.fob.fetch(`${user.id}.inventory.gems.${gem.code}`)) + ".")
+            if (gem.islegendary) {
+              message.channel.send("**"+user.tag+" got a "+ gem.name +"!**")
+            }
+            gems.slice(1)
+            collector.stop()
           } else {
             toolong = false
+            denied = true
+            collector.stop()
           }
-          
+        })
+        
+        collector.on("end", () => {
+          if (denied || toolong) {
+            let reason = denied ? "The person who was going for this gem changed their mind, so you got it." : " The person who was going for this gem was too slow, so you got it."
+            let newuser = game.playerlist.length > 1 ? client.users.get(game.playerlist.filter(u => u != user.id)[Math.floor(Math.random() * game.playerlist.length)]) : client.users.get(game.playerlist[Math.floor(Math.random() * game.playerlist.length)])
+            
+            let gem = gems[0]
+            client.fob.add(`${newuser.id}.inventory.gems.${gem.code}`, 1)
+            newuser.send("You got a "+gem.name+"! You now have "+ (client.fob.fetch(`${newuser.id}.inventory.gems.${gem.code}`)) + ".")
+            if (gem.islegendary) {
+              message.channel.send("**"+user.tag+" got a "+ gem.name +"!**")
+            }
+            user.send(reason + "\n\n")
+            
+            gems.slice(1)
+          }
         })
       })
     }
