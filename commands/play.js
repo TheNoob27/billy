@@ -66,6 +66,8 @@ function setup() {
     })
     
     collector.on("end", () => {
+      players = game.players
+      
       let rounds = Math.ceil(Math.random() * 5) + 5
       game.rounds = rounds
       let teams = ["Humans", "Orcs"]
