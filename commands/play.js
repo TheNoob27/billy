@@ -277,6 +277,7 @@ function setup() {
     clearInterval(game.regen)
     let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
     if (alldied) {
+      game.players = players 
       let embed = new Discord.RichEmbed()
       .setTitle(enemyteam + " Win.")
       .setDescription("Your team wasn't able to successfully kill all of the "+enemyteam+", so you lose.")
@@ -284,7 +285,16 @@ function setup() {
       .setTimestamp()
       .setFooter("Better luck next time.")
       
-      return message.channel.send(embed)
+      message.channel.send(embed)
+        
+      if (game.players.length > 1) {
+        setTimeout(() => {
+        if (Math.random() < 14.3) {
+          game.playerlist = game.players.map(p => p.id)
+          require("./demon.js").run(client, message, args, colors, "", game)
+        }
+        })
+      } else return
     } else {
       let embed = new Discord.RichEmbed()
       .setTitle(game.team + " Win!")

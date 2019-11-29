@@ -52,7 +52,7 @@ if (!game && message.author.id != client.owner) return;
     })
     
     collector.on("end", () => {
-      
+      if (game.players.length < 1) return message.channel.send("No-one joined!")
       setTimeout(() => fight(game), 5000)
       
     })
