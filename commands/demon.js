@@ -304,7 +304,7 @@ if (!game && message.author.id != client.owner) return;
               message.channel.send("**"+newuser.tag+" got a "+ gem.name +"!**")
             }
             
-            gems.slice(1)
+            gems.splice(1)
           }       
             if (gems.length <= 0) {
               return message.channel.send("The Gem Rain is over!")

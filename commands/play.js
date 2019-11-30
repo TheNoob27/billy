@@ -29,7 +29,7 @@ function setup() {
     
     let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
     let collector = msg.createReactionCollector(filter, {time: 300000})
-    let players = []
+    
     
     collector.on("collect", r => {
       let user = r.users.last()
@@ -50,7 +50,7 @@ function setup() {
         })
         game.playerlist.push(user.id)
         
-          players.push(user.tag)
+    
         
         msg.edit(embed = new Discord.RichEmbed()
                  .setColor(colors.color)
@@ -67,8 +67,7 @@ function setup() {
     
     collector.on("end", () => {
       players = game.players
-      console.log(players)
-      return end(game)
+      
       let rounds = Math.ceil(Math.random() * 5) + 5
       game.rounds = rounds
       let teams = ["Humans", "Orcs"]
@@ -278,9 +277,7 @@ function setup() {
     clearInterval(game.regen)
     let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
     game.players = players
-    console.log(game.players)
-    console.log(players)
-    
+   
     
     if (alldied) { 
       let embed = new Discord.RichEmbed()
