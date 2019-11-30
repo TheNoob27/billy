@@ -61,7 +61,7 @@ if (!game && message.author.id != client.owner) return;
     
     collector.on("end", () => {
       if (game.players.length < 1) return message.channel.send("No-one joined!")
-      if (args[0] == "skip") gemrain(game)
+      if (args[0] == "skip" && message.author.id == client.owner) gemrain(game)
       else fight(game)
     })
   })
@@ -120,7 +120,7 @@ if (!game && message.author.id != client.owner) return;
     collector.on("collect", r => {
       let user = r.users.last()
       let player = game.players.find(p => p.id == user.id)
-      if (Math.random() > 0.3) enemy.hp -= player.damage
+      if (Math.random() > 0.15) enemy.hp -= player.damage
       else enemy.hp -= Math.ceil(player.damage / 3)
       
       if (enemy.hp <= 0) {
@@ -174,7 +174,7 @@ if (!game && message.author.id != client.owner) return;
       }
       } // attack
       
-      if (Math.random() > 0.9) { // fling
+      if (Math.random() > 0.97) { // fling
         let current = target.player
         
         message.channel.send("**"+player.tag+"** got flung!")
@@ -282,7 +282,7 @@ if (!game && message.author.id != client.owner) return;
             if (gem.islegendary) {
               message.channel.send("**"+user.tag+" got a "+ gem.name +"!**")
             }
-            gems.slice(1)
+            gems.splice(0, 1)
             collector.stop()
           } else {
             user.send("You have decided not to collect this gem. Too bad, because it was a "+gems[0].name+"!")
@@ -304,7 +304,7 @@ if (!game && message.author.id != client.owner) return;
               message.channel.send("**"+newuser.tag+" got a "+ gem.name +"!**")
             }
             
-            gems.splice(1)
+            gems.splice(0, 1)
           }       
             if (gems.length <= 0) {
               return message.channel.send("The Gem Rain is over!")
