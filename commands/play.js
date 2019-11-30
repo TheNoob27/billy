@@ -67,7 +67,8 @@ function setup() {
     
     collector.on("end", () => {
       players = game.players
-      
+      console.log(players)
+      return end(game)
       let rounds = Math.ceil(Math.random() * 5) + 5
       game.rounds = rounds
       let teams = ["Humans", "Orcs"]
@@ -277,6 +278,9 @@ function setup() {
     clearInterval(game.regen)
     let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
     game.players = players
+    console.log(game.players)
+    console.log(players)
+    
     
     if (alldied) { 
       let embed = new Discord.RichEmbed()
