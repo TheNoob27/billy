@@ -16,7 +16,8 @@ function setup() {
     rounds: null,
     team: null,
     enemyteam: [],
-    regen: null
+    regen: null,
+    ended: false
   }
   
   let embed = new Discord.RichEmbed()
