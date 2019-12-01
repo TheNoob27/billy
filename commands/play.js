@@ -17,6 +17,11 @@ function setup() {
     team: null,
     enemyteam: [],
     regen: null,
+    quit: function(game, collector) {
+      game.ended = true
+      collector.stop()
+      return end(game, false, true)
+    },
     ended: false
   }
   
@@ -274,7 +279,7 @@ function setup() {
     return enemy
   }
   
-  function end(game, alldied) {
+  function end(game, alldied, quitted) {
     clearInterval(game.regen)
     let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
     game.players = players
