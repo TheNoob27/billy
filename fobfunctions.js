@@ -83,7 +83,9 @@ module.exports = {
     return gem
     },
   
-  
+  findgem: function(input) {
+    
+  },
   
   addxp: function xp(db, id, xptoadd = 0, user, channel) {
     console.log("Adding "+xptoadd+"xp...")
