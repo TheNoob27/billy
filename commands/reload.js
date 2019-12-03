@@ -37,6 +37,16 @@ let thing = cmd
     try {
       if (cmd === "all") {
         init()
+      } else if (cmd == "file" && args[1]) {
+        let file = args[1].toLowerCase()
+        
+        if (!file.endsWith(".js")) {
+          delete require.cache[require.resolve(`../${file}.js`)]
+          return message.channel.send("Reloaded the file `"+file+".js`")
+        } else {
+          delete require.cache[require.resolve(`../${file}`)]
+          return message.channel.send("Reloaded the file `"+file+"`")
+        }
       } else {
         
       if (client.aliases.has(cmd)) {

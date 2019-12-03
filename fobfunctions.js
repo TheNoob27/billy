@@ -136,11 +136,25 @@ module.exports = {
     
     if (!gem.name) {
       if (input == "mith") gem.name = "Mithril"
-      else if (input == "demo")
-      if (input == "grand") gem.name = "Grandidierite"
+      else if (input == "demo") gem.name = "Demonite"
+      else if (input == "grand") gem.name = "Grandidierite"
       else if (input == "poud") gem.name = "Poudretteite"
       else if (input == "ben" || input == "beni") gem.name = "Benitoite"
+      else if (input == "tanz") gem.name = "Tanzanite"
+      else if (input == "aqua") gem.name = "Aquamarine"
     }
+    
+    if (!gem.name) return null;
+    
+    gem.code = gem.name.replace(/ /g, "").toLowerCase()
+    
+    if (["Mithril",
+      "Demonite",
+      "Fury Stone",
+      "Spirit Shard",
+      "Dragon Bone"].includes(gem.name)) gem.islegendary = true
+    
+    return gem
   },
   
   addxp: function xp(db, id, xptoadd = 0, user, channel) {
