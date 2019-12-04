@@ -5,7 +5,7 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 const config = require('./config.json')
 let prefix = config.prefix
- // /*
+ // /* 
 const http = require('http');
 const express = require('express');
 const app = express();
