@@ -200,8 +200,7 @@ client.on('message', async message => {
     })
 
     
-  }
-  if(alias){
+  } else if(alias){
     console.log(message.author.tag + " used the command " + alias.help.name)
     if (args[0] === "help") {
       let prefix = await db.fetch(`prefix_${message.guild.id}`)
