@@ -289,7 +289,7 @@ client.on("guildMemberAdd", member => {
   let guild = member.guild
   
   if (guild.id !== "648056524094046239") return;
-  if (member.user.bot) return;
+  if (member.user.bot) return member.addRole("")
   
   member.addRole("648072679684964352")
   
