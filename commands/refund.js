@@ -1,6 +1,18 @@
-const Discord = require('discord.js')
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors) => {
+class Refund extends Command {
+  constructor(client) {
+    super(client, {
+      name: "refund",
+      aliases: [],
+      description: "Submit a refund request.",
+      usage: `b!refund`,
+      category: "Info"
+    })
+  }
+  
+  async run(client, message, args, colors) {
   try {
     message.delete()
   } catch(err) { }
@@ -199,10 +211,4 @@ async function username() {
   }
   
 }
-module.exports.help = {
-  name: "refund",
-  aliases: [],
-  description: "Submit a refund request.",
-  usage: `b!refund`,
-  category: "Info"
 }

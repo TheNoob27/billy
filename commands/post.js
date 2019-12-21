@@ -4,11 +4,11 @@ const Command = require("../classes/Command.js")
 class command extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "post",
+  aliases: ["postlink", "postfarm"],
+  description: "Post a demon farm link.",
+  usage: `b!post <link> (custom message)`,
+  category: "FOB"
     })
   }
   
@@ -30,11 +30,4 @@ class command extends Command {
  return client.channels.get("648072216444928010").send("<@&648123633658626087>", embed)
   
 }
-}
-module.exports.help = {
-  name: "post",
-  aliases: ["postlink", "postfarm"],
-  description: "Post a demon farm link.",
-  usage: `b!post <link> (custom message)`,
-  category: "FOB"
 }

@@ -7,9 +7,11 @@ class Play extends Command {
     super(client, {
       name: "play",
       aliases: ["battle"],
-      description: "Play a game that is supposed to mimic FOB.",
+      description: "Play a game with friends or by yourself that is supposed to mimic FOB.",
       usage: `b!play`,
-      category: "FOB"
+      category: "FOB",
+      cooldown: 300000,
+      cooldownmsg: "You can play another game in {time}."
     })
   }
   
