@@ -182,3 +182,5 @@ async function bugname() {
   
 }
 }
+
+module.exports = BugReport

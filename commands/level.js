@@ -4,11 +4,11 @@ const Command = require("../classes/Command.js")
 class Level extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "level",
+      aliases: ["lvl"],
+      description: "Shows your level",
+      usage: `b!level`,
+      category: "FOB"
     })
   }
   
@@ -88,12 +88,5 @@ let embed = new RichEmbed()
 .addField("Progress", `${level.xp - pastxp}/${required - pastxp}`)
 
 return message.author.send(embed)
-}
-}
-module.exports.help = {
-  name: "level",
-  aliases: ["lvl"],
-  description: "Shows your level",
-  usage: `b!level`,
-  category: "FOB"
+  }
 }

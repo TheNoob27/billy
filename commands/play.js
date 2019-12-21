@@ -5,11 +5,11 @@ const Command = require("../classes/Command.js")
 class Play extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "play",
+      aliases: ["battle"],
+      description: "Play a game that is supposed to mimic FOB.",
+      usage: `b!play`,
+      category: "FOB"
     })
   }
   
@@ -451,11 +451,4 @@ function setup() {
   
   }
 }
-}
-module.exports.help = {
-  name: "play",
-  aliases: ["battle"],
-  description: "Play a game that is supposed to mimic FOB.",
-  usage: `b!play`,
-  category: "FOB"
 }

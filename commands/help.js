@@ -4,11 +4,11 @@ const Command = require("../classes/Command.js")
 class Help extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "help",
+      aliases: ["h", "cmds", "commands"],
+      description: "Gives help with this bot's commands.",
+      usage: `b!help`,
+      category: "Info"
     })
   }
   
@@ -37,11 +37,4 @@ fob.map(cmd => {
  
   return message.channel.send(help)
 }
-}
-module.exports.help = {
-  name: "help",
-  aliases: ["h", "cmds", "commands"],
-  description: "Gives help with this bot's commands.",
-  usage: `b!help`,
-  category: "Info"
 }

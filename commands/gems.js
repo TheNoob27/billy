@@ -4,11 +4,11 @@ const Command = require("../classes/Command.js")
 class Gems extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "gems",
+      aliases: ["gem"],
+      description: "Shows your list of gems.",
+      usage: `b!gems`,
+      category: "FOB"
     })
   }
   
@@ -73,11 +73,4 @@ class Gems extends Command {
   
   return message.author.send(embed)
 }
-}
-module.exports.help = {
-  name: "gems",
-  aliases: ["gem"],
-  description: "Shows your list of gems.",
-  usage: `b!gems`,
-  category: "FOB"
 }

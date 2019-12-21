@@ -4,11 +4,11 @@ const Command = require("../classes/Command.js")
 class Inventory extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "inventory",
+      aliases: ["inv"],
+      description: "Shows your inventory.",
+      usage: `b!inventory`,
+      category: "FOB"
     })
   }
   
@@ -25,11 +25,5 @@ let embed = new RichEmbed()
 
 return message.author.send(embed)
 }
-}
-module.exports.help = {
-  name: "inventory",
-  aliases: ["inv"],
-  description: "Shows your inventory.",
-  usage: `b!inventory`,
-  category: "FOB"
+
 }
