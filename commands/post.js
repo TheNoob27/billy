@@ -1,6 +1,18 @@
-const Discord = require('discord.js')
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors) => {
+class command extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
 
   let link = args[0]
   if (!link) return message.channel.send("Please provide a Field of Battle private server link.")
@@ -8,7 +20,7 @@ module.exports.run = async (client, message, args, colors) => {
   
   let custom = args.slice(1).join(" ")
   
-  let embed = new Discord.RichEmbed()
+  let embed = new RichEmbed()
   .setColor(colors.color)
   .setTitle("Demon Farm")
   .setAuthor(message.author.tag, message.author.displayAvatarURL)
@@ -17,6 +29,7 @@ module.exports.run = async (client, message, args, colors) => {
   
  return client.channels.get("648072216444928010").send("<@&648123633658626087>", embed)
   
+}
 }
 module.exports.help = {
   name: "post",

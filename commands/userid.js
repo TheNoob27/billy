@@ -1,7 +1,19 @@
-const Discord = require("discord.js");
 const { finduser } = require("../functions.js");
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors) => {
+class UserID extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
  let messageID
   
   let user = finduser(message, args.join(" "))
@@ -17,6 +29,7 @@ module.exports.run = async (client, message, args, colors) => {
   return message.channel.send(`${name}'s ID: \`${user.id}\``)
 
   
+}
 }
 module.exports.help = {
   name: "userid",

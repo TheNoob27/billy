@@ -4,11 +4,13 @@ const Command = require("../classes/Command.js")
 class BugReport extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "bugreport",
+      aliases: ["bug", "reportbug"],
+      description: "Submit a bug report.",
+      usage: `b!bugreport`,
+      category: "Info",
+      cooldown: 60000,
+      cooldownmsg: "You can submit another bug report in {time}."
     })
   }
   
@@ -179,11 +181,4 @@ async function bugname() {
   }
   
 }
-}
-module.exports.help = {
-  name: "bugreport",
-  aliases: ["bug", "reportbug"],
-  description: "Submit a bug report.",
-  usage: `b!bugreport`,
-  category: "Info"
 }

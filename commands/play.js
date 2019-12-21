@@ -37,7 +37,7 @@ function setup() {
     ended: false
   }
   
-  let embed = new Discord.RichEmbed()
+  let embed = new RichEmbed()
   .setColor(colors.color)
   .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
   .addField("Players", "​")
@@ -70,7 +70,7 @@ function setup() {
         
     
         
-        msg.edit(embed = new Discord.RichEmbed()
+        msg.edit(embed = new RichEmbed()
                  .setColor(colors.color)
                  .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
                  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
@@ -95,7 +95,7 @@ function setup() {
     game.enemyteam = game.team == "Humans" ? orcs : humans
       
       message.channel.send(
-      new Discord.RichEmbed()
+      new RichEmbed()
         .setTitle("Game Starting!")
         .addField("Team", game.team)
         .addField("Enemies", game.rounds)
@@ -121,7 +121,7 @@ function setup() {
     let enemy = getenemy(game)
     let hp = enemy.hp
     
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
@@ -140,7 +140,7 @@ function setup() {
     
     let updatedmg = setInterval(() => {
       //console.log(enemy.name + ": "+ enemy.hp)
-      msg.edit(new Discord.RichEmbed()
+      msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
@@ -159,7 +159,7 @@ function setup() {
       
       if (enemy.hp <= 0) {
         clearInterval(updatedmg)
-        msg.edit(new Discord.RichEmbed()
+        msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
     .addField("Enemy's HP", "0/" + hp)
@@ -184,7 +184,7 @@ function setup() {
         if (game.players.length < 1) {
           clearInterval(updatedmg)
           
-          msg.edit(new Discord.RichEmbed()
+          msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
@@ -298,7 +298,7 @@ function setup() {
    
     
     if (alldied) { 
-      let embed = new Discord.RichEmbed()
+      let embed = new RichEmbed()
       .setTitle(enemyteam + " Win.")
       .setDescription("Your team wasn't able to successfully kill all of the "+enemyteam+", so you lose.")
       .setColor(colors.error)
@@ -316,7 +316,7 @@ function setup() {
         }, Math.random() * 4000 + 5000)
       } else return
     } else {
-      let embed = new Discord.RichEmbed()
+      let embed = new RichEmbed()
       .setTitle(game.team + " Win!")
       .setDescription("Your team successfully killed all of the "+enemyteam+", so you win. :tada:")
       .setColor(game.team == "Humans" ? "#1f5699" : "#3d8a29")
@@ -347,7 +347,7 @@ function setup() {
     
     let hp = enemy.hp
     
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him. You have 4 minutes.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
@@ -365,7 +365,7 @@ function setup() {
     
     let updatedmg = setInterval(() => {
       //console.log(enemy.name + ": "+ enemy.hp)
-      msg.edit(new Discord.RichEmbed()
+      msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him. You have 4 minutes.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
@@ -382,7 +382,7 @@ function setup() {
       
       if (enemy.hp <= 0) {
         clearInterval(updatedmg)
-        msg.edit(new Discord.RichEmbed()
+        msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
     .addField("Enemy's HP", "0/" + hp)
