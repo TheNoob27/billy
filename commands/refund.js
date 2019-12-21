@@ -28,7 +28,7 @@ let refund = {
 username()
 
 async function username() {
-  let embed = new Discord.RichEmbed()
+  let embed = new RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("Your refund request will be sent, but first supply some information. \n**What is the username of the ROBLOX account that lost the item?**")
@@ -66,7 +66,7 @@ async function username() {
 }
 
   function date(dm) {
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("**When did you lose this item?** \n\n**Username**: "+refund.username)
@@ -91,7 +91,7 @@ async function username() {
   }
   
  function item(dm) {
-   let embed = new Discord.RichEmbed()
+   let embed = new RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("**What did you lose?** \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date)
@@ -115,7 +115,7 @@ async function username() {
  }
   
   function how(dm) {
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("**How did you lose this item?** \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item)
@@ -140,7 +140,7 @@ async function username() {
   }
   
   function additional(dm) {
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("**Any additional details that would help?** If not, just say `no` or `none`. \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item + "\n**How The Item Was Lost**: "+refund.how)
@@ -170,7 +170,7 @@ async function username() {
   
   
   function end(dm) {
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("**Are you happy with these results?** Yes or no. \n\n**Username**: "+refund.username +"\n**Date Of Loss**: "+ refund.date + "\n**Item Lost**: "+refund.item + "\n**How The Item Was Lost**: "+refund.how+"\n**Additional Details**: "+refund.additional)
@@ -196,7 +196,7 @@ async function username() {
       if (stopped) return message.author.send("You took too long to specify if you were happy or not, so the refund was not posted.")
       if (!happy) return message.author.send("Refund request cancelled, nothing was submitted.")
       
-      let embed = new Discord.RichEmbed()
+      let embed = new RichEmbed()
       .setTitle("Refund Request")
       .addField("Username", refund.username)
       .addField("Date Of Loss", refund.date)
