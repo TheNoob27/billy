@@ -1,4 +1,4 @@
-const Client = require("classes/Client.js")
+const Client = require("./classes/Client.js")
  // /* 
 const http = require('http');
 const express = require('express');
