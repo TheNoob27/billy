@@ -1,6 +1,6 @@
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
-
+const { finduser } = require("../functions.js")
 class Trade extends Command {
   constructor(client) {
     super(client, {
@@ -14,6 +14,14 @@ class Trade extends Command {
   }
   
   async run(client, message, args, colors) {
+    if (!args[0]) return message.channel.send("Please inpu someone you would like to trade with.")
+    
+    const user = finduser(message, args.join(" "), true)
+    
+    if (!user) return message.channel.send("Couldn't find that user.")
+    
+    
+    
   }
 }
 

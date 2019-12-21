@@ -50,12 +50,16 @@ class Billy extends Client {
     this.commands = new Collection()
     this.aliases = new Collection()
     this.cooldowns = new Collection()
+    this.traders = []
+    
     this.db = new table("fob")
     this.fob = this.db
     this.config = require("../config.json")
     this.owner = this.config.owner
     
     this.loadCommands()
+    this.loadEvents()
+    
     return this
   }
   
@@ -117,6 +121,80 @@ class Billy extends Client {
     return true
   }
   
+  
+  resolveGem(input = "") {
+    input = input.toLowerCase()
+    
+    let gem = {
+      name: null,
+      code: undefined,
+      islegendary: false
+    }
+     
+    let gemlist = [
+      "Mithril",
+      "Demonite",
+      "Fury Stone",
+      "Spirit Shard",
+      "Dragon Bone",
+      "Red Diamond",
+      "Grandidierite",
+      "Poudretteite",
+      "Benitoite",
+      "Tanzanite",
+      "Alexandrite",
+      "Diamond",
+      "Sapphire",
+      "Ruby",
+      "Lapis Lazuli",
+      "Topaz",
+      "Garnet",
+      "Aquamarine",
+      "Spinel",
+      "Amber",
+      "Titanite",
+      "Tourmaline",
+      "Kunzite",
+      "Amethyst",
+      "Citrine",
+      "Peridot",
+      "Iolite",
+      "Onyx",
+      "Turquoise",
+      "Malachite",
+      "Feldspar",
+      "Jade",
+      "Nephrite",
+      "Olivine",
+      "Copal"
+  ]
+      for (var i in gemlist) {
+        if (gemlist[i].toLowerCase() == input) gem.name = gemlist[i]
+        else if (gemlist[i].split(" ")[0].toLowerCase() == input) gem.name = gemlist[i]
+      }
+    
+    if (!gem.name) {
+      if (input == "mith") gem.name = "Mithril"
+      else if (input == "demo") gem.name = "Demonite"
+      else if (input == "grand") gem.name = "Grandidierite"
+      else if (input == "poud") gem.name = "Poudretteite"
+      else if (input == "ben" || input == "beni") gem.name = "Benitoite"
+      else if (input == "tanz") gem.name = "Tanzanite"
+      else if (input == "aqua") gem.name = "Aquamarine"
+    }
+    
+    if (!gem.name) return null;
+    
+    gem.code = gem.name.replace(/ /g, "").toLowerCase()
+    
+    if (["Mithril",
+      "Demonite",
+      "Fury Stone",
+      "Spirit Shard",
+      "Dragon Bone"].includes(gem.name)) gem.islegendary = true
+    
+    return gem
+  }
 }
 
 module.exports = Billy
