@@ -1,5 +1,6 @@
 const ms = require("parse-ms")
 const { RichEmbed } = require("discord.js")
+
 module.exports = (client, guild) => {
   let joinms = ms(Date.now() - guild.createdAt)
 let joined = `${joinms.days}d, ${joinms.hours}h and ${joinms.minutes}m old.`
