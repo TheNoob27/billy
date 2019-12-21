@@ -1,7 +1,7 @@
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
 
-class command extends Command {
+class BugReport extends Command {
   constructor(client) {
     super(client, {
       name: "",

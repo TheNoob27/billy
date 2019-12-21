@@ -1,6 +1,19 @@
-const Discord = require('discord.js')
 const { getgem } = require("../fobfunctions.js")
-module.exports.run = async (client, message, args, colors, prefix, game) => {
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
+
+class Demon extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
 if (!game && message.author.id != client.owner) return;
   colors["demon"] = "#632f2f"
   
@@ -315,6 +328,7 @@ if (!game && message.author.id != client.owner) return;
         })
       })
     }
+}
 }
 module.exports.help = {
   name: "demon",
