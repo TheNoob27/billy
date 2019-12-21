@@ -5,11 +5,11 @@ const Command = require("../classes/Command.js")
 class Demon extends Command {
   constructor(client) {
     super(client, {
-      name: "",
+      name: "demon",
       aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      description: "Summons the demon, can only be summoned after the play command.",
+      usage: `b!demon`,
+      category: "Secret"
     })
   }
   
@@ -329,11 +329,4 @@ if (!game && message.author.id != client.owner) return;
       })
     }
 }
-}
-module.exports.help = {
-  name: "demon",
-  aliases: [],
-  description: "Summons the demon, can only be summoned after the play command.",
-  usage: `b!demon`,
-  category: "Secret"
 }

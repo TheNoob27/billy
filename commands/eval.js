@@ -7,11 +7,12 @@ const Command = require("../classes/Command.js")
 class Eval extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "eval",
+      aliases: ["evaluate"],
+      description: "Evaluates a bit of code.",
+      usage: `b!eval <code>`,
+      category: "Owner Commands",
+      example: "b!eval message.channel.send(\"Example Text\")"
     })
   }
   
@@ -81,12 +82,4 @@ class Eval extends Command {
 
   
 }
-}
-module.exports.help = {
-  name: "eval",
-  aliases: ["evaluate"],
-  description: "Evaluates a bit of code.",
-  usage: `k!eval <code>`,
-  category: "Owner Commands",
-  example: "k!eval message.channel.send(\"Example Text\")"
 }
