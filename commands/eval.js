@@ -83,3 +83,5 @@ class Eval extends Command {
   
 }
 }
+
+module.exports = Eval

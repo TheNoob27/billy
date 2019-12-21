@@ -5,11 +5,12 @@ const Command = require("../classes/Command.js")
 class UserID extends Command {
   constructor(client) {
     super(client, {
-      name: "",
-      aliases: [],
-      description: "",
-      usage: "",
-      category: ""
+      name: "userid",
+      aliases: ["id", "user.id"],
+      description: "Get someones user ID.",
+      usage: `b!userid <user>`,
+      category: "Owner Commands",
+      example: "b!userid TheNoob27#6815"
     })
   }
   
@@ -31,11 +32,5 @@ class UserID extends Command {
   
 }
 }
-module.exports.help = {
-  name: "userid",
-  aliases: ["id", "user.id"],
-  description: "Get someones user ID.",
-  usage: `k!userid <user>`,
-  category: "Owner Commands",
-  example: "k!userid TheNoob27#6815"
-}
+
+module.exports = UserID

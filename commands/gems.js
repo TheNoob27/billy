@@ -74,3 +74,5 @@ class Gems extends Command {
   return message.author.send(embed)
 }
 }
+
+module.exports = Gems

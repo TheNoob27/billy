@@ -454,3 +454,5 @@ function setup() {
   }
 }
 }
+
+module.exports = Play

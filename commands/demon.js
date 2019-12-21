@@ -330,3 +330,5 @@ if (!game && message.author.id != client.owner) return;
     }
 }
 }
+
+module.exports = Demon

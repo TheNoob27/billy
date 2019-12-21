@@ -16,3 +16,5 @@ class Trade extends Command {
   async run(client, message, args, colors) {
   }
 }
+
+module.exports = Trade

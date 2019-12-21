@@ -8,7 +8,9 @@ class Refund extends Command {
       aliases: [],
       description: "Submit a refund request.",
       usage: `b!refund`,
-      category: "Info"
+      category: "Info",
+      cooldown: 120000,
+      cooldownmsg: "You can request another refund in {time}."
     })
   }
   
@@ -212,3 +214,5 @@ async function username() {
   
 }
 }
+
+module.exports = Refund

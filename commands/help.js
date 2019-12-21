@@ -38,3 +38,5 @@ fob.map(cmd => {
   return message.channel.send(help)
 }
 }
+
+module.exports = Help

@@ -90,3 +90,5 @@ let embed = new RichEmbed()
 return message.author.send(embed)
   }
 }
+
+module.exports = Level
