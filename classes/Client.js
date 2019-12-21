@@ -59,21 +59,13 @@ class Billy extends Client {
   }
   
   toString() {
-    return "Client [Starboard]"
+    return "Client [Billy]"
   }
   
   login() {
     return super.login(process.env.TOKEN)
   }
   
-  generateStar(stars) {
-    let star = "⭐"
-      if (stars > 29) star = "✨"
-      else if (stars > 19) star = ""
-      else if (stars > 9) star = ""
-    
-    return star
-  }
   
   async loadCommands() {
     const cmdFiles = await readdir("./commands/");
@@ -132,4 +124,4 @@ class Billy extends Client {
   
 }
 
-module.exports = Starboard
+module.exports = Billy

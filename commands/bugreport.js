@@ -1,6 +1,18 @@
-const Discord = require('discord.js')
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors) => {
+class command extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
   try {
     message.delete()
   } catch(err) { }
@@ -15,7 +27,7 @@ let bug = {
 bugname()
 
 async function bugname() {
-  let embed = new Discord.RichEmbed()
+  let embed = new RichEmbed()
   .setTitle("New Bug Report")
   .setColor(colors.help)
   .setDescription("Thank you for submitting a bug report, fixing it helps everyone in game. \n**What is the bug?**")
@@ -50,7 +62,7 @@ async function bugname() {
 }
 
   function how(dm) {
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
   .setTitle("New Bug Report")
   .setColor(colors.help)
   .setDescription("**What caused the bug?** \n\n**Bug**: "+bug.bug)
@@ -75,7 +87,7 @@ async function bugname() {
   }
   
  function effect(dm) {
-   let embed = new Discord.RichEmbed()
+   let embed = new RichEmbed()
   .setTitle("New Bug Report")
   .setColor(colors.help)
   .setDescription("**How does this affect the gameplay?** \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
@@ -99,7 +111,7 @@ async function bugname() {
  }
   
   function extra(dm) {
-   let embed = new Discord.RichEmbed()
+   let embed = new RichEmbed()
   .setTitle("New Bug Report")
   .setColor(colors.help)
   .setDescription("**Do you have any images, evidence, or media that could help in any way?** If so, post **one** image. If not, just say anything. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how)
@@ -126,7 +138,7 @@ async function bugname() {
   
   
   function end(dm) {
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
   .setTitle("New Refund Request")
   .setColor(colors.help)
   .setDescription("**Are you happy with these results?** Yes or no. \n\n**Bug**: "+bug.bug +"\n**How It Is Done**: "+ bug.how + "\n**Effect On Gameplay**: "+bug.effect)
@@ -153,7 +165,7 @@ async function bugname() {
       if (stopped) return message.author.send("You took too long to specify if you were happy or not, so the refund was not posted.")
       if (!happy) return message.author.send("Refund request cancelled, nothing was submitted.")
       
-      let embed = new Discord.RichEmbed()
+      let embed = new RichEmbed()
       .setTitle("Bug Report")
       .addField("Bug", bug.bug)
       .addField("How It Is Done", bug.how)
@@ -166,6 +178,7 @@ async function bugname() {
     })
   }
   
+}
 }
 module.exports.help = {
   name: "bugreport",

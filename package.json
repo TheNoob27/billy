@@ -11,7 +11,8 @@
     "util": "^0.12.1",
     "discord.js": "^11.5.1",
     "quick.db": "latest",
-    "parse-ms": "^2.0.0"
+    "parse-ms": "^2.0.0",
+    "pretty-ms": "^5.1.0"
   },
   "engines": {
     "node": "8.x"
