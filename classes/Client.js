@@ -55,6 +55,7 @@ class Billy extends Client {
     this.config = require("../config.json")
     this.owner = this.config.owner
     
+    this.loadCommands()
     return this
   }
   
@@ -114,12 +115,6 @@ class Billy extends Client {
     clearTimeout(this.cooldowns.get(id).timer)
     this.cooldowns.delete(id)
     return true
-  }
-  
-  async getVoters() {
-    this.voters = await this.votes.fetch("votes")
-    console.log("Got all "+ this.voters.length +" voters!")
-    return this.voters
   }
   
 }
