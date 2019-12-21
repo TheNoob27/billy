@@ -2,8 +2,20 @@ const db = require('quick.db')
 const Discord = require('discord.js')
 const { inspect } = require("util")
 const ms = require("parse-ms")
+const Command = require("../classes/Command.js")
 
-exports.run = async (client, message, args, colors, prefix) => {
+class Eval extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors, prefix) {
 
   if(client.owner == message.author.id) {
     
@@ -68,6 +80,7 @@ exports.run = async (client, message, args, colors, prefix) => {
 
 
   
+}
 }
 module.exports.help = {
   name: "eval",

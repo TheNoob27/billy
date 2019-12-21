@@ -1,7 +1,19 @@
-//const db = require('quick.db')
-const Discord = require('discord.js')
 const { getgem, addxp } = require("../fobfunctions.js")
-module.exports.run = async (client, message, args, colors) => {
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
+
+class Play extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
 
   let enemycount = 0
   setup()
@@ -395,7 +407,7 @@ function setup() {
         if (game.players.length < 1) {
           clearInterval(updatedmg)
           
-          msg.edit(new Discord.RichEmbed()
+          msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have reached the **"+ enemy.name + "**! Press the sword reaction to hit him.")
     .addField("Enemy's HP", enemy.hp + "/" + hp)
@@ -438,6 +450,7 @@ function setup() {
     })
   
   }
+}
 }
 module.exports.help = {
   name: "play",

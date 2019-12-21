@@ -1,6 +1,18 @@
-const Discord = require('discord.js')
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors) => {
+class Level extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
   let level = client.fob.fetch(`${message.author.id}.level`)
   if (!level) {
     client.fob.set(`${message.author.id}.level.level`, 1)
@@ -68,7 +80,7 @@ let current = level.level
 let pastxp = levels[current - 1]
 let required = levels[current]
 
-let embed = new Discord.RichEmbed()
+let embed = new RichEmbed()
 .setColor(colors.color)
 .setTitle("Level Stats")
 .addField("Level", current)
@@ -76,6 +88,7 @@ let embed = new Discord.RichEmbed()
 .addField("Progress", `${level.xp - pastxp}/${required - pastxp}`)
 
 return message.author.send(embed)
+}
 }
 module.exports.help = {
   name: "level",

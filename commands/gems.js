@@ -1,6 +1,18 @@
-const Discord = require('discord.js')
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors) => {
+class Gems extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
 
   let inv = client.fob.fetch(`${message.author.id}.inventory.gems`)
   let gems = ""
@@ -53,13 +65,14 @@ module.exports.run = async (client, message, args, colors) => {
   }
   }
   
-  let embed = new Discord.RichEmbed()
+  let embed = new RichEmbed()
   .setColor(colors.color)
   .setTitle("Gems")
   .setDescription(gems)
   .setFooter("Total Gem Count: " + total)
   
   return message.author.send(embed)
+}
 }
 module.exports.help = {
   name: "gems",

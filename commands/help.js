@@ -1,7 +1,18 @@
-const db = require('quick.db')
-const Discord = require('discord.js')
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors, prefix) => {
+class Help extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: "",
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors, prefix) {
 let info = client.commands.filter(cmd => cmd.help.category == "Info")
 let fob = client.commands.filter(cmd => cmd.help.category == "FOB")
 
@@ -16,7 +27,7 @@ fob.map(cmd => {
   fobcmd += `${prefix}${cmd.help.usage.replace("b!", "")} \n`
 })
   
-  let help = new Discord.RichEmbed()
+  let help = new RichEmbed()
   .setTitle("Help")
   .setDescription("Commands: " + client.commands.size)
   .setColor(colors.help)
@@ -25,6 +36,7 @@ fob.map(cmd => {
   .setFooter("If you need help with a specific command, do " +prefix+ "(command) help")
  
   return message.channel.send(help)
+}
 }
 module.exports.help = {
   name: "help",

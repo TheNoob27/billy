@@ -13,7 +13,7 @@ class Demon extends Command {
     })
   }
   
-  async run(client, message, args, colors) {
+  async run(client, message, args, colors, prefix, game) {
 if (!game && message.author.id != client.owner) return;
   colors["demon"] = "#632f2f"
   
@@ -26,7 +26,7 @@ if (!game && message.author.id != client.owner) return;
     playerlist: [],
     regen: null
     }
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
   .setColor(colors.demon)
   .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
   .addField("Players", "​")
@@ -59,7 +59,7 @@ if (!game && message.author.id != client.owner) return;
         
           players.push(user.tag)
         
-        msg.edit(embed = new Discord.RichEmbed()
+        msg.edit(embed = new RichEmbed()
   .setColor(colors.demon)
   .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
   .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
@@ -102,7 +102,7 @@ if (!game && message.author.id != client.owner) return;
       player: game.players[Math.floor(Math.random() * game.players.length)]
     }
     
-    let embed = new Discord.RichEmbed()
+    let embed = new RichEmbed()
     .setTitle("Field of Battle")
     .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
     .addField("Demon's HP", enemy.hp + "/" + hp)
@@ -119,7 +119,7 @@ if (!game && message.author.id != client.owner) return;
     
     let updatedmg = setInterval(() => {
       //console.log(enemy.name + ": "+ enemy.hp)
-      msg.edit(new Discord.RichEmbed()
+      msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
     .addField("Demon's HP", enemy.hp + "/" + hp)
@@ -138,7 +138,7 @@ if (!game && message.author.id != client.owner) return;
       
       if (enemy.hp <= 0) {
         clearInterval(updatedmg)
-        msg.edit(new Discord.RichEmbed()
+        msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .setDescription("**The Demon has been defeated!!**")
     .addField("Demon's HP", "0/" + hp)
@@ -271,7 +271,7 @@ if (!game && message.author.id != client.owner) return;
                   "Oooh this looks shiny 🤩",
                   "Please be a red, please be a reddd 🙏"]
       
-      let embed = new Discord.RichEmbed()
+      let embed = new RichEmbed()
       .setTitle("Gem Rain")
       .setDescription("You have spotted a gem! Do you want to collect it? You have 10 seconds to decide.")
       .setColor("RANDOM")
