@@ -15,7 +15,8 @@ class Trade {
     if (this.trade1.channel.id == this.trade2.channel.id) {
       this.trade1.channel.send(...msg)
     } else {
-      
+      this.trade1.channel.send(...msg)
+      this.trade2.channel.send(...msg)
     }
   }
   
