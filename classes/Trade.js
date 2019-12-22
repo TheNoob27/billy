@@ -8,11 +8,11 @@ class Trade {
     this.trade2 = trade2
     this.items = []
     this.checks = 0
-    
+    this.samechannel = this.trade1.channel.id == this.trade2.channel.id
   }
   
   send(...msg) {
-    if (this.trade1.channel.id == this.trade2.channel.id) {
+    if (this.samechannel) {
       this.trade1.channel.send(...msg)
     } else {
       this.trade1.channel.send(...msg)
