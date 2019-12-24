@@ -60,6 +60,45 @@ class Billy extends Client {
     this.loadCommands()
     this.loadEvents()
     
+    this.gems = [
+      "Mithril",
+      "Demonite",
+      "Fury Stone",
+      "Spirit Shard",
+      "Dragon Bone",
+      "Red Diamond",
+      "Grandidierite",
+      "Poudretteite",
+      "Benitoite",
+      "Tanzanite",
+      "Alexandrite",
+      "Diamond",
+      "Sapphire",
+      "Ruby",
+      "Lapis Lazuli",
+      "Topaz",
+      "Garnet",
+      "Aquamarine",
+      "Spinel",
+      "Amber",
+      "Titanite",
+      "Tourmaline",
+      "Kunzite",
+      "Amethyst",
+      "Citrine",
+      "Peridot",
+      "Iolite",
+      "Onyx",
+      "Turquoise",
+      "Malachite",
+      "Feldspar",
+      "Jade",
+      "Nephrite",
+      "Olivine",
+      "Copal"
+  ]
+    
+    
     return this
   }
   
