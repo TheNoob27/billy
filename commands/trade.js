@@ -7,7 +7,7 @@ class Trade extends Command {
       name: "trade",
       aliases: [],
       description: "Start a trade with someone.",
-      usage: "b!trade <user>",
+      usage: "b!trade (start/with) (user if with)",
       category: "FOB",
       cooldown: 60000
     })
