@@ -18,11 +18,9 @@ class Trader {
     this.channel.send("")
   }
   
-  addGem(input = "") {
+  getItem(input = "") {
     if (input.toLowerCase() == "gold") {
-      return {
-        gem: "Gold"
-      }
+      return "Gold"
     } else {
       return this.client.resolveGem(input)
     }
