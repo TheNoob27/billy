@@ -15,7 +15,7 @@ class Billy extends Client {
         "GUILD_UPDATE",
 //      "GUILD_MEMBER_ADD",
         "GUILD_MEMBER_REMOVE",
-//       "GUILD_MEMBER_UPDATE",
+//      "GUILD_MEMBER_UPDATE",
         "GUILD_MEMBERS_CHUNK",
         "GUILD_INTEGRATIONS_UPDATE",
         "GUILD_ROLE_CREATE",
