@@ -22,21 +22,25 @@ module.exports = (client, message) => {
       
       if (requiredweek && !message.member.roles.has(demonslayer)) {
         message.member.addRole(demonslayer)
+        /*
         let embed = new RichEmbed()
         .setTitle("Congratulations")
         .setDescription("You have been in this server for over a week! This means you get the role <@&"+demonslayer+">!")
         .setColor("#aa0e0e")
         .setTimestamp()
         return message.channel.send(embed)
+        */
       }
       if (requiredmonth && !message.member.roles.has(gemcollector)) {
         message.member.addRole(gemcollector)
+        /*
         let embed = new RichEmbed()
         .setTitle("Congratulations")
         .setDescription("You have been in this server for ***over a month***! This means you get the role <@&"+gemcollector+">!")
         .setColor("#cdd389")
         .setTimestamp()
         return message.channel.send(embed)
+        */
       }
       
     }
