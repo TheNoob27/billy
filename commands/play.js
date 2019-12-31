@@ -295,7 +295,7 @@ function setup() {
   
   function end(game, alldied, quitted) {
     clearInterval(game.regen)
-    let enemyteam = game.team = "Humans" ? "Orcs" : "Humans"
+    let enemyteam = game.team == "Humans" ? "Orcs" : "Humans"
     game.players = players
    
     
