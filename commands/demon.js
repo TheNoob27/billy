@@ -118,7 +118,8 @@ if (!game && message.author.id != client.owner) return;
     
     
     let updatedmg = setInterval(() => {
-      //console.log(enemy.name + ": "+ enemy.hp)
+      if (game.players.length > 0) game.players[Math.floor(Math.random() * game.players.length)].hp -= 20
+      
       msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
