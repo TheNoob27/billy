@@ -79,8 +79,6 @@ module.exports = (client, message) => {
     return message.channel.send("Sorry, but I don't have the permission `EMBED LINKS`, therefor, I cannot function properly.")
   }
  
-  
-  const owner = config.owner
   const colors = {
     color: config.color,
     help: config.help,
@@ -127,7 +125,7 @@ module.exports = (client, message) => {
       
       return message.channel.send(help)
     } else
-	  command.run(client,message,args,colors,owner,prefix).catch(err => {   
+	  command.run(client,message,args,colors,prefix).catch(err => {   
       if (err.message.toString().includes("Missing Permissions")){
         client.users.get(owner).send(`An error occurred while trying to do the command \`${command.help.name}\` in guild \`${message.guild.name}\`, because I do not have required permissions. \nError message: \`${err.stack}\``)
         return message.channel.send("I seem to be missing permissions, please make sure I have the following. \n**EMBED LINKS\nMANAGE MESSAGES**")
