@@ -199,7 +199,7 @@ class Billy extends Client {
     return gem
   }
   
-  generateGem(legendaries, legendonly) {
+  generateGem(legendaries = false, legendonly = false) {
     let gem = {
       name: null,
       code: undefined,
@@ -207,10 +207,10 @@ class Billy extends Client {
     }
     
     
- let legends = this.gems.split(0, 5),
-     rares = this.gems.split(5, 4),
-     uncommon = this.gems.split(9, 6),
-     common = this.gems.split(14)
+ let legends = this.gems.slice(0, 5),
+     rares = this.gems.slice(5, 9),
+     uncommon = this.gems.slice(9, 14),
+     common = this.gems.slice(14)
 
     
  if (legendonly) {
