@@ -206,42 +206,41 @@ class Billy extends Client {
       islegendary: false
     }
     
-    
- let legends = this.gems.slice(0, 5),
-     rares = this.gems.slice(5, 9),
-     uncommon = this.gems.slice(9, 14),
-     common = this.gems.slice(14)
+    let legends = this.gems.slice(0, 5),
+        rares = this.gems.slice(5, 9),
+        uncommon = this.gems.slice(9, 14),
+        common = this.gems.slice(14)
 
     
- if (legendonly) {
-   gem.name = legends[Math.floor(Math.random() * legends.length)]
-   gem.islegendary = true
-   gem.code = gem.name.replace(/ /g, "").toLowerCase()
+    if (legendonly) {
+      gem.name = legends[Math.floor(Math.random() * legends.length)]
+      gem.islegendary = true
+      gem.code = gem.name.replace(/ /g, "").toLowerCase()
     
-   return gem;
- }
+      return gem;
+    }
  
- let gemchance = Math.random()
+    let gemchance = Math.random()
  
- if (legendaries) {
-   if (gemchance > 0.95) {
+    if (legendaries) {
+      if (gemchance > 0.95) {
      
-     gem.name = legends[Math.floor(Math.random() * legends.length)] // 5% chance
-     gem.islegendary = true
+      gem.name = legends[Math.floor(Math.random() * legends.length)] // 5% chance
+      gem.islegendary = true
      
-   } else if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 10% chance
-   else if (gemchance > 0.5) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 35% chance
-   else gem.name = common[Math.floor(Math.random() * common.length)] // 50% chance
+      } else if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 10% chance
+      else if (gemchance > 0.5) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 35% chance
+      else gem.name = common[Math.floor(Math.random() * common.length)] // 50% chance
    
- } else {
-   if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 15% chance
-   else if (gemchance > 0.5) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 35% chance
-   else gem.name = common[Math.floor(Math.random() * common.length)]// 50% chance
- }
+    } else {
+      if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 15% chance
+      else if (gemchance > 0.5) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 35% chance
+      else gem.name = common[Math.floor(Math.random() * common.length)]// 50% chance
+    }
     gem.code = gem.name.replace(/ /g, "").toLowerCase()
     
     return gem
-    }
+  }
 }
 
 module.exports = Billy

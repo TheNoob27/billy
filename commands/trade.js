@@ -1,6 +1,7 @@
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
 const { finduser } = require("../functions.js")
+
 class Trade extends Command {
   constructor(client) {
     super(client, {
