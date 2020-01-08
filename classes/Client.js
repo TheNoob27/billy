@@ -142,11 +142,11 @@ class Billy extends Client {
   addCooldown(id, time) {
       if (this.cooldowns.has(id)) return false;
       
-    this.cooldowns.ck.set(id, {
+    this.cooldowns.set(id, {
       id: id, 
       time: Date.now(),
       timer: setTimeout(() => {
-        this.cooldowns.ck.delete(id)
+        this.cooldowns.delete(id)
       }, time)
     })
     return true
@@ -170,46 +170,10 @@ class Billy extends Client {
       islegendary: false
     }
      
-    let gemlist = [
-      "Mithril",
-      "Demonite",
-      "Fury Stone",
-      "Spirit Shard",
-      "Dragon Bone",
-      "Red Diamond",
-      "Grandidierite",
-      "Poudretteite",
-      "Benitoite",
-      "Tanzanite",
-      "Alexandrite",
-      "Diamond",
-      "Sapphire",
-      "Ruby",
-      "Lapis Lazuli",
-      "Topaz",
-      "Garnet",
-      "Aquamarine",
-      "Spinel",
-      "Amber",
-      "Titanite",
-      "Tourmaline",
-      "Kunzite",
-      "Amethyst",
-      "Citrine",
-      "Peridot",
-      "Iolite",
-      "Onyx",
-      "Turquoise",
-      "Malachite",
-      "Feldspar",
-      "Jade",
-      "Nephrite",
-      "Olivine",
-      "Copal"
-  ]
-      for (var i in gemlist) {
-        if (gemlist[i].toLowerCase() == input) gem.name = gemlist[i]
-        else if (gemlist[i].split(" ")[0].toLowerCase() == input) gem.name = gemlist[i]
+    
+      for (var i in this.gems) {
+        if (this.gems[i].toLowerCase() == input) gem.name = this.gems[i]
+        else if (this.gems[i].split(" ")[0].toLowerCase() == input) gem.name = this.gems[i]
       }
     
     if (!gem.name) {
@@ -234,6 +198,50 @@ class Billy extends Client {
     
     return gem
   }
+  
+  generateGem(legendaries, legendonly) {
+    let gem = {
+      name: null,
+      code: undefined,
+      islegendary: false
+    }
+    
+    
+ let legends = this.gems.split(0, 5),
+     rares = this.gems.split(5, 4),
+     uncommon = this.gems.split(9, 6),
+     common = this.gems.split(14)
+
+    
+ if (legendonly) {
+   gem.name = legends[Math.floor(Math.random() * legends.length)]
+   gem.islegendary = true
+   gem.code = gem.name.replace(/ /g, "").toLowerCase()
+    
+   return gem;
+ }
+ 
+ let gemchance = Math.random()
+ 
+ if (legendaries) {
+   if (gemchance > 0.95) {
+     
+     gem.name = legends[Math.floor(Math.random() * legends.length)] // 5% chance
+     gem.islegendary = true
+     
+   } else if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 10% chance
+   else if (gemchance > 0.5) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 35% chance
+   else gem.name = common[Math.floor(Math.random() * common.length)] // 50% chance
+   
+ } else {
+   if (gemchance > 0.85) gem.name = rares[Math.floor(Math.random() * rares.length)] // 15% chance
+   else if (gemchance > 0.5) gem.name = uncommon[Math.floor(Math.random() * uncommon.length)] // 35% chance
+   else gem.name = common[Math.floor(Math.random() * common.length)]// 50% chance
+ }
+    gem.code = gem.name.replace(/ /g, "").toLowerCase()
+    
+    return gem
+    }
 }
 
 module.exports = Billy
