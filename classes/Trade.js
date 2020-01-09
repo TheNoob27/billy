@@ -24,4 +24,12 @@ class Trade {
     }
     return true
   }
+  
+  removeItem(item = {}, slot = 1) {
+    if (!item.name) return false;
+    let exists = this.items[slot].some(i => i.name == item.name)
+    if (!exists) return false;
+    item.amount = -item.amount
+    return this.addItem(item, slot)
+  }
 }
