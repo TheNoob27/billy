@@ -27,9 +27,9 @@ class TradeCMD extends Command {
       .setTitle("New Trade")
       .setColor(colors.color)
       .setDescription("Do you accept **" + message.author.tag + "**'s trade request?")
-    )
+    ).then(msg => {
     let filter = (r, u) => u.id == user.id && ["✅", "❌"].includes(r.emoji.name)
-    let collector = message.channel.createMessageCollector(filter, {time: 600000})
+    let collector = msg.createReactionCollector(filter, {time: 600000})
     let accepted = false
     collector.once("collect", r => {
       if (r.emoji == "✅") {
@@ -46,6 +46,7 @@ class TradeCMD extends Command {
         
       }
       return message.reply("They did not accept your request.")
+    })
     })
   }
 }
