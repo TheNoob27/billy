@@ -10,8 +10,7 @@ class Trade {
   }
   
   addItem(item = {}, slot = 1) {
-    if (!item.name) return false;
-    if (typeof slot == "number") slot = String(slot)
+    if (!item.name || !this.items[slot]) return false;
 
     if (item.name !== "Gold") {
       let exists = this.items[slot].some(i => i.name == item.name)
