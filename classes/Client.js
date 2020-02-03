@@ -184,6 +184,7 @@ class Billy extends Client {
       else if (input == "ben" || input == "beni") gem.name = "Benitoite"
       else if (input == "tanz") gem.name = "Tanzanite"
       else if (input == "aqua") gem.name = "Aquamarine"
+      else if (input == "lolite") gem.name = "Iolite"
     }
     
     if (!gem.name) return null;
