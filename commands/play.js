@@ -44,10 +44,9 @@ function setup() {
   .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
   .addField("Players", "​")
   message.channel.send(embed).then(async msg => {
-    await msg.react("⚔️")
+    ["⚔️", "⛔️", "✅", "❌"].forEach(async r => await msg.react(r))
     
-    await msg.react("✅")
-    
+    let stopped = false
     let filter = (r, user) => ["⚔️", "✅", "⛔️", "❌"].includes(r.emoji.name) && !user.bot
     let collector = msg.createReactionCollector(filter, {time: 300000})
     
@@ -56,7 +55,7 @@ function setup() {
       let user = r.users.last()
       
       if (r.emoji == "⚔️") {
-        let find = game.players.find(player => player.id == user.id)
+        let find = game.players.some(player => player.id == user.id)
         if (find) return;
         
         let level = client.fob.fetch(`${user.id}.level.level`) || 1
@@ -78,6 +77,15 @@ function setup() {
                  .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
                  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
                              )
+      } else if (r.emoji == "⛔️") {
+        let find = game.players.find(player => player.id == user.id)
+        if (!find) return;
+        game.players.splice(game.players.indexOf(find), 1)
+        game.playerlist.splice(game.playerlist.indexOf(find.id), 1)
+        message.channel.send(user.tag + ", you have been removed from the game.")
+      } else if (r.emoji == "❌") {
+        stopped = true
+        collector.stop()
       } else {
         if (user.id != message.author.id) return;
         if (game.players.length == 0) return;
@@ -87,6 +95,7 @@ function setup() {
     })
     
     collector.on("end", () => {
+      if (stopped) return message.channel.send("The game has been cancelled.")
       players = game.players
       
       let rounds = Math.ceil(Math.random() * 5) + 5
