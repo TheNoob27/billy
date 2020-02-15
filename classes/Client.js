@@ -200,11 +200,19 @@ class Billy extends Client {
     return gem
   }
   
-  generateGem(legendaries = false, legendonly = false) {
+  generateGem(legendaries = false, { legendonly, equalchance } = false) {
     let gem = {
       name: null,
       code: undefined,
       islegendary: false
+    }
+    
+    if (equalchance) {
+      gem.name = this.gems[Math.floor(Math.random() * this.gems.length)]
+      gem.code = gem.name.replace(/ /g, "").toLowerCase()
+      gem.islegendary = this.gems.slice(0, 5).includes(gem.name)
+      
+      return gem
     }
     
     let legends = this.gems.slice(0, 5),
