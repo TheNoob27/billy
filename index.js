@@ -24,7 +24,6 @@ client.on('ready', () => {
   console.log(`${client.user.username} is online!`);
   console.log(`Logged in as ${client.user.tag}`)
   client.user.setActivity("Field of Battle", {type: "PLAYING"});
-  client.channels.get("648154169219481600").fetchMessage("648164452297867305")
 });
 
 
