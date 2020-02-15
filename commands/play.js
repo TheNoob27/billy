@@ -45,6 +45,7 @@ function setup() {
   .addField("Players", "​")
   message.channel.send(embed).then(async msg => {
     await msg.react("⚔️")
+    
     await msg.react("✅")
     
     let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
