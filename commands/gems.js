@@ -62,6 +62,8 @@ class Gems extends Command {
       gems += "**"+gemlist[i] +"**: " +inv[code] + "\n"
       total += inv[code]
     }
+    
+    if (code == "spiritshard" || code == "benitoite") gems += "\n"
   }
   }
   
