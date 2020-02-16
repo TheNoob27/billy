@@ -15,7 +15,7 @@ class Shop extends Command {
   async run(client, message, args, colors) {
     let inventory = client.fob.get(message.author.id + ".inventory")
     if (!inventory.gems) inventory.gems = {}
-    let canBuy = (fn) => typeof fn == "number" ? inventory.gold >= fn ? " 🔒" : "" : fn(inventory) ? " 🔒" : ""
+    let canBuy = (fn) => typeof fn == "number" ? inventory.gold <= fn ? " 🔒" : "" : !fn(inventory) ? " 🔒" : ""
     
     let pages = [
       {
@@ -41,12 +41,21 @@ class Shop extends Command {
       {
         title: "Armour",
         description: "**__Eternal Inferno__**" + canBuy(inv => inv.gold >= 17000 && inv.gems.mithril > 0) + 
-        "\nExtra Health: 150 \nGold: 17,000 \nGems: Mithril" + 
+        "\nExtra Health: 200 \nGold: 17,000 \nGems: Mithril" + 
         
-        "**__Frost Guard Armour__**" + canBuy(inv => inv.gold >= 14000 && ["reddiamond", "alexandrite"].every(g => inv.gems[g] > 0)) + 
-        "\nExtra Health: 135 \nGold: 14,000 \nGems: Red Diamond, Alexandrite"+
+        "\n\n**__Frost Guard Armour__**" + canBuy(inv => inv.gold >= 14000 && ["reddiamond", "alexandrite"].every(g => inv.gems[g] > 0)) + 
+        "\nExtra Health: 190 \nGold: 14,000 \nGems: Red Diamond, Alexandrite"+
         
-        ""
+        "\n\n**__Emperor Armour__**" + canBuy(10000) +
+        "\nExtra Health: 170 \nGold: 10,000" +
+        
+        "\n\n**__Redcliff Elite Armour__**" + canBuy(5500) +
+        "\nExtra Health: 160 \nGold: 5,500" + 
+        
+        "\n\n**__Knight Armour__**" + canBuy(1500) +
+        "\nExtra Health: 110 \nGold: 1,500" +
+        
+        "\n\n**__Chain Armour__**" + canBuy(250)
       }
     ]
   }
