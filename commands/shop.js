@@ -37,6 +37,10 @@ class Shop extends Command {
         
         "\n\n**__Sharp Iron Sword__**" + canBuy(30) + 
         "\nDamage: 8 \nGold: 30"
+      },
+      {
+        title: "Armour",
+        description: "**____**"
       }
     ]
   }
