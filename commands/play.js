@@ -71,17 +71,23 @@ function setup() {
         
     
         
-        msg.edit(embed = new RichEmbed()
-                 .setColor(colors.color)
-                 .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
-                 .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
-                             )
+        msg.edit(
+          embed = new RichEmbed()
+          .setColor(colors.color)
+          .setDescription("A new game is starting! React with ⚔️ to join and react with ➖ to leave! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes, or react with 🛑 to cancel and not start the game.")
+          .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
+        )
       } else if (r.emoji == "➖") {
         let find = game.players.find(player => player.id == user.id)
         if (!find) return;
         game.players.splice(game.players.indexOf(find), 1)
         game.playerlist.splice(game.playerlist.indexOf(find.id), 1)
-        message.channel.send(user.tag + ", you have been removed from the game.")
+        msg.edit(
+          embed = new RichEmbed()
+          .setColor(colors.color)
+          .setDescription("A new game is starting! React with ⚔️ to join and react with ➖ to leave! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes, or react with 🛑 to cancel and not start the game.")
+          .addField("Players", game.players[0] ? "**"+ game.players.map(p => p.tag).join("\n") +"**" : "​")
+        )
       } else if (r.emoji == "🛑") {
         stopped = true
         collector.stop()
