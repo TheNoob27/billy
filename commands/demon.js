@@ -277,7 +277,7 @@ if (!game && message.author.id != client.owner) return;
       .setTitle("Gem Rain")
       .setDescription("You have spotted a gem! Do you want to collect it? You have 10 seconds to decide.")
       .setColor("RANDOM")
-      .setFooter(jokes[Math.floor(Math.random() * jokes.length)])
+      .setFooter(jokes[Math.floor(Math.random() * jokes.length)] + " - Gem " + (26 - gems.length) + "/25")
       
       user.send(embed).then(async msg => {
        await msg.react("✅");
