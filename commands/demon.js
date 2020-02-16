@@ -118,7 +118,29 @@ if (!game && message.author.id != client.owner) return;
     
     
     let updatedmg = setInterval(() => {
-      if (game.players.length > 0) game.players[Math.floor(Math.random() * game.players.length)].hp -= 20
+      if (game.players.length > 0) {
+        let player = game.players[Math.floor(Math.random() * game.players.length)]
+        player.hp -= 10
+        if (player.hp <= 0) {
+          game.players.splice(game.players.indexOf(player), 1)
+          game.playerlist.splice(game.playerlist.indexOf(player.id), 1)
+          setTimeout(() => {
+              let level = client.fob.fetch(`${player.id}.level.level`) || 1
+              let dmg = client.fob.fetch(`${player.id}.inventory.sword.damage`) || 11
+              let push = {
+                id: player.id,
+                level: level,
+                hp: (18 * (level - 1) + 100),
+                tag: player.tag,
+                damage: dmg,
+                maxhp: (18 * (level - 1) + 100)
+              }
+              game.players.push(push)
+              game.playerlist.push(push.id)
+              
+            }, 7000)
+        }
+      }
       
       msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
@@ -163,15 +185,14 @@ if (!game && message.author.id != client.owner) return;
             game.playerlist.splice(i, 1)
             setTimeout(() => {
               let level = client.fob.fetch(`${targetplayer.id}.level.level`) || 1
-        let dmg = client.fob.fetch(`${targetplayer.id}.inventory.sword.damage`) || 11
-        
+              let dmg = client.fob.fetch(`${targetplayer.id}.inventory.sword.damage`) || 11
               let push = {
                 id: targetplayer.id,
-          level: level,
-          hp: (18 * (level - 1) + 100),
-          tag: targetplayer.tag,
-          damage: dmg,
-          maxhp: (18 * (level - 1) + 100)
+                level: level,
+                hp: (18 * (level - 1) + 100),
+                tag: targetplayer.tag,
+                damage: dmg,
+                maxhp: (18 * (level - 1) + 100)
               }
               game.players.push(push)
               game.playerlist.push(push.id)
