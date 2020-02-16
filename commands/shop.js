@@ -1,7 +1,7 @@
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
 
-class Play extends Command {
+class Shop extends Command {
   constructor(client) {
     super(client, {
       name: "shop",
@@ -42,4 +42,4 @@ class Play extends Command {
   }
 }
 
-module.exports
+module.exports = Shop

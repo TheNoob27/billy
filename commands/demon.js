@@ -270,7 +270,8 @@ if (!game && message.author.id != client.owner) return;
                   "I better get this gem 🤞",
                   "I think I should just leave it 😬",
                   "Oooh this looks shiny 🤩",
-                  "Please be a red, please be a reddd 🙏"]
+                  "Please be a red, please be a reddd 🙏",
+                  "I don't think I should collect this gem... 😳"]
       
       let embed = new RichEmbed()
       .setTitle("Gem Rain")
@@ -309,7 +310,9 @@ if (!game && message.author.id != client.owner) return;
         collector.on("end", () => {
           if (denied || toolong) {
             let reason = denied ? "The person who was going for this gem changed their mind, so you got it." : " The person who was going for this gem was too slow, so you got it."
-            let newuser = game.playerlist.length > 1 ? client.users.get(game.playerlist.filter(u => u != user.id)[Math.floor(Math.random() * (game.playerlist.length - 1))]) : client.users.get(game.playerlist[Math.floor(Math.random() * game.playerlist.length)])
+            let id = game.playerlist.filter(u => u != user.id)[Math.floor(Math.random() * (game.playerlist.length - 1))]
+            let newuser = game.playerlist.length > 1 ? client.users.get(id) : client.users.get(game.playerlist[Math.floor(Math.random() * game.playerlist.length)])
+            console.log(id, client.users.has(id))
             
             let gem = gems[0]
             client.fob.add(`${newuser.id}.inventory.gems.${gem.code}`, 1)
