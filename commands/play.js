@@ -41,15 +41,14 @@ function setup() {
   
   let embed = new RichEmbed()
   .setColor(colors.color)
-  .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
+  .setDescription("A new game is starting! React with ⚔️ to join and react with ➖ to leave! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes, or react with 🛑 to cancel and not start the game.")
   .addField("Players", "​")
   message.channel.send(embed).then(async msg => {
-    ["⚔️", "⛔️", "✅", "❌"].forEach(async r => await msg.react(r))
+    ["⚔️", "➖", "✅", "🛑"].forEach(async r => await msg.react(r))
     
     let stopped = false
-    let filter = (r, user) => ["⚔️", "✅", "⛔️", "❌"].includes(r.emoji.name) && !user.bot
+    let filter = (r, user) => ["⚔️", "➖", "✅", "🛑"].includes(r.emoji.name) && !user.bot
     let collector = msg.createReactionCollector(filter, {time: 300000})
-    
     
     collector.on("collect", r => {
       let user = r.users.last()
@@ -77,13 +76,13 @@ function setup() {
                  .setDescription("A new game is starting! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes.")
                  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
                              )
-      } else if (r.emoji == "⛔️") {
+      } else if (r.emoji == "➖") {
         let find = game.players.find(player => player.id == user.id)
         if (!find) return;
         game.players.splice(game.players.indexOf(find), 1)
         game.playerlist.splice(game.playerlist.indexOf(find.id), 1)
         message.channel.send(user.tag + ", you have been removed from the game.")
-      } else if (r.emoji == "❌") {
+      } else if (r.emoji == "🛑") {
         stopped = true
         collector.stop()
       } else {
