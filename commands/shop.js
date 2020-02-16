@@ -40,7 +40,13 @@ class Shop extends Command {
       },
       {
         title: "Armour",
-        description: "**____**"
+        description: "**__Eternal Inferno__**" + canBuy(inv => inv.gold >= 17000 && inv.gems.mithril > 0) + 
+        "\nExtra Health: 150 \nGold: 17,000 \nGems: Mithril" + 
+        
+        "**__Frost Guard Armour__**" + canBuy(inv => inv.gold >= 14000 && ["reddiamond", "alexandrite"].every(g => inv.gems[g] > 0)) + 
+        "\nExtra Health: 135 \nGold: 14,000 \nGems: Red Diamond, Alexandrite"+
+        
+        ""
       }
     ]
   }
