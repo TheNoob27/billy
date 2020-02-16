@@ -15,9 +15,12 @@ class Shop extends Command {
   async run(client, message, args, colors) {
     let inventory = client.fob.get(message.author.id + ".inventory")
     if (!inventory.gems) inventory.gems = {}
-    let canBuy = (fn) => typeof fn == "number" ? inventory.gold <= fn ? " 🔒" : "" : !fn(inventory) ? " 🔒" : ""
+    let canBuy = (fn) => typeof fn == "number" ? inventory.gold < fn ? " 🔒" : "" : !fn(inventory) ? " 🔒" : ""
     
-    let pages = [
+    let embed = new RichEmbed()
+    .setTitle("Shop")
+    .setColor(colors.help);
+    [
       {
         title: "Swords",
         "description": "**__Heavens Edge__**"+ canBuy(inv => inv.gold >= 100000 && ["mithril", "demonite", "furystone", "spiritshard", "dragonbone"].every(g => inv.gems[g] > 0)) +
@@ -55,9 +58,12 @@ class Shop extends Command {
         "\n\n**__Knight Armour__**" + canBuy(1500) +
         "\nExtra Health: 110 \nGold: 1,500" +
         
-        "\n\n**__Chain Armour__**" + canBuy(250)
+        "\n\n**__Chain Armour__**" + canBuy(250) +
+        "\nExtra Health: 50 \n Gold: 250"
       }
-    ]
+    ].map(f => embed.addField(f.title, f.description, true))
+    
+    return message.channel.send(embed)
   }
 }
 
