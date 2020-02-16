@@ -269,8 +269,12 @@ class Billy extends Client {
       item.cost = 30
       item.value = 8
     } else if (item.name == "Eternal Inferno") {
-      item.cost = 325
-      item.value = 13
+      item.cost = 17000
+      item.value = 200
+      item.gemsneeded = ["mithril"]
+    } else if (item.name == "Frost Guard Armour") {
+      item.cost = 14000
+      item.value = 222222
     } 
   }
   
