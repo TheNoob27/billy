@@ -46,14 +46,14 @@ if (!game && message.author.id != client.owner) return;
         if (find) return;
         
         let level = client.fob.fetch(`${user.id}.level.level`) || 1
-        let dmg = client.fob.fetch(`${user.id}.inventory.sword.damage`) || 11
+        let inv = client.fob.fetch(`${user.id}.inventory`)
         game.players.push({
           id: user.id,
           level: level,
-          hp: (18 * (level - 1) + 100),
+          hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
           tag: user.tag,
-          damage: dmg,
-          maxhp: (18 * (level - 1) + 100)
+          damage: inv.sword ? inv.sword.damage || 8 : 8,
+          maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
         })
         game.playerlist.push(user.id)
         
@@ -126,14 +126,14 @@ if (!game && message.author.id != client.owner) return;
           game.playerlist.splice(game.playerlist.indexOf(player.id), 1)
           setTimeout(() => {
               let level = client.fob.fetch(`${player.id}.level.level`) || 1
-              let dmg = client.fob.fetch(`${player.id}.inventory.sword.damage`) || 11
+              let inv = client.fob.fetch(`${player.id}.inventory`)
               let push = {
                 id: player.id,
                 level: level,
-                hp: (18 * (level - 1) + 100),
+                hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
                 tag: player.tag,
-                damage: dmg,
-                maxhp: (18 * (level - 1) + 100)
+                damage: inv.sword ? inv.sword.damage || 8 : 8,
+                maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
               }
               game.players.push(push)
               game.playerlist.push(push.id)
@@ -184,15 +184,17 @@ if (!game && message.author.id != client.owner) return;
             game.players.splice(i, 1)
             game.playerlist.splice(i, 1)
             setTimeout(() => {
-              let level = client.fob.fetch(`${targetplayer.id}.level.level`) || 1
-              let dmg = client.fob.fetch(`${targetplayer.id}.inventory.sword.damage`) || 11
+              let player = targetplayer
+              
+              let level = client.fob.fetch(`${player.id}.level.level`) || 1
+              let inv = client.fob.fetch(`${player.id}.inventory`)
               let push = {
-                id: targetplayer.id,
+                id: player.id,
                 level: level,
-                hp: (18 * (level - 1) + 100),
-                tag: targetplayer.tag,
-                damage: dmg,
-                maxhp: (18 * (level - 1) + 100)
+                hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
+                tag: player.tag,
+                damage: inv.sword ? inv.sword.damage || 8 : 8,
+                maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
               }
               game.players.push(push)
               game.playerlist.push(push.id)
@@ -230,16 +232,15 @@ if (!game && message.author.id != client.owner) return;
           message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
         
             setTimeout(() => {
-              let level = client.fob.fetch(`${current.id}.level.level`) || 1
-        let dmg = client.fob.fetch(`${current.id}.inventory.sword.damage`) || 11
-        
+              let level = client.fob.fetch(`${player.id}.level.level`) || 1
+              let inv = client.fob.fetch(`${player.id}.inventory`)
               let push = {
-                id: current.id,
-          level: level,
-          hp: (18 * (level - 1) + 100),
-          tag: current.tag,
-          damage: dmg,
-          maxhp: (18 * (level - 1) + 100)
+                id: player.id,
+                level: level,
+                hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
+                tag: player.tag,
+                damage: inv.sword ? inv.sword.damage || 8 : 8,
+                maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
               }
               game.players.push(push)
               game.playerlist.push(push.id)

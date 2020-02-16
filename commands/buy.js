@@ -14,7 +14,7 @@ class Buy extends Command {
   
   async run(client, message, args, colors) {
     if (!args[0]) return client.commands.get("shop").run(client, message, args, colors)
-    let inventory = inventory = client.fob.get(message.author.id + ".inventory")
+    let inventory = client.fob.get(message.author.id + ".inventory")
     if (!inventory.gems) inventory.gems = {}
     if (!inventory.armour) inventory.armour = {}
     if (!inventory.sword) inventory.sword = {}
@@ -32,12 +32,29 @@ class Buy extends Command {
     
     if (canBuy(item)) {
       client.fob.subtract(message.author.id + ".inventory.gold", item.cost)
+      
+      if (client.items.swords.includes(item.name)) {
+        client.fob.set(message.author.id + ".inventory.sword", {name: item.name, damage: item.value})
+      } else {
+        client.fob.set(message.author.id + ".inventory.armour", {name: item.name, health: item.value})
+      }
+      
       let embed = new RichEmbed()
       .setTitle("Purchase Successful")
       .setDescription("Successfully bought **" + item.name + "** for " + item.cost.toLocaleString() + " gold!")
       .setColor(colors.color)
+      
+      return message.channel.send(item)
     } else {
       let why = reason(item)
+      
+      let embed = new RichEmbed()
+      .setTitle("Purchase Failed")
+      .setDescription("Purchase of **" + item.name + "** was not successful.")
+      .addField("Reason", why || "Unknown")
+      .setColor(colors.error)
+      
+      return message.channel.send(embed)
     }
   }
 }

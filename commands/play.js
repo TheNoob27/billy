@@ -58,15 +58,15 @@ function setup() {
         if (find) return;
         
         let level = client.fob.fetch(`${user.id}.level.level`) || 1
-        let dmg = client.fob.fetch(`${user.id}.inventory.sword.damage`) || 11
-        game.players.push({
-          id: user.id,
-          level: level,
-          hp: (18 * (level - 1) + 100),
-          tag: user.tag,
-          damage: dmg,
-          maxhp: (18 * (level - 1) + 100)
-        })
+              let inv = client.fob.fetch(`${user.id}.inventory`)
+              let push = {
+                id: user.id,
+                level: level,
+                hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
+                tag: user.tag,
+                damage: inv.sword ? inv.sword.damage || 8 : 8,
+                maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
+              }
         game.playerlist.push(user.id)
         
     
