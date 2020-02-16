@@ -192,6 +192,7 @@ class Billy extends Client {
       for (var i in this.gems) {
         if (this.gems[i].toLowerCase() == input) gem.name = this.gems[i]
         else if (this.gems[i].split(" ")[0].toLowerCase() == input) gem.name = this.gems[i]
+        else if (this.gems[i].replace(/ /g, "").toLowerCase() == input) gem.name = this.gems[i]
       }
     
     if (!gem.name) {
