@@ -344,7 +344,7 @@ function setup() {
         setTimeout(() => {
         if (Math.random() < 14.3) {
           game.playerlist = game.players.map(p => p.id)
-          require("./demon.js").run(client, message, args, colors, "", game)
+          client.commands.get("demon").run(client, message, args, colors, "", game)
         }
         }, Math.random() * 4000 + 5000)
       } else return
