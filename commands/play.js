@@ -154,9 +154,7 @@ function setup() {
     let enemydied = false
     let helped = []
     
-    
-    let updatedmg = setInterval(() => {
-      //console.log(enemy.name + ": "+ enemy.hp)
+    let updatedmg = setInterval( () => {
       msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
     .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
