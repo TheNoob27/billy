@@ -309,7 +309,7 @@ if (!game && message.author.id != client.owner) return;
         collector.on("end", () => {
           if (denied || toolong) {
             let reason = denied ? "The person who was going for this gem changed their mind, so you got it." : " The person who was going for this gem was too slow, so you got it."
-            let newuser = game.playerlist.length > 1 ? client.users.get(game.playerlist.filter(u => u != user.id)[Math.floor(Math.random() * game.playerlist.length)]) : client.users.get(game.playerlist[Math.floor(Math.random() * game.playerlist.length)])
+            let newuser = game.playerlist.length > 1 ? client.users.get(game.playerlist.filter(u => u != user.id)[Math.floor(Math.random() * game.playerlist.length - 1)]) : client.users.get(game.playerlist[Math.floor(Math.random() * game.playerlist.length)])
             
             let gem = gems[0]
             client.fob.add(`${newuser.id}.inventory.gems.${gem.code}`, 1)
