@@ -121,9 +121,12 @@ if (!game && message.author.id != client.owner) return;
       if (game.players.length > 0) {
         let player = game.players[Math.floor(Math.random() * game.players.length)]
         player.hp -= 10
+        if (client.fob.fetch(player.id + ".inventory.armour.name") == "Eternal Inferno") enemy.hp -= 10 * 0.15
+        
         if (player.hp <= 0) {
           game.players.splice(game.players.indexOf(player), 1)
           game.playerlist.splice(game.playerlist.indexOf(player.id), 1)
+          message.channel.send("**" +player.tag+"** died! They respawn in 7 seconds...")
           setTimeout(() => {
               let level = client.fob.fetch(`${player.id}.level.level`) || 1
               let inv = client.fob.fetch(`${player.id}.inventory`)
@@ -176,8 +179,9 @@ if (!game && message.author.id != client.owner) return;
         let targetplayer = target.player
         
         target.player.hp -= enemy.damage
+        if (client.fob.fetch(target.player.id + ".inventory.armour.name") == "Eternal Inferno") enemy.hp -= enemy.damage * 0.15
       if (target.player.hp <= 0) {
-        message.channel.send("**"+player.tag+"** died! They respawn in 7 seconds..")
+        message.channel.send("**"+target.player.tag+"** died! They respawn in 7 seconds..")
         for (var i = 0; i < game.playerlist.length; i++) {
           if (game.playerlist[i] == target.player.id) {
             

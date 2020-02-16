@@ -187,6 +187,8 @@ function setup() {
       
       if (Math.random() > 0.5) {
         player.hp -= enemy.damage
+        if (client.fob.fetch(player.id + ".inventory.armour.name") == "Eternal Inferno") enemy.hp -= enemy.damage * 0.15
+        
       if (player.hp <= 0) {
         message.channel.send("**"+player.tag+"** died!")
         for (var i = 0; i < game.players.length; i++) {
@@ -410,6 +412,8 @@ function setup() {
       
       if (Math.random() > 0.5) {
         player.hp -= enemy.damage
+        if (client.fob.fetch(player.id + ".inventory.armour.name") == "Eternal Inferno") enemy.hp -= enemy.damage * 0.15
+        
       if (player.hp <= 0) {
         message.channel.send("**"+player.tag+"** died!")
         for (var i = 0; i < game.players.length; i++) {

@@ -24,7 +24,7 @@ class Buy extends Command {
     let canBuy = item => inventory.gold >= item.cost && item.gemsneeded.every(g => inventory.gems[g] > 0) && (inventory.sword.name !== item.name && inventory.armour.name !== item.name)
     let reason = item => 
     inventory.gold < item.cost ? "You do not have enough gold to purchase this item. You need " + (item.cost - inventory.gold).toLocaleString() + " more gold." :
-    item.gemsneeded.every(g => inventory.gems[g] <= 0) ? "You do not have the required gems to purchase this item. Gems required: "+item.gemsneeded.map(g => "**" + client.resolveGem(g).name + "**, ").join("") :
+    !item.gemsneeded.every(g => inventory.gems[g] > 0) ? "You do not have the required gems to purchase this item. Gems required: "+item.gemsneeded.map(g => "**" + client.resolveGem(g).name + "**, ").join("") :
     "You already own this item."
     
     let item = client.resolveItem(args[0])
@@ -44,7 +44,7 @@ class Buy extends Command {
       .setDescription("Successfully bought **" + item.name + "** for " + item.cost.toLocaleString() + " gold!")
       .setColor(colors.color)
       
-      return message.channel.send(item)
+      return message.channel.send(embed)
     } else {
       let why = reason(item)
       
