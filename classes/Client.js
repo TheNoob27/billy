@@ -218,21 +218,39 @@ class Billy extends Client {
     return gem
   }
   
-  resolveSword(input = "") {
+  resolveItem(input = "", type = 0) {
     if (!input) return null
     input = input.toLowerCase()
     
-    let swords = this.items.swords
-    let sword = {
+    let items = type == 0 ? this.items.swords.concat(this.items.armour) : type == 1 ? this.items.swords : this.items.armour
+    let item = {
       name: null,
       cost: 0,
       gemsneeded: [],
-      damage: 0
+      value: 0
     }
     
-    for (let i in swords) {
-      if (swords[i].toLowerCase() == input) sword.name = swords[i]
-      else if (swords[i].split(" ")[0].toLowerCase() == input.split(" ")[0])
+    for (let i in items) {
+      if (items[i].toLowerCase() == input) item.name = items[i]
+      else if (items[i].split(" ")[0].toLowerCase() == input.split(" ")[0]) item.name = items[i]
+    }
+    
+    if (!item.name) {
+      if (["heaven's", "heaven's edge"].includes(input)) item.name = "Heavens Edge"
+      else if (input == "katana") item.name = "Power Katana"
+      else if (["fine steel", "steel"].includes(input)) item.name = "Fine Steel Sword"
+      else if (["iron", "sharp iron"].includes(input)) item.name = "Sharp Iron Sword"
+      
+      else if (input == "inferno") item.name = "Eternal Inferno"
+      else if (input == "frost guard") item.name = "Frost Guard Armour"
+      else if (["emperor's armour", "emperor's"].includes(input)) item.name = "Emperor Armour"
+    }
+    
+    if (!item.name) return null
+    
+    if (item.name == "Heavens Edge") {
+      item.cost == 100000
+      item.
     }
   }
   
