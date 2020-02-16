@@ -107,9 +107,15 @@ class Billy extends Client {
         "Fine Steel Sword",
         "Sharp Iron Sword"
       ],
-      armour: []
-
-}
+      armour: [
+        "Eternal Inferno",
+        "Frost Guard Armour",
+        "Emperor Armour", 
+        "Redcliff Elite Armour",
+        "Knight Armour",
+        "Chain Armour"
+      ]
+    }
     
     return this
   }
@@ -212,13 +218,21 @@ class Billy extends Client {
     return gem
   }
   
-  resolveItem(input = "") {
+  resolveSword(input = "") {
     if (!input) return null
+    input = input.toLowerCase()
     
-    let item = {
+    let swords = this.items.swords
+    let sword = {
       name: null,
       cost: 0,
-      gemsneeded: []
+      gemsneeded: [],
+      damage: 0
+    }
+    
+    for (let i in swords) {
+      if (swords[i].toLowerCase() == input) sword.name = swords[i]
+      else if (swords[i].split(" ")[0].toLowerCase() == input.split(" ")[0])
     }
   }
   
