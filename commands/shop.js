@@ -24,7 +24,7 @@ class Shop extends Command {
       {
         title: "Swords",
         "description": "**__Heavens Edge__**"+ canBuy(inv => inv.gold >= 100000 && ["mithril", "demonite", "furystone", "spiritshard", "dragonbone"].every(g => inv.gems[g] > 0)) +
-        "\nDamage: 60 \nGold: 100,000 \nGems: All" +
+        "\nDamage: 30 \nGold: 100,000 \nGems: All \nBonus: Smites the enemy, dealing an additional 25 damage." +
         
         "\n\n**__Pure Energy__**" + canBuy(inv => inv.gold >= 15000 && inv.gems.demonite > 0) +
         "\nDamage: 24 \nGold: 15,000 \nGems: Demonite" + 
@@ -44,7 +44,7 @@ class Shop extends Command {
       {
         title: "Armour",
         description: "**__Eternal Inferno__**" + canBuy(inv => inv.gold >= 17000 && inv.gems.mithril > 0) + 
-        "\nExtra Health: 200 \nGold: 17,000 \nGems: Mithril" + 
+        "\nExtra Health: 200 \nGold: 17,000 \nGems: Mithril \nBonus: Reflects 15% of the enemies damage back to them." + 
         
         "\n\n**__Frost Guard Armour__**" + canBuy(inv => inv.gold >= 14000 && ["reddiamond", "alexandrite"].every(g => inv.gems[g] > 0)) + 
         "\nExtra Health: 190 \nGold: 14,000 \nGems: Red Diamond, Alexandrite"+

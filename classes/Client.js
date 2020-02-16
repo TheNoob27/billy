@@ -250,7 +250,7 @@ class Billy extends Client {
     
     if (item.name == "Heavens Edge") {
       item.cost = 100000
-      item.value = 60
+      item.value = 55
       item.gemsneeded = ["mithril", "demonite", "furystone", "spiritshard", "dragonbone"]
     } else if (item.name == "Pure Energy") {
       item.cost = 15000
@@ -274,8 +274,23 @@ class Billy extends Client {
       item.gemsneeded = ["mithril"]
     } else if (item.name == "Frost Guard Armour") {
       item.cost = 14000
-      item.value = 222222
+      item.value = 190
+      item.gemsneeded = ["reddiamond", "alexandrite"]
+    } else if (item.name == "Emperor Armour") {
+      item.cost = 10000
+      item.value = 170
+    } else if (item.name == "Redcliff Elite Armour") {
+      item.cost = 5500
+      item.value = 160
+    } else if (item.name == "Knight Armour") {
+      item.cost = 1500
+      item.value = 110
+    } else if (item.name == "Chain Armour") {
+      item.cost = 250
+      item.value = 50
     } 
+    
+    return item
   }
   
   generateGem(legendaries = false, { legendonly, equalchance } = false) {
