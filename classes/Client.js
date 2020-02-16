@@ -98,6 +98,18 @@ class Billy extends Client {
       "Copal"
   ]
     
+    this.items = {
+      swords: [
+        "Heavens Edge",
+        "Pure Energy",
+        "Ice Blade", 
+        "Power Katana",
+        "Fine Steel Sword",
+        "Sharp Iron Sword"
+      ],
+      armour: []
+
+}
     
     return this
   }
@@ -198,6 +210,16 @@ class Billy extends Client {
       "Dragon Bone"].includes(gem.name)) gem.islegendary = true
     
     return gem
+  }
+  
+  resolveItem(input = "") {
+    if (!input) return null
+    
+    let item = {
+      name: null,
+      cost: 0,
+      gemsneeded: []
+    }
   }
   
   generateGem(legendaries = false, { legendonly, equalchance } = false) {
