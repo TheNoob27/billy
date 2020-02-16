@@ -36,7 +36,7 @@ class Shop extends Command {
         "\nDamage: 11 \nGold: 125" + 
         
         "\n\n**__Sharp Iron Sword__**" + canBuy(30) + 
-        "\nDamage: "
+        "\nDamage: 8 \nGold: 30"
       }
     ]
   }
