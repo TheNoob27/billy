@@ -249,9 +249,29 @@ class Billy extends Client {
     if (!item.name) return null
     
     if (item.name == "Heavens Edge") {
-      item.cost == 100000
-      item.
-    }
+      item.cost = 100000
+      item.value = 60
+      item.gemsneeded = ["mithril", "demonite", "furystone", "spiritshard", "dragonbone"]
+    } else if (item.name == "Pure Energy") {
+      item.cost = 15000
+      item.value = 24
+      item.gemsneeded = ["demonite"]
+    } else if (item.name == "Ice Blade") {
+      item.cost = 600
+      item.value = 15
+    } else if (item.name == "Power Katana") {
+      item.cost = 325
+      item.value = 13
+    } else if (item.name == "Fine Steel Sword") {
+      item.cost = 125
+      item.value = 11
+    } else if (item.name == "Sharp Iron Sword") {
+      item.cost = 30
+      item.value = 8
+    } else if (item.name == "Eternal Inferno") {
+      item.cost = 325
+      item.value = 13
+    } 
   }
   
   generateGem(legendaries = false, { legendonly, equalchance } = false) {
