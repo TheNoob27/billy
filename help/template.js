@@ -1,12 +1,20 @@
-const Discord = require('discord.js')
+const { RichEmbed } = require("discord.js")
+const Command = require("../classes/Command.js")
 
-module.exports.run = async (client, message, args, colors) => {
+class command extends Command {
+  constructor(client) {
+    super(client, {
+      name: "",
+      aliases: [],
+      description: "",
+      usage: `b!`,
+      category: ""
+    })
+  }
+  
+  async run(client, message, args, colors) {
+    
+  }
+}
 
-}
-module.exports.help = {
-  name: "",
-  aliases: [],
-  description: "",
-  usage: `b!`,
-  category: ""
-}
+module.exports = command

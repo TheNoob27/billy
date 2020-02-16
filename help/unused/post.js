@@ -5,10 +5,11 @@ class Post extends Command {
   constructor(client) {
     super(client, {
       name: "post",
-  aliases: ["postlink", "postfarm"],
-  description: "Post a demon farm link.",
-  usage: `b!post <link> (custom message)`,
-  category: "FOB"
+      aliases: ["postlink", "postfarm"],
+      description: "Post a demon farm link.",
+      usage: `b!post <link> (custom message)`,
+      category: "FOB",
+      cooldown: 300000
     })
   }
   
