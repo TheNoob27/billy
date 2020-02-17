@@ -49,6 +49,17 @@ class Play extends Command {
           if (user.id !== message.author.id) return;
           return collector.stop("cancel")
         }
+        
+        msg.edit(
+          new RichEmbed()
+          .setColor(colors.color)
+          .setDescription("A new game is starting! React with ⚔️ to join and react with ➖ to leave! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes, or react with 🛑 to cancel and not start the game.")
+          .addField("Players", "**​"+ game.players.map(p => p.tag).join("\n") +"**")
+        )
+      })
+      
+      collector.on("end", reason => {
+        if (reason == "cancel") return message.channel.send("The game has been cancelled.")
       })
     })
   }
