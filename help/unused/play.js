@@ -1,6 +1,7 @@
 const { getgem, addxp } = require("../fobfunctions.js")
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
+const Game = require("../classes/Game.js")
 
 class Play extends Command {
   constructor(client) {
@@ -16,6 +17,6 @@ class Play extends Command {
   }
   
   async run(client, message, args, colors) {
-    
+    let game = new Game(client)
   }
 }
