@@ -17,7 +17,7 @@ module.exports = class Game {
   }
   
   cachePlayers() {
-    this.playerCache = this.players
+    this.playerCache = this.players.clone()
     return this
   }
   
