@@ -45,7 +45,7 @@ module.exports = class Game {
   removePlayer(user) {
     this.players.delete(user.id)
     
-    if (this.collector) {
+    if (this.collector && this.enemy) {
       if (this.players.size <= 0) return this.collector.stop("alldead")
     }
     return this

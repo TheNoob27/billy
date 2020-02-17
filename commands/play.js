@@ -89,6 +89,7 @@ function setup() {
           .setDescription("A new game is starting! React with ⚔️ to join and react with ➖ to leave! \n"+message.author.username+", React with ✅ to start, but the game will start automatically in 5 minutes, or react with 🛑 to cancel and not start the game.")
           .addField("Players", game.players[0] ? "**"+ game.players.map(p => p.tag).join("\n") +"**" : "​")
         )
+        
       } else if (r.emoji == "🛑") {
         stopped = true
         collector.stop()

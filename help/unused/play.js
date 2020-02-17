@@ -35,7 +35,21 @@ class Play extends Command {
       let filter = (r, user) => ["⚔️", "➖", "✅", "🛑"].includes(r.emoji.name) && !user.bot
       let collector = msg.createReactionCollector(filter, {time: 300000})
       
-      collector.on("collect", )
+      collector.on("collect", (r, user) => {
+        if (r.emoji == options[0]) {
+          if (game.players.has(user.id)) return;
+          game.addPlayer(user)
+        } else if (r.emoji == options[1]) {
+          if (!game.players.has(user.id)) return;
+          game.removePlayer(user)
+        } else if (r.emoji == options[2]) {
+          if (user.id !== message.author.id || game.players.size >= 0) return;
+          return collector.stop("start")
+        } else {
+          if (user.id !== message.author.id) return;
+          return collector.stop("cancel")
+        }
+      })
     })
   }
 }
