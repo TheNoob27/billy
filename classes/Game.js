@@ -39,13 +39,13 @@ class Game {
     this.players.delete(user.id)
     
     if (this.collector) {
-      if (this.players.size <= 0) return this.collector.stop("playersdead")
+      if (this.players.size <= 0) return this.collector.stop("alldead")
     }
     return this
   }
   
   respawnPlayer(user, time = 7000) {
-    this.players.delete(user.id)
+    if (this.players.has(user.id)) this.players.delete(user.id)
     setTimeout(() => {
       this.addPlayer(user)
     }, time)
