@@ -1,6 +1,6 @@
 const { Collection } = require("discord.js")
 
-class Game {
+module.exports = class Game {
   constructor(client) {
     this.client = client
     
@@ -12,11 +12,13 @@ class Game {
     this.regen = null
     this.collector = null
     this.ended = false
+    
+    return this
   }
   
   addPlayer(user) {
     let data = this.client.fob.fetch(user.id);
-    let inv = data.inv || {}
+    let inv = data.inventory || {}
     let level = data.level || {}
     let sword = inv.sword || {}
     let armour = inv.armour || {}
@@ -25,9 +27,9 @@ class Game {
       id: user.id,
       tag: user.tag,
       level: level.level,
-      damage: inv.sword.damage || 8,
-      hp: (18 * (level - 1) + 100) + (inv.armour.health || 0),
-      maxhp: (18 * (level - 1) + 100) + (inv.armour.health || 0),
+      damage: sword.damage || 8,
+      hp: (18 * (level - 1) + 100) + (armour.health || 0),
+      maxhp: (18 * (level - 1) + 100) + (armour.health || 0),
       armour: armour
     }
     
