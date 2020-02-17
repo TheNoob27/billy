@@ -170,4 +170,5 @@ module.exports = class Game {
     
     return this.enemy
   }
+  
 }

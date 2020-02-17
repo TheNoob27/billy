@@ -101,7 +101,17 @@ class Play extends Command {
           
           if (r.emoji == "⚔️") {
             game.attackEnemy(player)
-            if (collector.ended) return;
+            if (collector.ended) {
+              clearInterval(updatedmg)
+              msg.edit(
+                new RichEmbed()
+                .setTitle("Field of Battle")
+                .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
+                .addField("Enemy's HP", "0/" + hp)
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+    .setColor(colors.color)
+    )
+            }
           }
         })
       })
