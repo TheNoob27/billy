@@ -82,7 +82,7 @@ class Play extends Command {
         await msg.react("⚔️")
       
         let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
-        let collector = msg.createReactionCollector(filter, {time: 120000})    
+        let collector = game.collector = msg.createReactionCollector(filter, {time: 120000})    
         let helped = []
     
         let updatedmg = setInterval(() => {
@@ -97,7 +97,12 @@ class Play extends Command {
         }, 2100)
     
         collector.on("collect", (r, user) => {
+          let player = game.players.get(user.id)
           
+          if (r.emoji == "⚔️") {
+            game.attackEnemy(player)
+            if (collector.ended) return;
+          }
         })
       })
     }
