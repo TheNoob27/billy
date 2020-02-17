@@ -62,6 +62,7 @@ module.exports = class Game {
     let armour = inv.armour || {}
     
     let push = {
+      user: user,
       id: user.id,
       tag: user.tag,
       level: level.level,
