@@ -67,6 +67,8 @@ class Play extends Command {
       })
     })
     
-    function play() {}
+    function play() {
+      
+    }
   }
 }
