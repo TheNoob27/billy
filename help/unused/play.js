@@ -60,7 +60,13 @@ class Play extends Command {
       
       collector.on("end", reason => {
         if (reason == "cancel") return message.channel.send("The game has been cancelled.")
+        
+        game.init(message.channel)
+        
+        setTimeout(() => play(), 5000)
       })
     })
+    
+    function play() {}
   }
 }
