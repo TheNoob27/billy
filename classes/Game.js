@@ -1,9 +1,11 @@
+const { Collection } = require("discord.js")
+
 class Game {
   constructor(client) {
     this.client = client
     
-    this.players = []
-    this.playerlist = []
+    this.players = new Collection()
+    
     this.rounds = null
     this.team = null
     this.enemyteam = []

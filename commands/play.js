@@ -67,6 +67,7 @@ function setup() {
                 damage: inv.sword ? inv.sword.damage || 8 : 8,
                 maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
               }
+              game.players.push(push)
         game.playerlist.push(user.id)
         
     
