@@ -8,6 +8,7 @@ module.exports = class Game {
     this.rounds = null
     this.team = null
     this.enemy = null
+    this.enemycount = 0
     this.enemyteam = []
     this.regen = null
     this.collector = null
@@ -111,6 +112,8 @@ module.exports = class Game {
   }
   
   spawnEnemy(enemy) {
+    this.enemycount++
+    
     if (enemy) {
       this.enemy = enemy
       return this.enemy

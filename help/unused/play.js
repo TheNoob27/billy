@@ -68,7 +68,38 @@ class Play extends Command {
     })
     
     function play() {
+      let enemy = game.spawnEnemy()
+      let hp = enemy.hp
       
+      let embed = new RichEmbed()
+      .setTitle("Field of Battle")
+      .addField("Enemy #" + this.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
+      .addField("Enemy's HP", enemy.hp + "/" + hp)
+      .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
+      .setColor(colors.color)
+    
+      message.channel.send(embed).then(async msg => {
+        await msg.react("⚔️")
+      
+        let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
+        let collector = msg.createReactionCollector(filter, {time: 120000})    
+        let helped = []
+    
+        let updatedmg = setInterval(() => {
+          msg.edit(
+            new RichEmbed()
+            .setTitle("Field of Battle")
+            .addField("Enemy #" + this.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
+            .addField("Enemy's HP", enemy.hp + "/" + hp)
+            .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+            .setColor(colors.color)
+          )
+        }, 2100)
+    
+        collector.on("collect", (r, user) => {
+          
+        })
+      })
     }
   }
 }
