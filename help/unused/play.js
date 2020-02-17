@@ -34,7 +34,8 @@ class Play extends Command {
       let stopped = false
       let filter = (r, user) => ["⚔️", "➖", "✅", "🛑"].includes(r.emoji.name) && !user.bot
       let collector = msg.createReactionCollector(filter, {time: 300000})
-    
+      
+      collector.on("collect", )
     })
   }
 }
