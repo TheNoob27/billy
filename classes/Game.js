@@ -1,4 +1,4 @@
-const { Collection } = require("discord.js")
+const { Collection, RichEmbed } = require("discord.js")
 
 module.exports = class Game {
   constructor(client) {
@@ -14,6 +14,37 @@ module.exports = class Game {
     this.ended = false
     
     return this
+  }
+  
+  init(channel) {
+    let rounds = Math.ceil(Math.random() * 5) + 5
+    this.rounds = rounds
+    let teams = ["Humans", "Orcs"]
+    this.team = teams[Math.floor(Math.random() * teams.length)]
+    let orcs = ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"] //orcs
+    let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
+    this.enemyteam = this.team == "Humans" ? orcs : humans
+    
+    this.cachePlayers()
+    
+    channel.send(
+      new RichEmbed()
+        .setTitle("Game Starting!")
+        .addField("Team", this.team)
+        .addField("Enemies", this.rounds)
+        .addField("Players", "**"+ this.players.map(p => p.tag).join("\n") +"**")
+        .setColor(this.client.config.color)
+        .setTimestamp()
+      )
+    
+    let times = 0
+    this.regen = setInterval(() => { 
+      console.log("Regen number "+ ++times)
+      this.players.forEach(p => {
+        if (p.hp < p.maxhp) p.hp += 2
+        if (p.hp > p.maxhp) p.hp = p.maxhp
+      })
+    }, 4000)
   }
   
   cachePlayers() {
