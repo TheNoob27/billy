@@ -50,10 +50,10 @@ if (!game && message.author.id != client.owner) return;
         game.players.push({
           id: user.id,
           level: level,
-          hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
+          hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
           tag: user.tag,
           damage: inv.sword ? inv.sword.damage || 8 : 8,
-          maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
+          maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
         })
         game.playerlist.push(user.id)
         
@@ -133,10 +133,10 @@ if (!game && message.author.id != client.owner) return;
               let push = {
                 id: player.id,
                 level: level,
-                hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
+                hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
                 tag: player.tag,
                 damage: inv.sword ? inv.sword.damage || 8 : 8,
-                maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
+                maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
               }
               game.players.push(push)
               game.playerlist.push(push.id)
@@ -195,10 +195,10 @@ if (!game && message.author.id != client.owner) return;
               let push = {
                 id: player.id,
                 level: level,
-                hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
+                hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
                 tag: player.tag,
                 damage: inv.sword ? inv.sword.damage || 8 : 8,
-                maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
+                maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
               }
               game.players.push(push)
               game.playerlist.push(push.id)
@@ -241,10 +241,10 @@ if (!game && message.author.id != client.owner) return;
               let push = {
                 id: player.id,
                 level: level,
-                hp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0,
+                hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
                 tag: player.tag,
                 damage: inv.sword ? inv.sword.damage || 8 : 8,
-                maxhp: (18 * (level - 1) + 100) + inv.armour ? inv.armour.health || 0 : 0
+                maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
               }
               game.players.push(push)
               game.playerlist.push(push.id)
