@@ -16,6 +16,11 @@ module.exports = class Game {
     return this
   }
   
+  cachePlayers() {
+    this.playerCache = this.players
+    return this
+  }
+  
   addPlayer(user) {
     let data = this.client.fob.fetch(user.id);
     let inv = data.inventory || {}
