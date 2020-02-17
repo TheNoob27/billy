@@ -28,8 +28,8 @@ module.exports = class Game {
       tag: user.tag,
       level: level.level,
       damage: sword.damage || 8,
-      hp: (18 * (level - 1) + 100) + (armour.health || 0),
-      maxhp: (18 * (level - 1) + 100) + (armour.health || 0),
+      hp: (18 * (level.level - 1) + 100) + (armour.health || 0),
+      maxhp: (18 * (level.level - 1) + 100) + (armour.health || 0),
       armour: armour
     }
     

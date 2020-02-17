@@ -23,6 +23,7 @@ let embed = new RichEmbed()
 .addField("Armour", inventory.armour ? inventory.armour.name : "None", true)
 .addField("Gold", inventory.gold || 0)
 .addField("Gems", "Check your gems with b!gems.")
+.addField("Level")
 
 return message.author.send(embed)
 }
