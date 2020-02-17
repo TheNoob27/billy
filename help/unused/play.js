@@ -17,7 +17,7 @@ class Play extends Command {
   }
   
   async run(client, message, args, colors) {
-    let game = new Game(client)
+    let game = new Game(message.channel)
     
     let embed = new RichEmbed()
     .setColor(colors.color)
@@ -61,7 +61,7 @@ class Play extends Command {
       collector.on("end", reason => {
         if (reason == "cancel") return message.channel.send("The game has been cancelled.")
         
-        game.init(message.channel)
+        game.init()
         
         setTimeout(() => play(), 5000)
       })
@@ -73,7 +73,7 @@ class Play extends Command {
       
       let embed = new RichEmbed()
       .setTitle("Field of Battle")
-      .addField("Enemy #" + this.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
+      .addField("Enemy #" + game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
       .addField("Enemy's HP", enemy.hp + "/" + hp)
       .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
       .setColor(colors.color)
@@ -89,7 +89,7 @@ class Play extends Command {
           msg.edit(
             new RichEmbed()
             .setTitle("Field of Battle")
-            .addField("Enemy #" + this.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
+            .addField("Enemy #" + game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
             .addField("Enemy's HP", enemy.hp + "/" + hp)
             .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
             .setColor(colors.color)
@@ -101,17 +101,18 @@ class Play extends Command {
           
           if (r.emoji == "⚔️") {
             game.attackEnemy(player)
-            if (collector.ended) {
+            if (collector.ended) { // enemydied
               clearInterval(updatedmg)
-              msg.edit(
+              return msg.edit(
                 new RichEmbed()
                 .setTitle("Field of Battle")
-                .addField("Enemy #"+(enemycount + 1), "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
+                .addField("Enemy #"+ game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
                 .addField("Enemy's HP", "0/" + hp)
-    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
-    .setColor(colors.color)
-    )
+                .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+                .setColor(colors.color)
+              )
             }
+            
           }
         })
       })

@@ -1,8 +1,9 @@
 const { Collection, RichEmbed } = require("discord.js")
 
 module.exports = class Game {
-  constructor(client) {
-    this.client = client
+  constructor(channel) {
+    this.client = channel.client
+    this.channel = channel
     
     this.players = new Collection()
     this.rounds = null
@@ -17,7 +18,7 @@ module.exports = class Game {
     return this
   }
   
-  init(channel) {
+  init() {
     let rounds = Math.ceil(Math.random() * 5) + 5
     this.rounds = rounds
     let teams = ["Humans", "Orcs"]
@@ -28,7 +29,7 @@ module.exports = class Game {
     
     this.cachePlayers()
     
-    channel.send(
+    this.channel.send(
       new RichEmbed()
         .setTitle("Game Starting!")
         .addField("Team", this.team)
@@ -78,6 +79,7 @@ module.exports = class Game {
     this.players.delete(user.id)
     
     if (this.collector && this.enemy) {
+      this.channel.send("**" + user.tag + "** died!")
       if (this.players.size <= 0) return this.collector.stop("alldead")
     }
     return this
@@ -95,7 +97,7 @@ module.exports = class Game {
     if (!this.enemy || !this.collector) return null
     
     this.enemy.hp -= player.damage
-    if (this.enemy.hp <= 0) return this.collector.stop("dead")
+    if (this.enemy.hp <= 0) return this.collector.stop("enemydead")
     
     return this
   }
@@ -107,7 +109,7 @@ module.exports = class Game {
     if (player.armour.name == "Eternal Inferno") this.enemy.hp -= this.enemy.damage * 0.15
     
     if (player.hp <= 0) this.removePlayer(player)
-    if (this.enemy.hp <= 0) this.collector.stop("dead")
+    if (this.enemy.hp <= 0) this.collector.stop("enemydead")
     return this
   }
   
