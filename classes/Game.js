@@ -27,9 +27,9 @@ class Game {
       level: level.level,
       damage: inv.sword.damage || 8,
       hp: (18 * (level - 1) + 100) + (inv.armour.health || 0),
-      maxhp: (18 * (level - 1) + 100) + (inv.armour.health || 0)
+      maxhp: (18 * (level - 1) + 100) + (inv.armour.health || 0),
+      armour: armour
     }
-    if (armour.name) push.armour = armour
     
     this.players.set(push.id, push)
     return this
@@ -37,6 +37,10 @@ class Game {
   
   removePlayer(user) {
     this.players.delete(user.id)
+    
+    if (this.collector) {
+      if (this.players.size <= 0) return this.collector.stop("playersdead")
+    }
     return this
   }
   
@@ -61,6 +65,11 @@ class Game {
     if (!this.enemy || !this.collector) return null
     
     player.hp -= this.enemy.damage
+    if (player.armour.name == "Eternal Inferno") this.enemy.hp -= this.enemy.damage * 0.15
+    
+    if (player.hp <= 0) this.removePlayer(player)
+    if (this.enemy.hp <= 0) this.collector.stop("dead")
+    return this
   }
   
   spawnEnemy(enemy) {
