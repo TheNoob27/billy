@@ -196,13 +196,24 @@ module.exports = class Game {
     return msg
   }
   
-  reward(helpers) {
+  reward(helpers, hp) {
     helpers.forEach(user => {
-      if (!this.players.has(user) || Math.random() < 0.75) return;
-      let gem = this.client.generateGem()
+      if (!this.players.has(user)) return;
+      if (Math.random() > 0.75) {
+        let gem = this.client.generateGem()
       
-      this.client.fob.add(`${user}.inventory.gems.${gem.code}`, 1)
-      this.players.get(user).user.send("You got a "+gem.name+"! You now have "+ (this.client.fob.fetch(`${user}.inventory.gems.${gem.code}`)) + ".")
+        this.client.fob.add(`${user}.inventory.gems.${gem.code}`, 1)
+        this.players.get(user).user.send("You got a "+gem.name+"! You now have "+ (this.client.fob.fetch(`${user}.inventory.gems.${gem.code}`)) + ".")
+      }
+      
+      this.client.fob.add(`${user}.inventory.gold`, Math.ceil(hp / 16))
+      let levelup = this.client.addXP(this.client.users.get(user), Math.ceil(hp / 25), this.channel)
+      if (levelup) {
+        let player = this.players.get(user)
+        player.level++
+        player.hp = (18 * (player.level - 1) + 100)
+        player.maxhp = (18 * (player.level - 1) + 100)
+      }
     })
   }
 }
