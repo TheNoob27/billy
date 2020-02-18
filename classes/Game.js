@@ -59,7 +59,7 @@ module.exports = class Game {
     let inv = data.inventory || {}
     let level = data.level || {}
     let sword = inv.sword || {}
-    let armour = inv.armour || {}
+    let armour = inv.armour || {health: 0}
     
     let push = {
       user: user,
