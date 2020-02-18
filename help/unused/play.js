@@ -78,7 +78,7 @@ class Play extends Command {
       
       let embed = new RichEmbed()
       .setTitle("Field of Battle")
-      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + ("a "+ enemy.name + "") + ! Press the sword reaction to hit him. You have 3 minutes.")
+      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + (general ? "5" : "3") +" minutes.")
       .addField("Enemy's HP", enemy.hp + "/" + hp)
       .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
       .setColor(colors.color)
@@ -87,14 +87,14 @@ class Play extends Command {
         await msg.react("⚔️")
       
         let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.players.has(user.id)
-        let collector = game.collector = msg.createReactionCollector(filter, {time: 180000}) // 3mins 
+        let collector = game.collector = msg.createReactionCollector(filter, {time: general ? 300000 : 180000}) // 3mins 
         let helped = []
     
         let updatedmg = setInterval(() => {
           msg.edit(
             new RichEmbed()
             .setTitle("Field of Battle")
-            .addField("Enemy #" + game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
+            .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + (general ? "5" : "3") +" minutes.")
             .addField("Enemy's HP", enemy.hp + "/" + hp)
             .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
             .setColor(colors.color)
@@ -126,7 +126,7 @@ class Play extends Command {
           
           message.channel.send("Yay, the "+enemy.name+" died!")
           
-          game.addGems(helped)
+          game.reward(helped, hp)
           
           setTimeout(() => play(game.shouldSpawnGeneral), 5000)
         })
