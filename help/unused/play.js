@@ -101,20 +101,11 @@ class Play extends Command {
           
           if (r.emoji == "⚔️") {
             game.attackEnemy(player)
-            if (collector.ended) { // enemydied
-              clearInterval(updatedmg)
-              return msg.edit(
-                new RichEmbed()
-                .setTitle("Field of Battle")
-                .addField("Enemy #"+ game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him.")
-                .addField("Enemy's HP", "0/" + hp)
-                .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
-                .setColor(colors.color)
-              )
-            }
+            if (collector.ended) return game.endCollector(msg, hp, updatedmg) // enemydied
             
             if (Math.random() > 0.5) {
               game.attackPlayer(player)
+              if (collector.ended) return game.endCollector(msg, hp, updatedmg) // player or enemy died
             }
           }
         })

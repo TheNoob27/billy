@@ -174,4 +174,21 @@ module.exports = class Game {
     return this.enemy
   }
   
+  endCollector(msg, hp, ...ints) {
+    ints.forEach(i => clearInterval(i))
+    
+     msg.edit(
+      new RichEmbed()
+      .setTitle("Field of Battle")
+      .addField("Enemy #"+ this.enemycount, "You and your team have encountered a "+ this.enemy.name + "! Press the sword reaction to hit him.")
+      .addField("Enemy's HP", this.enemy.hp > 0 ? this.enemy.hp + "/" + hp : "0/" + hp)
+      .addField("Your Team", "​"+ this.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+      .setColor(this.client.config.color)
+    )
+    
+    this.enemy = null
+    this.collector = null
+    
+    return msg
+  }
 }
