@@ -50,7 +50,7 @@ function setup() {
     let filter = (r, user) => ["⚔️", "➖", "✅", "🛑"].includes(r.emoji.name) && !user.bot
     let collector = msg.createReactionCollector(filter, {time: 300000})
     
-    collector.on("collect", r => {
+    collector.on("collect", (r) => {
       let user = r.users.last()
       
       if (r.emoji == "⚔️") {
@@ -58,7 +58,8 @@ function setup() {
         if (find) return;
         
         let level = client.fob.fetch(`${user.id}.level.level`) || 1
-              let inv = client.fob.fetch(`${user.id}.inventory`)
+        let inv = client.fob.fetch(`${user.id}.inventory`)
+        console.log(inv, user.id, user)
               let push = {
                 id: user.id,
                 level: level,

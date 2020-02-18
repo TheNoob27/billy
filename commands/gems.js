@@ -63,7 +63,7 @@ class Gems extends Command {
       total += inv[code]
     }
     
-    if (code == "spiritshard" || code == "benitoite") gems += "\n"
+    if (code == "dragonbone" || code == "benitoite") gems += "\n"
   }
   }
   
