@@ -97,7 +97,7 @@ module.exports = class Game {
   attackEnemy(player, damage) {
     if (!this.enemy || !this.collector) return null
     
-    this.enemy.hp -= damage ? damage : 
+    this.enemy.hp -= damage ? damage : player.damage
     if (this.enemy.hp <= 0) return this.collector.stop("enemydead")
     
     return this
