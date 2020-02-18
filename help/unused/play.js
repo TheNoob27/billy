@@ -149,34 +149,28 @@ class Play extends Command {
       
         message.channel.send(embed)
         
-        if (game.players.length > 1) {
+        if (game.shouldSpawnDemon) {
+          game.players = game.playerCache
           setTimeout(() => {
-            if (Math.random() < 14.3) {
-              game.playerlist = game.players.map(p => p.id)
-              require("./demon.js").run(client, message, args, colors, "", game)
-            }
+            client.commands.get("demon").run(client, message, args, colors, "", game)
           }, Math.random() * 4000 + 5000)
-      } else return
-    } else {
-      let embed = new RichEmbed()
-      .setTitle(game.team + " Win!")
-      .setDescription("Your team successfully killed all of the "+enemyteam+", so you win. :tada:")
-      .setColor(game.team == "Humans" ? "#1f5699" : "#3d8a29")
-      .setTimestamp()
-      .setFooter("Congratulations. Survivors: "+game.playerlist.length)
+        } else return
+      } else {
+        let embed = new RichEmbed()
+        .setTitle(game.team + " Win!")
+        .setDescription("Your team successfully killed all of the "+enemyteam+", so you win. :tada:")
+        .setColor(game.team == "Humans" ? "#1f5699" : "#3d8a29")
+        .setTimestamp()
+        .setFooter("Congratulations. Survivors: "+game.playerlist.length)
       
-      message.channel.send(embed)
+        message.channel.send(embed)
       
-      if (game.players.length > 1) {
-        setTimeout(() => {
-        if (Math.random() < 14.3) {
-          game.playerlist = game.players.map(p => p.id)
-          client.commands.get("demon").run(client, message, args, colors, "", game)
-        }
-        }, Math.random() * 4000 + 5000)
-      } else return
-      
+        if (game.shouldSpawnDemon) {
+          setTimeout(() => {
+            client.commands.get("demon").run(client, message, args, colors, "", game)
+          }, Math.random() * 4000 + 5000)
+        } else return
+      }
     }
-  }
   }
 }

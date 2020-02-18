@@ -18,6 +18,10 @@ module.exports = class Game {
     return this
   }
   
+  get shouldSpawnDemon() {
+    return this.players.size > 1 && Math.random() < 14.3
+  }
+  
   get shouldSpawnGeneral() {
     return this.enemycount + 1 == this.rounds
   }
