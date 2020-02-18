@@ -67,8 +67,13 @@ class Play extends Command {
       })
     })
     
-    function play() {
-      let enemy = game.spawnEnemy()
+    function play(general = false) {
+      let enemy = game.spawnEnemy(general ? {
+      name: "General",
+      hp: 1162,
+      damage: 45
+    } : undefined)
+      
       let hp = enemy.hp
       
       let embed = new RichEmbed()
@@ -122,6 +127,8 @@ class Play extends Command {
           message.channel.send("Yay, the "+enemy.name+" died!")
           
           game.addGems(helped)
+          
+          setTimeout(() => play(game.enemycount + 1 == game.rounds), 5000)
         })
       })
     }
