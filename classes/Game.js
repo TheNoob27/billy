@@ -81,7 +81,7 @@ module.exports = class Game {
     
     if (this.collector && this.enemy) {
       this.channel.send("**" + user.tag + "** died!")
-      if (this.players.size <= 0) return this.collector.stop("alldead")
+      if (this.players.size <= 0) return this.collector.stop("alldied")
     }
     return this
   }
@@ -94,10 +94,10 @@ module.exports = class Game {
     return this
   }
 
-  attackEnemy(player) {
+  attackEnemy(player, damage) {
     if (!this.enemy || !this.collector) return null
     
-    this.enemy.hp -= player.damage
+    this.enemy.hp -= damage ? damage : 
     if (this.enemy.hp <= 0) return this.collector.stop("enemydead")
     
     return this
@@ -190,5 +190,11 @@ module.exports = class Game {
     this.collector = null
     
     return msg
+  }
+  
+  addGemsToHelpers(helpers) {
+    helpers.forEach(user => {
+      if (!this.players.has(user)) return;
+    })
   }
 }

@@ -73,7 +73,7 @@ class Play extends Command {
       
       let embed = new RichEmbed()
       .setTitle("Field of Battle")
-      .addField("Enemy #" + game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 2 minutes.")
+      .addField("Enemy #" + game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 3 minutes.")
       .addField("Enemy's HP", enemy.hp + "/" + hp)
       .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
       .setColor(colors.color)
@@ -81,8 +81,8 @@ class Play extends Command {
       message.channel.send(embed).then(async msg => {
         await msg.react("⚔️")
       
-        let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
-        let collector = game.collector = msg.createReactionCollector(filter, {time: 120000})    
+        let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.players.has(user.id)
+        let collector = game.collector = msg.createReactionCollector(filter, {time: 180000}) // 3mins 
         let helped = []
     
         let updatedmg = setInterval(() => {
@@ -101,6 +101,7 @@ class Play extends Command {
           
           if (r.emoji == "⚔️") {
             game.attackEnemy(player)
+            helped.push(player.id)
             if (collector.ended) return game.endCollector(msg, hp, updatedmg) // enemydied
             
             if (Math.random() > 0.5) {
@@ -111,6 +112,14 @@ class Play extends Command {
         })
         
         collector.on("end", reason => {
+          if (reason == "time") {
+            clearInterval(game.regen)
+            return message.channel.send("You automatically lose, because you took too long.")
+          } else if (reason == "alldied") {
+            return 
+          }
+          
+          message.channel.send("Yay, the "+enemy.name+" died!")
           
         })
       })
