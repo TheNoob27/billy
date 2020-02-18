@@ -136,8 +136,6 @@ class Play extends Command {
     function end(game, alldied, quitted) {
       clearInterval(game.regen)
       let enemyteam = game.team == "Humans" ? "Orcs" : "Humans"
-      game.players = players
-   
     
       if (alldied) { 
         let embed = new RichEmbed()
@@ -161,11 +159,12 @@ class Play extends Command {
         .setDescription("Your team successfully killed all of the "+enemyteam+", so you win. :tada:")
         .setColor(game.team == "Humans" ? "#1f5699" : "#3d8a29")
         .setTimestamp()
-        .setFooter("Congratulations. Survivors: "+game.playerlist.length)
+        .setFooter("Congratulations. Survivors: "+game.players.size)
       
         message.channel.send(embed)
       
         if (game.shouldSpawnDemon) {
+          game.players = game.playerCache
           setTimeout(() => {
             client.commands.get("demon").run(client, message, args, colors, "", game)
           }, Math.random() * 4000 + 5000)
