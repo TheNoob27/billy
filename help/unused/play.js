@@ -78,7 +78,7 @@ class Play extends Command {
       
       let embed = new RichEmbed()
       .setTitle("Field of Battle")
-      .addField("Enemy #" + game.enemycount, "You and your team have encountered a "+ enemy.name + "! Press the sword reaction to hit him. You have 3 minutes.")
+      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + ("a "+ enemy.name + "") + ! Press the sword reaction to hit him. You have 3 minutes.")
       .addField("Enemy's HP", enemy.hp + "/" + hp)
       .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
       .setColor(colors.color)
