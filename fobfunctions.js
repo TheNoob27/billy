@@ -83,10 +83,10 @@ module.exports = {
     return gem
     },
   
-  addxp: function xp(db, id, xptoadd = 0, user, channel) {
+  addxp: function xp(db, user, xptoadd = 0, channel) {
     console.log("Adding "+xptoadd+"xp...")
     let levelledup = false
-    
+    let id = user.id
     
   let level = db.fetch(`${id}.level.level`)
  if (!level) {
@@ -256,12 +256,13 @@ module.exports = {
     
   } else if (level == 49) {
     if (xp >= 13096582) {
+      levelledup = true
     db.add(`${id}.level.level`, 1)
-      db.add(`${id}.inventory.gold`, 100000)
+    db.add(`${id}.inventory.gold`, 100000)
     let newbalance =  db.fetch(`${id}.inventory.gold`)
     let lvl100embed = new RichEmbed()
     .setTitle("🎉 **Level 50!** 🎉")
-    .setDescription("You reached level 50!! Congratulations! Here is 100k gold, to thank you for the amount of effort you put into this bot to reach level 50. The amount of XP you earned, on a Discord bot that might not even work in a few years, but you still cared. TheNoob27 and I want to thank you for playing this and enjoying it.")
+    .setDescription("You reached level 50!! Congratulations! Here is 100k gold, to thank you for the amount of effort you put into this bot to reach level 50. The amount of XP you earned, on a Discord bot that might not be used in a few years, but you still cared. TheNoob27 and I want to thank you for playing this and enjoying it.")
     .addField("New Balance", newbalance)
     .setColor("#f5da64")
     .setTimestamp()

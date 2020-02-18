@@ -80,10 +80,10 @@ module.exports = class Game {
     return this
   }
   
-  removePlayer(user) {
+  removePlayer(user, autoend = true) {
     this.players.delete(user.id)
     
-    if (this.collector && this.enemy) {
+    if (this.collector && this.enemy && autoend) {
       this.channel.send("**" + user.tag + "** died!")
       if (this.players.size <= 0) return this.collector.stop("alldied")
     }

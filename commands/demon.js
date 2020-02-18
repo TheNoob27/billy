@@ -104,7 +104,7 @@ if (!game && message.author.id != client.owner) return;
     
     let embed = new RichEmbed()
     .setTitle("Field of Battle")
-    .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
+    .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 10 minutes")
     .addField("Demon's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     .setColor(colors.demon)
@@ -113,7 +113,7 @@ if (!game && message.author.id != client.owner) return;
       await msg.react("⚔️")
       
     let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
-    let collector = msg.createReactionCollector(filter, {time: 480000})
+    let collector = msg.createReactionCollector(filter, {time: 600000})
     let enemydied = false
     
     
@@ -147,7 +147,7 @@ if (!game && message.author.id != client.owner) return;
       
       msg.edit(new RichEmbed()
     .setTitle("Field of Battle")
-    .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 8 minutes")
+    .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 10 minutes")
     .addField("Demon's HP", enemy.hp + "/" + hp)
     .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
     .setColor(colors.demon)

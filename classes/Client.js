@@ -178,7 +178,12 @@ class Billy extends Client {
     return true
   }
   
-  addXP
+  addXP(user, amount, channel) {
+    if (typeof user == "string") user = this.users.get(user) || {}
+    
+    return require("../fobfunctions.js").addxp(this.fob, user, amount, channel)
+  }
+  
   resolveGem(input = "") {
     input = input.toLowerCase()
     

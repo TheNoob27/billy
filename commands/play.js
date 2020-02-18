@@ -239,7 +239,7 @@ function setup() {
             }
             }
           client.fob.add(`${helped[i]}.inventory.gold`, Math.ceil(hp / 16))
-           let levelup = addxp(client.fob, helped[i], Math.ceil(hp / 25), client.users.get(helped[i]), message.channel)
+           let levelup = addxp(client.fob, client.users.get(helped[i]), Math.ceil(hp / 25), message.channel)
            if (levelup) {
              let level = client.fob.fetch(`${helped[i]}.level.level`) || 1
              let player = game.players.find(p => p.id == helped[i])
