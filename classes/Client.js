@@ -178,7 +178,7 @@ class Billy extends Client {
     return true
   }
   
-  
+  addXP
   resolveGem(input = "") {
     input = input.toLowerCase()
     

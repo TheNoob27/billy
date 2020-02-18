@@ -58,8 +58,8 @@ function setup() {
         if (find) return;
         
         let level = client.fob.fetch(`${user.id}.level.level`) || 1
-        let inv = client.fob.fetch(`${user.id}.inventory`)
-        console.log(inv, user.id, user)
+        let inv = client.fob.fetch(`${user.id}.inventory`) || {}
+        
               let push = {
                 id: user.id,
                 level: level,

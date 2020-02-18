@@ -196,7 +196,7 @@ module.exports = class Game {
     return msg
   }
   
-  addGems(helpers) {
+  reward(helpers) {
     helpers.forEach(user => {
       if (!this.players.has(user) || Math.random() < 0.75) return;
       let gem = this.client.generateGem()
