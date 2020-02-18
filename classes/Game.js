@@ -6,7 +6,7 @@ module.exports = class Game {
     this.channel = channel
     
     this.players = new Collection()
-    this.rounds = null
+    this.rounds = 0
     this.team = null
     this.enemy = null
     this.enemycount = 0
@@ -16,6 +16,10 @@ module.exports = class Game {
     this.ended = false
     
     return this
+  }
+  
+  get shouldSpawnGeneral() {
+    return this.enemycount + 1 == this.rounds
   }
   
   init() {
@@ -194,7 +198,7 @@ module.exports = class Game {
   
   addGems(helpers) {
     helpers.forEach(user => {
-      if (!this.players.has(user)) return;
+      if (!this.players.has(user) || Math.random() < 0.75) return;
       let gem = this.client.generateGem()
       
       this.client.fob.add(`${user}.inventory.gems.${gem.code}`, 1)

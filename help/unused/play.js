@@ -128,7 +128,7 @@ class Play extends Command {
           
           game.addGems(helped)
           
-          setTimeout(() => play(game.enemycount + 1 == game.rounds), 5000)
+          setTimeout(() => play(game.shouldSpawnGeneral), 5000)
         })
       })
     }
