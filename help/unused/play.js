@@ -132,5 +132,51 @@ class Play extends Command {
         })
       })
     }
+    
+    function end(game, alldied, quitted) {
+      clearInterval(game.regen)
+      let enemyteam = game.team == "Humans" ? "Orcs" : "Humans"
+      game.players = players
+   
+    
+      if (alldied) { 
+        let embed = new RichEmbed()
+        .setTitle(enemyteam + " Win.")
+        .setDescription("Your team wasn't able to successfully kill all of the "+enemyteam+", so you lose.")
+        .setColor(colors.error)
+        .setTimestamp()
+        .setFooter("Better luck next time.")
+      
+        message.channel.send(embed)
+        
+        if (game.players.length > 1) {
+          setTimeout(() => {
+            if (Math.random() < 14.3) {
+              game.playerlist = game.players.map(p => p.id)
+              require("./demon.js").run(client, message, args, colors, "", game)
+            }
+          }, Math.random() * 4000 + 5000)
+      } else return
+    } else {
+      let embed = new RichEmbed()
+      .setTitle(game.team + " Win!")
+      .setDescription("Your team successfully killed all of the "+enemyteam+", so you win. :tada:")
+      .setColor(game.team == "Humans" ? "#1f5699" : "#3d8a29")
+      .setTimestamp()
+      .setFooter("Congratulations. Survivors: "+game.playerlist.length)
+      
+      message.channel.send(embed)
+      
+      if (game.players.length > 1) {
+        setTimeout(() => {
+        if (Math.random() < 14.3) {
+          game.playerlist = game.players.map(p => p.id)
+          client.commands.get("demon").run(client, message, args, colors, "", game)
+        }
+        }, Math.random() * 4000 + 5000)
+      } else return
+      
+    }
+  }
   }
 }
