@@ -192,7 +192,7 @@ module.exports = class Game {
     return msg
   }
   
-  addGemsToHelpers(helpers) {
+  addGems(helpers) {
     helpers.forEach(user => {
       if (!this.players.has(user)) return;
     })
