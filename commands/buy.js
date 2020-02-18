@@ -27,7 +27,7 @@ class Buy extends Command {
     !item.gemsneeded.every(g => inventory.gems[g] > 0) ? "You do not have the required gems to purchase this item. Gems required: "+item.gemsneeded.map(g => "**" + client.resolveGem(g).name + "**, ").join("") :
     "You already own this item."
     
-    let item = client.resolveItem(args[0])
+    let item = client.resolveItem(args.join(" "))
     if (!item) return message.channel.send("Sorry, I couldn't find the item you were looking for.")
     
     if (canBuy(item)) {
