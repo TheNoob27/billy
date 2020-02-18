@@ -105,9 +105,13 @@ class Play extends Command {
             
             if (Math.random() > 0.5) {
               game.attackPlayer(player)
-              if (collector.ended) return game.endCollector(msg, hp, updatedmg) // player or enemy died
+              if (collector.ended) return game.endCollector(msg, hp, updatedmg) // all players or enemy died
             }
           }
+        })
+        
+        collector.on("end", reason => {
+          
         })
       })
     }
