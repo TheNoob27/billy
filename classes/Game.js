@@ -195,6 +195,10 @@ module.exports = class Game {
   addGems(helpers) {
     helpers.forEach(user => {
       if (!this.players.has(user)) return;
+      let gem = this.client.generateGem()
+      
+      this.client.fob.add(`${user}.inventory.gems.${gem.code}`, 1)
+      this.players.get(user).user.send("You got a "+gem.name+"! You now have "+ (this.client.fob.fetch(`${user}.inventory.gems.${gem.code}`)) + ".")
     })
   }
 }

@@ -121,6 +121,7 @@ class Play extends Command {
           
           message.channel.send("Yay, the "+enemy.name+" died!")
           
+          game.addGems(helped)
         })
       })
     }

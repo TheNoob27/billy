@@ -294,14 +294,14 @@ class Billy extends Client {
     return item
   }
   
-  generateGem(legendaries = false, { legendonly, equalchance } = false) {
+  generateGem(legendaries = false, { legendsOnly, equalChance } = false) {
     let gem = {
       name: null,
       code: undefined,
       islegendary: false
     }
     
-    if (equalchance) {
+    if (equalChance) {
       gem.name = this.gems[Math.floor(Math.random() * this.gems.length)]
       gem.code = gem.name.replace(/ /g, "").toLowerCase()
       gem.islegendary = this.gems.slice(0, 5).includes(gem.name)
@@ -315,7 +315,7 @@ class Billy extends Client {
         common = this.gems.slice(14)
 
     
-    if (legendonly) {
+    if (legendsOnly) {
       gem.name = legends[Math.floor(Math.random() * legends.length)]
       gem.islegendary = true
       gem.code = gem.name.replace(/ /g, "").toLowerCase()
