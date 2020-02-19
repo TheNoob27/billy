@@ -36,7 +36,9 @@ class Demon extends Command {
       let collector = msg.createReactionCollector(filter, {time: 300000})
       let players = []
     
-      collector.on("collect", (r, user) => {
+      collector.on("collect", r => {
+        let user = r.users.last()
+        
         if (r.emoji == "⚔️") {
           if (game.players.has(user.id)) return;
         
@@ -115,7 +117,9 @@ class Demon extends Command {
     
     
     
-    collector.on("collect", (r, user) => {
+    collector.on("collect", r => {
+      let user = r.users.last()
+      
       let player = game.players.get(user.id)
       
       if (Math.random() > 0.15) game.attackEnemy(player)

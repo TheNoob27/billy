@@ -41,7 +41,8 @@ class Play extends Command {
       let filter = (r, user) => ["⚔️", "➖", "✅", "🛑"].includes(r.emoji.name) && !user.bot
       let collector = msg.createReactionCollector(filter, {time: 300000})
       
-      collector.on("collect", (r, user) => {
+      collector.on("collect", r => {
+        let user = r.users.last()
         
         if (r.emoji == options[0]) {
           if (game.players.has(user.id)) return;
@@ -50,7 +51,7 @@ class Play extends Command {
           if (!game.players.has(user.id)) return;
           game.removePlayer(user)
         } else if (r.emoji == options[2]) {
-          if (user.id !== message.author.id || game.players.size >= 0) return;
+          if (user.id !== message.author.id || game.players.size <= 0) return;
           return collector.stop("start")
         } else {
           if (user.id !== message.author.id) return;
@@ -109,7 +110,9 @@ class Play extends Command {
           )
         }, 2100)
     
-        collector.on("collect", (r, user) => {
+        collector.on("collect", r => {
+          let user = r.users.last()
+          
           let player = game.players.get(user.id)
           
           if (r.emoji == "⚔️") {
@@ -160,7 +163,7 @@ class Play extends Command {
           setTimeout(() => {
             client.commands.get("demon").run(client, message, args, colors, "", game)
           }, Math.random() * 4000 + 5000)
-        } else return
+        } else return 
       } else {
         let embed = new RichEmbed()
         .setTitle(game.team + " Win!")
@@ -176,7 +179,7 @@ class Play extends Command {
           setTimeout(() => {
             client.commands.get("demon").run(client, message, args, colors, "", game)
           }, Math.random() * 4000 + 5000)
-        } else return
+        } else return client.game = null
       }
     }
   }
