@@ -1,7 +1,6 @@
 const { getgem } = require("../fobfunctions.js")
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
-const Game = require("../classes/Game.js")
 
 class Demon extends Command {
   constructor(client) {
@@ -15,66 +14,92 @@ class Demon extends Command {
   }
   
   async run(client, message, args, colors, prefix, game) {
-    if (!game && message.author.id != client.owner) return;
-    colors["demon"] = "#632f2f"
+if (!game && message.author.id != client.owner) return;
+  colors["demon"] = "#632f2f"
   
   if (!game) setup()
   else fight()
   
   function setup() {
-     game = new Game(message.channel)
-    
+    let game = {
+    players: [],
+    playerlist: [],
+    regen: null
+    }
     let embed = new RichEmbed()
-    .setColor(colors.demon)
-    .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
-    .addField("Players", "​")
-    message.channel.send(embed).then(async msg => {
-      await msg.react("⚔️")
-      await msg.react("✅")
+  .setColor(colors.demon)
+  .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
+  .addField("Players", "​")
+  message.channel.send(embed).then(async msg => {
+    await msg.react("⚔️")
+    await msg.react("✅")
     
-      let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
-      let collector = msg.createReactionCollector(filter, {time: 300000})
-      let players = []
+    let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
+    let collector = msg.createReactionCollector(filter, {time: 300000})
+    let players = []
     
-      collector.on("collect", (r, user) => {
-        if (r.emoji == "⚔️") {
-          if (game.players.has(user.id)) return;
+    collector.on("collect", r => {
+      let user = r.users.last()
+      
+      if (r.emoji == "⚔️") {
+        let find = game.players.find(player => player.id == user.id)
+        if (find) return;
         
-        game.addPlayer(user)
+        let level = client.fob.fetch(`${user.id}.level.level`) || 1
+        let inv = client.fob.fetch(`${user.id}.inventory`)
+        game.players.push({
+          id: user.id,
+          level: level,
+          hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
+          tag: user.tag,
+          damage: inv.sword ? inv.sword.damage || 8 : 8,
+          maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
+        })
+        game.playerlist.push(user.id)
         
-        msg.edit(
-          new RichEmbed()
-          .setColor(colors.demon)
-          .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
-          .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
-        )
+          players.push(user.tag)
+        
+        msg.edit(embed = new RichEmbed()
+  .setColor(colors.demon)
+  .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
+  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
+                             )
       } else {
         if (user.id != message.author.id) return;
         if (game.players.length == 0) return;
-        return collector.stop()
+        collector.stop()
       }
+      
     })
     
     collector.on("end", () => {
       if (game.players.length < 1) return message.channel.send("No-one joined!")
-      if (args[0] == "skip" && message.author.id == client.owner) return gemrain(game)
-      
-      game.init(true)
-      fight()
+      if (args[0] == "skip" && message.author.id == client.owner) gemrain(game)
+      else fight(game)
     })
   })
   }
   
-  function fight() {
-    let enemy = game.spawnEnemy({
+  function fight(newgame) {
+    if (newgame) game = newgame
+    
+    let times = 0
+      game.regen = setInterval(() => { 
+        console.log("Regen number "+ ++times)
+    for (var i = 0; i < game.players.length; i++) {
+      if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
+    }
+    }, 4000)
+    
+    
+    let enemy = {
       name: "Demon",
       hp: 1882,
       damage: 66
-    })
-    
+    }
     let hp = enemy.hp
-    game.target = {
-      player: game.players.random()
+    let target = {
+      player: game.players[Math.floor(Math.random() * game.players.length)]
     }
     
     let embed = new RichEmbed()
@@ -87,60 +112,119 @@ class Demon extends Command {
     message.channel.send(embed).then(async msg => {
       await msg.react("⚔️")
       
-      let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.players.has(user.id)
-      let collector = game.collector = msg.createReactionCollector(filter, {time: 600000})
-      let enemydied = false
+    let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.playerlist.includes(user.id)
+    let collector = msg.createReactionCollector(filter, {time: 600000})
+    let enemydied = false
     
     
-      let updatedmg = setInterval(() => {
-        if (game.players.size > 0) {
-          let player = game.players.random()
-          game.attackPlayer(player, 10)
+    let updatedmg = setInterval(() => {
+      if (game.players.length > 0) {
+        let player = game.players[Math.floor(Math.random() * game.players.length)]
+        player.hp -= 10
+        if (client.fob.fetch(player.id + ".inventory.armour.name") == "Eternal Inferno") enemy.hp -= 10 * 0.15
         
-          if (player.hp <= 0) {
-            message.channel.send("**" +player.tag+"** died! They respawn in 7 seconds...")
-            game.respawnPlayer(player)
+        if (player.hp <= 0) {
+          game.players.splice(game.players.indexOf(player), 1)
+          game.playerlist.splice(game.playerlist.indexOf(player.id), 1)
+          message.channel.send("**" +player.tag+"** died! They respawn in 7 seconds...")
+          setTimeout(() => {
+              let level = client.fob.fetch(`${player.id}.level.level`) || 1
+              let inv = client.fob.fetch(`${player.id}.inventory`)
+              let push = {
+                id: player.id,
+                level: level,
+                hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
+                tag: player.tag,
+                damage: inv.sword ? inv.sword.damage || 8 : 8,
+                maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
+              }
+              game.players.push(push)
+              game.playerlist.push(push.id)
+              
+            }, 7000)
         }
       }
       
-      msg.edit(
-        new RichEmbed()
-        .setTitle("Field of Battle")
-        .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 10 minutes")
-        .addField("Demon's HP", enemy.hp + "/" + hp)
-        .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
-        .setColor(colors.demon)
-      )
-    }, 2100)
+      msg.edit(new RichEmbed()
+    .setTitle("Field of Battle")
+    .setDescription("**A GIANT DEMON SPAWN APPEARED!!**\n\nReact to hit it! You have 10 minutes")
+    .addField("Demon's HP", enemy.hp + "/" + hp)
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
+    .setColor(colors.demon)
+    )
+    }, 2000)
     
     
     
-    collector.on("collect", (r, user) => {
-      let player = game.players.get(user.id)
-      
-      if (Math.random() > 0.15) game.attackEnemy(player)
-      else game.attackEnemy(player, Math.ceil(player.damage / 3))
+    collector.on("collect", r => {
+      let user = r.users.last()
+      let player = game.players.find(p => p.id == user.id)
+      if (Math.random() > 0.15) enemy.hp -= player.damage
+      else enemy.hp -= Math.ceil(player.damage / 3)
       
       if (enemy.hp <= 0) {
-        return game.endCollector(msg, hp, updatedmg) // enemydied
+        clearInterval(updatedmg)
+        msg.edit(new RichEmbed()
+    .setTitle("Field of Battle")
+    .setDescription("**The Demon has been defeated!!**")
+    .addField("Demon's HP", "0/" + hp)
+    .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
+    .setColor(colors.color)
+    )
+        enemydied = true
+        return collector.stop()
       }
       
       if (Math.random() > 0.5) { // attack
-        let targetplayer = game.target.player || game.players.first() || {}
+        let targetplayer = target.player
         
-        game.attackPlayer(targetplayer)
-        if (targetplayer.hp <= 0) {
-          message.channel.send("**"+targetplayer.tag+"** died! They respawn in 7 seconds..")
-          game.target = {}
-          game.respawnPlayer(targetplayer.user, 7000, (player) => !game.target.player ? game.target.player = player : game.target.player = game.players.random())
+        target.player.hp -= enemy.damage
+        if (client.fob.fetch(target.player.id + ".inventory.armour.name") == "Eternal Inferno") enemy.hp -= enemy.damage * 0.15
+      if (target.player.hp <= 0) {
+        message.channel.send("**"+target.player.tag+"** died! They respawn in 7 seconds..")
+        for (var i = 0; i < game.playerlist.length; i++) {
+          if (game.playerlist[i] == target.player.id) {
+            
+            game.players.splice(i, 1)
+            game.playerlist.splice(i, 1)
+            setTimeout(() => {
+              let player = targetplayer
+              
+              let level = client.fob.fetch(`${player.id}.level.level`) || 1
+              let inv = client.fob.fetch(`${player.id}.inventory`)
+              let push = {
+                id: player.id,
+                level: level,
+                hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
+                tag: player.tag,
+                damage: inv.sword ? inv.sword.damage || 8 : 8,
+                maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
+              }
+              game.players.push(push)
+              game.playerlist.push(push.id)
+              
+              target = {
+              player: game.players[Math.floor(Math.random() * game.players.length)]
+            }
+            }, 7000)
+          
+            break;
+          }
         }
+        
+      }
       } // attack
       
       if (Math.random() > 0.97) { // fling
-        
+        let current = target.player
         
         message.channel.send("**"+player.tag+"** got flung!")
-        game.removePlayer(player, false)
+        for (var i = 0; i < game.playerlist.length; i++) {
+          if (game.playerlist[i] == user.id) {
+            game.playerlist.splice(i, 1)
+            game.players.splice(i, 1)
+          }
+        }
         
         if (!target.player && game.playerlist.length) {
           target = {
