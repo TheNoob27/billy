@@ -90,7 +90,7 @@ class Play extends Command {
       
       let embed = new RichEmbed()
       .setTitle("Field of Battle")
-      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + .")
+      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + (general ? "5" : "3") +" minutes.")
       .addField("Enemy's HP", enemy.hp + "/" + hp)
       .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
       .setColor(colors.color)
@@ -107,7 +107,7 @@ class Play extends Command {
           msg.edit(
             new RichEmbed()
             .setTitle("Field of Battle")
-            .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + (general ? "5" : "3") +" minutes.")
+            .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + time(Date.now()))
             .addField("Enemy's HP", enemy.hp + "/" + hp)
             .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
             .setColor(colors.color)
