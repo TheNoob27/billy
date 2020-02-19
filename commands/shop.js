@@ -61,11 +61,15 @@ class Shop extends Command {
         "\nExtra Health: 110 \nGold: 1,500" +
         
         "\n\n**__Chain Armour__**" + canBuy(250, "Chain Armour") +
-        "\nExtra Health: 50 \n Gold: 250"
+        "\nExtra Health: 50 \nGold: 250"
       },
-     // {
+      {
+        title: "Bows",
+        description: "**__Legendary Bow__**" + canBuy(inv => inv.gold >= 15000 && inv.gems.dragonbone > 0, "Legendary Bow") +
+        "\nDamage: 30 \nGold: 15,000 \nGems: Dragon Bone \nNote: doesnt fly lol" +
         
-    //  }
+        "\n\n**__Enchanted Crossbow__**" + canBuy(inv => inv,gold )
+      }
     ].map(f => embed.addField(f.title, f.description, true))
     
     return message.channel.send(embed)
