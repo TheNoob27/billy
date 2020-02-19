@@ -68,7 +68,11 @@ class Shop extends Command {
         description: "**__Legendary Bow__**" + canBuy(inv => inv.gold >= 15000 && inv.gems.dragonbone > 0, "Legendary Bow") +
         "\nDamage: 30 \nGold: 15,000 \nGems: Dragon Bone \nNote: doesnt fly lol" +
         
-        "\n\n**__Enchanted Crossbow__**" + canBuy(inv => inv,gold )
+        "\n\n**__Enchanted Crossbow__**" + canBuy(1250, "Enchanted Crossbow") + 
+        "\nDamage: 15 \nGold: 1,250" + 
+        
+        "\n\n**__Long Bow__**" + canBuy(375, "Long Bow") + 
+        "\nDamage: 10 \nGold: 325"
       }
     ].map(f => embed.addField(f.title, f.description, true))
     

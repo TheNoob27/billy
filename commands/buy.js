@@ -35,8 +35,10 @@ class Buy extends Command {
       
       if (client.items.swords.includes(item.name)) {
         client.fob.set(message.author.id + ".inventory.sword", {name: item.name, damage: item.value})
-      } else {
+      } else if (client.items.armour.includes(item.name)) {
         client.fob.set(message.author.id + ".inventory.armour", {name: item.name, health: item.value})
+      } else if (client.items.bows.includes(item.name)) {
+        client.fob.set(message.author.id + ".inventory.bow", {name: item.name, damage: item.value})
       }
       
       let embed = new RichEmbed()

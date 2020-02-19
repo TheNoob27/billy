@@ -114,6 +114,11 @@ class Billy extends Client {
         "Redcliff Elite Armour",
         "Knight Armour",
         "Chain Armour"
+      ],
+      bows: [
+        "Legendary Bow", 
+        "Enchanted Crossbow",
+        "Long Bow"
       ]
     }
     
@@ -226,9 +231,9 @@ class Billy extends Client {
   
   resolveItem(input = "", type = 0) {
     if (!input) return null
-    input = input.toLowerCase()
+    input = input.toLowerCase() 
     
-    let items = type == 0 ? this.items.swords.concat(this.items.armour) : type == 1 ? this.items.swords : this.items.armour
+    let items = type == 0 ? this.items.swords.concat(this.items.armour, this.items.bows) : type == 1 ? this.items.swords : type == 2 ? this.items.armour : this.items.bows
     let item = {
       name: null,
       cost: 0,
@@ -250,6 +255,7 @@ class Billy extends Client {
       else if (input == "inferno") item.name = "Eternal Inferno"
       else if (input == "frost guard") item.name = "Frost Guard Armour"
       else if (["emperor's armour", "emperor's"].includes(input)) item.name = "Emperor Armour"
+      else if (input == "crossbow") item.name = "Enchanted Crossbow"
     }
     
     if (!item.name) return null
@@ -294,7 +300,13 @@ class Billy extends Client {
     } else if (item.name == "Chain Armour") {
       item.cost = 250
       item.value = 50
-    } 
+    } else if (item.name == "Legendary Bow") {
+      item.cost = 15000
+      item.value = 30
+      item.gemsneeded = ["dragonbone"]
+    } else if (item.name == "Enchanted Crossbow") {
+      item.cost = 1250
+    }
     
     return item
   }
