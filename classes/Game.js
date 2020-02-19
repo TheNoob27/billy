@@ -18,6 +18,10 @@ module.exports = class Game {
     return this
   }
   
+  get fightingDemon() {
+    return this.enemy ? this.enemy.name == "Demon" : false
+  }
+  
   get shouldSpawnDemon() {
     return this.players.size > 1 && Math.random() < 14.3
   }
@@ -26,26 +30,28 @@ module.exports = class Game {
     return this.enemycount + 1 == this.rounds
   }
   
-  init() {
-    let rounds = Math.ceil(Math.random() * 5) + 5
-    this.rounds = rounds
-    let teams = ["Humans", "Orcs"]
-    this.team = teams[Math.floor(Math.random() * teams.length)]
-    let orcs = ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"] //orcs
-    let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
-    this.enemyteam = this.team == "Humans" ? orcs : humans
+  init(demon = false) {
+    if (!demon) {
+      let rounds = Math.ceil(Math.random() * 5) + 5
+      this.rounds = rounds
+      let teams = ["Humans", "Orcs"]
+      this.team = teams[Math.floor(Math.random() * teams.length)]
+      let orcs = ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"] //orcs
+      let humans = ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"] // humans
+      this.enemyteam = this.team == "Humans" ? orcs : humans
+    
+      this.channel.send(
+        new RichEmbed()
+          .setTitle("Game Starting!")
+          .addField("Team", this.team)
+          .addField("Enemies", this.rounds)
+          .addField("Players", "**"+ this.players.map(p => p.tag).join("\n") +"**")
+          .setColor(this.client.config.color)
+          .setTimestamp()
+        )
+    }
     
     this.cachePlayers()
-    
-    this.channel.send(
-      new RichEmbed()
-        .setTitle("Game Starting!")
-        .addField("Team", this.team)
-        .addField("Enemies", this.rounds)
-        .addField("Players", "**"+ this.players.map(p => p.tag).join("\n") +"**")
-        .setColor(this.client.config.color)
-        .setTimestamp()
-      )
     
     let times = 0
     this.regen = setInterval(() => { 
@@ -55,6 +61,8 @@ module.exports = class Game {
         if (p.hp > p.maxhp) p.hp = p.maxhp
       })
     }, 4000)
+
+    return this
   }
   
   cachePlayers() {
@@ -106,19 +114,20 @@ module.exports = class Game {
     if (!this.enemy || !this.collector) return null
     
     this.enemy.hp -= damage ? damage : player.damage
-    if (this.enemy.hp <= 0) return this.collector.stop("enemydead")
+    if (this.enemy.hp <= 0) return this.collector.stop("enemydied")
     
     return this
   }
   
-  attackPlayer(player) {
+  attackPlayer(player, damage) {
     if (!this.enemy || !this.collector) return null
     
-    player.hp -= this.enemy.damage
-    if (player.armour.name == "Eternal Inferno") this.enemy.hp -= this.enemy.damage * 0.15
+    let dmg = damage ? damage : this.enemy.damage
+    player.hp -= dmg
+    if (player.armour.name == "Eternal Inferno") this.enemy.hp -= dmg * 0.15
     
-    if (player.hp <= 0) this.removePlayer(player)
-    if (this.enemy.hp <= 0) this.collector.stop("enemydead")
+    if (player.hp <= 0 && !this.fightingDemon) this.removePlayer(player)
+    if (this.enemy.hp <= 0) this.collector.stop("enemydied")
     return this
   }
   
@@ -185,7 +194,16 @@ module.exports = class Game {
   endCollector(msg, hp, ...ints) {
     ints.forEach(i => clearInterval(i))
     
-     msg.edit(
+    this.fightingDemon ?
+      msg.edit(
+      new RichEmbed()
+      .setTitle("Field of Battle")
+      .setDescription("**The Demon has been defeated!!**")
+      .addField("Demon's HP", "0/" + hp)
+      .addField("Your Team", "​"+ this.players.map(player => "**"+player.tag+"** - HP: "+ (player.hp < 0 ? 0 : player.hp)).join("\n"))
+      .setColor(this.client.config.color)
+    ) :
+    msg.edit(
       new RichEmbed()
       .setTitle("Field of Battle")
       .addField("Enemy #" + this.enemycount, "You and your team have encountered " + (this.enemy.name == "General" ? "the **" + this.enemy.name + "**" : "a "+ this.enemy.name) + "! Press the sword reaction to hit him. You have " + (this.enemy.name == "General" ? "5" : "3") +" minutes.")
