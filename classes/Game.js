@@ -102,10 +102,11 @@ module.exports = class Game {
     return this
   }
   
-  respawnPlayer(user, time = 7000) {
+  respawnPlayer(user, time = 7000, callback) {
     if (this.players.has(user.id)) this.players.delete(user.id)
     setTimeout(() => {
       this.addPlayer(user)
+      if (callback) callback(this.players.get(user.id))
     }, time)
     return this
   }

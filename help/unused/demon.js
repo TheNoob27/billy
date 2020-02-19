@@ -73,7 +73,7 @@ class Demon extends Command {
     })
     
     let hp = enemy.hp
-    let target = {
+    game.target = {
       player: game.players.random()
     }
     
@@ -126,55 +126,21 @@ class Demon extends Command {
       }
       
       if (Math.random() > 0.5) { // attack
-        let targetplayer = target.player
+        let targetplayer = game.target.player || game.players.first() || {}
         
-        target.player.hp -= enemy.damage
-        if (client.fob.fetch(target.player.id + ".inventory.armour.name") == "Eternal Inferno") enemy.hp -= enemy.damage * 0.15
-      if (target.player.hp <= 0) {
-        message.channel.send("**"+target.player.tag+"** died! They respawn in 7 seconds..")
-        for (var i = 0; i < game.playerlist.length; i++) {
-          if (game.playerlist[i] == target.player.id) {
-            
-            game.players.splice(i, 1)
-            game.playerlist.splice(i, 1)
-            setTimeout(() => {
-              let player = targetplayer
-              
-              let level = client.fob.fetch(`${player.id}.level.level`) || 1
-              let inv = client.fob.fetch(`${player.id}.inventory`)
-              let push = {
-                id: player.id,
-                level: level,
-                hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
-                tag: player.tag,
-                damage: inv.sword ? inv.sword.damage || 8 : 8,
-                maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
-              }
-              game.players.push(push)
-              game.playerlist.push(push.id)
-              
-              target = {
-              player: game.players[Math.floor(Math.random() * game.players.length)]
-            }
-            }, 7000)
-          
-            break;
-          }
+        game.attackPlayer(targetplayer)
+        if (targetplayer.hp <= 0) {
+          message.channel.send("**"+targetplayer.tag+"** died! They respawn in 7 seconds..")
+          game.target = {}
+          game.respawnPlayer(targetplayer.user, 7000, (player) => !game.target.player ? game.target.player = player : game.target.player = game.players.random())
         }
-        
-      }
       } // attack
       
       if (Math.random() > 0.97) { // fling
-        let current = target.player
+        
         
         message.channel.send("**"+player.tag+"** got flung!")
-        for (var i = 0; i < game.playerlist.length; i++) {
-          if (game.playerlist[i] == user.id) {
-            game.playerlist.splice(i, 1)
-            game.players.splice(i, 1)
-          }
-        }
+        game.removePlayer(player, false)
         
         if (!target.player && game.playerlist.length) {
           target = {
