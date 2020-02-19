@@ -96,8 +96,9 @@ class Play extends Command {
     
       message.channel.send(embed).then(async msg => {
         await msg.react("⚔️")
+        await msg.react("🏹")
       
-        let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.players.has(user.id)
+        let filter = (r, user) => ["⚔️", "🏹"].includes(r.emoji.name) && game.players.has(user.id)
         let collector = game.collector = msg.createReactionCollector(filter, {time: general ? 300000 : 180000}) // 3mins 
         let helped = []
     
@@ -126,6 +127,10 @@ class Play extends Command {
               game.attackPlayer(player)
               if (enemy.hp <= 0 || game.players.size <= 0) return game.endCollector(msg, hp, updatedmg) // all players or enemy died
             }
+          } else if (r.emoji == "🏹") {
+            if (Math.random() < 0.5) return;
+            game.attackEnemy(player, 5)
+            if (collector.ended) return game.endCollector(msg, hp, updatedmg)
           }
         })
         
