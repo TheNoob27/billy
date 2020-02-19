@@ -1,7 +1,7 @@
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
 const Game = require("../classes/Game.js")
-const ms = require("parse-ms")
+const ms = require("pretty-ms")
 
 class Play extends Command {
   constructor(client) {
