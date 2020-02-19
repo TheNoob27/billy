@@ -68,8 +68,10 @@ class Play extends Command {
       })
       
       collector.on("end", (_, reason) => {
-        if (reason == "cancel") return message.channel.send("The game has been cancelled.")
-        
+        if (reason == "cancel") {
+          client.game = null
+          return message.channel.send("The game has been cancelled.")
+        }
         game.init()
         
         setTimeout(() => play(), 5000)
@@ -130,6 +132,8 @@ class Play extends Command {
         collector.on("end", (_, reason) => {
           if (reason == "time") {
             clearInterval(game.regen)
+            client.game = null
+            
             return message.channel.send("You automatically lose, because you took too long.")
           } else if (reason == "alldied" || game.players.size <= 0) {
             return end(true)

@@ -157,11 +157,15 @@ class Demon extends Command {
       collector.on("end", (_, reason) => {
         clearInterval(game.regen)
         if (reason != "enemydied") {
+          client.game = null
           clearInterval(game.regen)
           return message.channel.send("You automatically lose, because you took too long.")
         }
         if (enemydied) message.channel.send("The Demon has been defeated!!! \n\nWait, it's raining... gems.")
-       
+        
+        game.enemy = null
+        game.collector = null
+        
         gemrain()
       })
     })
@@ -253,7 +257,8 @@ class Demon extends Command {
             gems.splice(0, 1)
           }       
             if (gems.length <= 0) {
-              return message.channel.send("The Gem Rain is over!")
+              client.game = null
+              return message.channel.send(game.players.map(p => p.user.toString()).join(", ") + "\nThe Gem Rain is over!")
             } else {
              return setTimeout(() => collectgem(game, gems), 50)
             }
