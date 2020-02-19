@@ -128,12 +128,12 @@ class Play extends Command {
           
           game.reward(helped, hp)
           
-          setTimeout(() => play(game.shouldSpawnGeneral), 5000)
+          return general ? end() : setTimeout(() => play(game.shouldSpawnGeneral), 5000)
         })
       })
     }
     
-    function end(game, alldied, quitted) {
+    function end(alldied) {
       clearInterval(game.regen)
       let enemyteam = game.team == "Humans" ? "Orcs" : "Humans"
     
