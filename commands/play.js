@@ -1,7 +1,7 @@
-const { getgem, addxp } = require("../fobfunctions.js")
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
 const Game = require("../classes/Game.js")
+const ms = require("parse-ms")
 
 class Play extends Command {
   constructor(client) {
@@ -79,6 +79,7 @@ class Play extends Command {
     })
     
     function play(general = false) {
+      let time = t => ms((general ? 300000 : 180000) - (t - Date.now()))
       let enemy = game.spawnEnemy(general ? {
       name: "General",
       hp: 1162,
@@ -89,7 +90,7 @@ class Play extends Command {
       
       let embed = new RichEmbed()
       .setTitle("Field of Battle")
-      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + (general ? "5" : "3") +" minutes.")
+      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + .")
       .addField("Enemy's HP", enemy.hp + "/" + hp)
       .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
       .setColor(colors.color)
@@ -99,7 +100,7 @@ class Play extends Command {
         await msg.react("🏹")
       
         let filter = (r, user) => ["⚔️", "🏹"].includes(r.emoji.name) && game.players.has(user.id)
-        let collector = game.collector = msg.createReactionCollector(filter, {time: general ? 300000 : 180000}) // 3mins 
+        let collector = game.collector = msg.createReactionCollector(filter, {time: general ? 300000 : 180000}) // 3mins or 5mins
         let helped = []
     
         let updatedmg = setInterval(() => {
