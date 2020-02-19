@@ -154,7 +154,7 @@ class Demon extends Command {
       } // fling
     })
       
-      collector.on("end", reason => {
+      collector.on("end", (_, reason) => {
         clearInterval(game.regen)
         if (reason != "enemydied") {
           clearInterval(game.regen)

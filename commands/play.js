@@ -67,7 +67,7 @@ class Play extends Command {
         )
       })
       
-      collector.on("end", reason => {
+      collector.on("end", (_, reason) => {
         if (reason == "cancel") return message.channel.send("The game has been cancelled.")
         
         game.init()
@@ -127,11 +127,11 @@ class Play extends Command {
           }
         })
         
-        collector.on("end", reason => {
+        collector.on("end", (_, reason) => {
           if (reason == "time") {
             clearInterval(game.regen)
             return message.channel.send("You automatically lose, because you took too long.")
-          } else if (reason == "alldied") {
+          } else if (reason == "alldied" || game.players.size <= 0) {
             return end(true)
           }
           
