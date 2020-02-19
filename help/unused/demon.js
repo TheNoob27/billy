@@ -1,6 +1,7 @@
 const { getgem } = require("../fobfunctions.js")
 const { RichEmbed } = require("discord.js")
 const Command = require("../classes/Command.js")
+const Game = require("../classes/Game.js")
 
 class Demon extends Command {
   constructor(client) {
@@ -14,81 +15,61 @@ class Demon extends Command {
   }
   
   async run(client, message, args, colors, prefix, game) {
-if (!game && message.author.id != client.owner) return;
-  colors["demon"] = "#632f2f"
+    if (!game && message.author.id != client.owner) return;
+    colors["demon"] = "#632f2f"
   
   if (!game) setup()
   else fight()
   
   function setup() {
-    let game = {
-    players: [],
-    playerlist: [],
-    regen: null
-    }
+     game = new Game(message.channel)
+    
     let embed = new RichEmbed()
-  .setColor(colors.demon)
-  .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
-  .addField("Players", "​")
-  message.channel.send(embed).then(async msg => {
-    await msg.react("⚔️")
-    await msg.react("✅")
+    .setColor(colors.demon)
+    .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
+    .addField("Players", "​")
+    message.channel.send(embed).then(async msg => {
+      await msg.react("⚔️")
+      await msg.react("✅")
     
-    let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
-    let collector = msg.createReactionCollector(filter, {time: 300000})
-    let players = []
+      let filter = (r, user) => ["⚔️", "✅"].includes(r.emoji.name) && !user.bot
+      let collector = msg.createReactionCollector(filter, {time: 300000})
+      let players = []
     
-    collector.on("collect", r => {
-      let user = r.users.last()
-      
-      if (r.emoji == "⚔️") {
-        let find = game.players.find(player => player.id == user.id)
-        if (find) return;
+      collector.on("collect", (r, user) => {
+        if (r.emoji == "⚔️") {
+          if (game.players.has(user.id)) return;
         
-        let level = client.fob.fetch(`${user.id}.level.level`) || 1
-        let inv = client.fob.fetch(`${user.id}.inventory`)
-        game.players.push({
-          id: user.id,
-          level: level,
-          hp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0),
-          tag: user.tag,
-          damage: inv.sword ? inv.sword.damage || 8 : 8,
-          maxhp: (18 * (level - 1) + 100) + (inv.armour ? inv.armour.health || 0 : 0)
-        })
-        game.playerlist.push(user.id)
+        game.addPlayer(user)
         
-          players.push(user.tag)
-        
-        msg.edit(embed = new RichEmbed()
-  .setColor(colors.demon)
-  .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
-  .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
-                             )
+        msg.edit(
+          new RichEmbed()
+          .setColor(colors.demon)
+          .setDescription("The Demon is being summoned! React with ⚔️ to join! \n"+message.author.username+", React with ✅ to start.")
+          .addField("Players", "**"+ game.players.map(p => p.tag).join("\n") +"**")
+        )
       } else {
         if (user.id != message.author.id) return;
         if (game.players.length == 0) return;
-        collector.stop()
+        return collector.stop()
       }
-      
     })
     
     collector.on("end", () => {
       if (game.players.length < 1) return message.channel.send("No-one joined!")
       if (args[0] == "skip" && message.author.id == client.owner) gemrain(game)
-      else fight(game)
+      else fight()
     })
   })
   }
   
-  function fight(newgame) {
-    if (newgame) game = newgame
-    
+  function fight() { 
     let times = 0
-      game.regen = setInterval(() => { 
-        console.log("Regen number "+ ++times)
-    for (var i = 0; i < game.players.length; i++) {
-      if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
-    }
+    game.regen = setInterval(() => { 
+      console.log("Regen number "+ ++times)
+      for (var i = 0; i < game.players.length; i++) {
+        if (game.players[i].hp !== game.players[i].maxhp) game.players[i].hp += 2
+      }
     }, 4000)
     
     
