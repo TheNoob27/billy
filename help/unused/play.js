@@ -121,7 +121,7 @@ class Play extends Command {
             clearInterval(game.regen)
             return message.channel.send("You automatically lose, because you took too long.")
           } else if (reason == "alldied") {
-            return 
+            return end(true)
           }
           
           message.channel.send("Yay, the "+enemy.name+" died!")
@@ -133,7 +133,7 @@ class Play extends Command {
       })
     }
     
-    function end(alldied) {
+    function end(alldied = false) {
       clearInterval(game.regen)
       let enemyteam = game.team == "Humans" ? "Orcs" : "Humans"
     
