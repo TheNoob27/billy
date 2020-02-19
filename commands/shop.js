@@ -17,7 +17,9 @@ class Shop extends Command {
     if (!inventory.gems) inventory.gems = {}
     if (!inventory.sword) inventory.sword = {}
     if (!inventory.armour) inventory.armour = {}
-    let canBuy = (fn, item) => inventory.sword.name == item || inventory.armour.name == item ? " ✅" : typeof fn == "number" ? inventory.gold < fn ? " 🔒" : "" : !fn(inventory) ? " 🔒" : ""
+    if (!inventory.bow) inventory.bow = {}
+    
+    let canBuy = (fn, item) => inventory.sword.name == item || inventory.armour.name == item || inventory.bow.name == item ? " ✅" : typeof fn == "number" ? inventory.gold < fn ? " 🔒" : "" : !fn(inventory) ? " 🔒" : ""
     
     let embed = new RichEmbed()
     .setTitle("Shop")
