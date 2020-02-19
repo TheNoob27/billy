@@ -306,6 +306,10 @@ class Billy extends Client {
       item.gemsneeded = ["dragonbone"]
     } else if (item.name == "Enchanted Crossbow") {
       item.cost = 1250
+      item.value = 15
+    } else if (item.name == "Long Bow") {
+      item.cost = 325
+      item.value = 10
     }
     
     return item
