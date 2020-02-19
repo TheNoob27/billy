@@ -76,6 +76,7 @@ module.exports = class Game {
     let level = data.level || {}
     let sword = inv.sword || {}
     let armour = inv.armour || {health: 0}
+    let bow = inv.bow || {damage: 5}
     
     let push = {
       user: user,
@@ -83,9 +84,10 @@ module.exports = class Game {
       tag: user.tag,
       level: level.level,
       damage: sword.damage || 8,
-      hp: (18 * (level.level - 1) + 100) + (armour.health || 0),
-      maxhp: (18 * (level.level - 1) + 100) + (armour.health || 0),
-      armour: armour
+      hp: (18 * (level.level - 1) + 100) + (armour.health),
+      maxhp: (18 * (level.level - 1) + 100) + (armour.health),
+      armour: armour,
+      bow: bow
     }
     
     this.players.set(push.id, push)
@@ -118,6 +120,10 @@ module.exports = class Game {
     if (this.enemy.hp <= 0) return this.collector.stop("enemydied")
     
     return this
+  }
+  
+  attackWithBow(player) {
+    return this.attackEnemy(player, player.bow.damage)
   }
   
   attackPlayer(player, damage) {

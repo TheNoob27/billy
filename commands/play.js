@@ -129,7 +129,7 @@ class Play extends Command {
             }
           } else if (r.emoji == "🏹") {
             if (Math.random() < 0.5) return;
-            game.attackEnemy(player, 5)
+            game.attackWithBow(player)
             if (collector.ended) return game.endCollector(msg, hp, updatedmg)
           }
         })
