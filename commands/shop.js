@@ -62,7 +62,10 @@ class Shop extends Command {
         
         "\n\n**__Chain Armour__**" + canBuy(250, "Chain Armour") +
         "\nExtra Health: 50 \n Gold: 250"
-      }
+      },
+     // {
+        
+    //  }
     ].map(f => embed.addField(f.title, f.description, true))
     
     return message.channel.send(embed)
