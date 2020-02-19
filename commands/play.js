@@ -117,12 +117,12 @@ class Play extends Command {
           
           if (r.emoji == "⚔️") {
             game.attackEnemy(player)
-            helped.push(player.id)
+            if (!helped.includes(player.id)) helped.push(player.id)
             if (collector.ended) return game.endCollector(msg, hp, updatedmg) // enemydied
             
             if (Math.random() > 0.5) {
               game.attackPlayer(player)
-              if (collector.ended) return game.endCollector(msg, hp, updatedmg) // all players or enemy died
+              if (enemy.hp <= 0 || game.players.size <= 0) return game.endCollector(msg, hp, updatedmg) // all players or enemy died
             }
           }
         })
@@ -163,7 +163,7 @@ class Play extends Command {
           setTimeout(() => {
             client.commands.get("demon").run(client, message, args, colors, "", game)
           }, Math.random() * 4000 + 5000)
-        } else return 
+        } else return client.game = null
       } else {
         let embed = new RichEmbed()
         .setTitle(game.team + " Win!")
