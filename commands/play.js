@@ -79,7 +79,8 @@ class Play extends Command {
     })
     
     function play(general = false) {
-      let time = t => ms((general ? 300000 : 180000) - (t - Date.now()))
+      let now = Date.now()
+      let time = t => ms((general ? 300000 : 180000) - (t - now))
       let enemy = game.spawnEnemy(general ? {
       name: "General",
       hp: 1162,
@@ -90,7 +91,7 @@ class Play extends Command {
       
       let embed = new RichEmbed()
       .setTitle("Field of Battle")
-      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + (general ? "5" : "3") +" minutes.")
+      .addField("Enemy #" + game.enemycount, "You and your team have encountered " + (general ? "the **" + enemy.name + "**" : "a "+ enemy.name) + "! Press the sword reaction to hit him. You have " + (general ? "5" : "3") +"m.")
       .addField("Enemy's HP", enemy.hp + "/" + hp)
       .addField("Your Team", "​"+ game.players.map(player => "**"+player.tag+"** - HP: "+ player.hp).join("\n"))
       .setColor(colors.color)
@@ -122,7 +123,7 @@ class Play extends Command {
           if (r.emoji == "⚔️") {
             game.attackEnemy(player)
             if (!helped.includes(player.id)) helped.push(player.id)
-            if (collector.ended) return game.endCollector(msg, hp, updatedmg) // enemydied
+            if (collector.ended || enemy.hp <= 0) return game.endCollector(msg, hp, updatedmg) // enemydied
             
             if (Math.random() > 0.5) {
               game.attackPlayer(player)
@@ -131,7 +132,9 @@ class Play extends Command {
           } else if (r.emoji == "🏹") {
             if (Math.random() < 0.5) return;
             game.attackWithBow(player)
-            if (collector.ended) return game.endCollector(msg, hp, updatedmg)
+            if (collector.ended || enemy.hp <= 0) return game.endCollector(msg, hp, updatedmg)
+            if (["Archer", "Mage"].includes(enemy.name) && Math.random() > 0.5) game.attackPlayer(player)
+            if (enemy.hp <= 0 || game.players.size <= 0) return game.endCollector(msg, hp, updatedmg) // all players or enemy died
           }
         })
         
