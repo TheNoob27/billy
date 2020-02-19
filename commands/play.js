@@ -18,7 +18,7 @@ class Play extends Command {
   
   async run(client, message, args, colors) {
     if (client.game) {
-      return message.channel.send("A game is already running! Wait for that game to end before starting a new one! \n" + client.game.collector ? client.game.collector.message.url : client.game.channel.toString())
+      return message.channel.send("A game is already running! Wait for that game to end before starting a new one! \n" + (client.game.collector ? client.game.collector.message.url : client.game.channel.toString()))
     }
     
     let game = new Game(message.channel)
@@ -42,6 +42,7 @@ class Play extends Command {
       let collector = msg.createReactionCollector(filter, {time: 300000})
       
       collector.on("collect", (r, user) => {
+        
         if (r.emoji == options[0]) {
           if (game.players.has(user.id)) return;
           game.addPlayer(user)
@@ -53,6 +54,7 @@ class Play extends Command {
           return collector.stop("start")
         } else {
           if (user.id !== message.author.id) return;
+          client.game = null
           return collector.stop("cancel")
         }
         
@@ -179,3 +181,5 @@ class Play extends Command {
     }
   }
 }
+
+module.exports = Play
