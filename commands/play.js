@@ -80,7 +80,7 @@ class Play extends Command {
     
     function play(general = false) {
       let now = Date.now()
-      let time = t => ms((general ? 300000 : 180000) - (t - now))
+      let time = t => ms(((general ? 300000 : 180000) - (t - now)) > 0 ? (general ? 300000 : 180000) - (t - now) : "0s")
       let enemy = game.spawnEnemy(general ? {
       name: "General",
       hp: 1162,
@@ -141,6 +141,7 @@ class Play extends Command {
         collector.on("end", (_, reason) => {
           if (reason == "time") {
             clearInterval(game.regen)
+            clearInterval(updatedmg)
             client.game = null
             
             return message.channel.send("You automatically lose, because you took too long.")
