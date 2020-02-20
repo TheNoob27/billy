@@ -49,7 +49,15 @@ class TradeCMD extends Command {
     })
     
     function trading(trade) {
+      let embed = new RichEmbed() 
+      .setTitle("Trade")
+      .addField(message.author.username + "'s Items", "​" + trade.items[1].map(i => "**" + i.name + "**: " + i.amount).join("\n"))
+      .addField(user.username + "'s Items", "​" + trade.items[2].map(i => "**" + i.name + "**: " + i.amount).join("\n"))
+      .setColor(colors.color)
       
+      message.channel.send(embed).then(msg => {
+        let opts = []
+      })
     }
   }
 }

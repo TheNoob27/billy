@@ -1,12 +1,18 @@
 class Trade {
-  constructor(client, user, user2) {
-    this.client = client
+  constructor(user, user2) {
+    this.client = user.client
     this.trader = user
     this.tradingWith = user2
     this.items = {
       "1": [],
       "2": []
     }
+  }
+  
+  addGold(slot, amount = 500) {
+    let exists = this.items[slot].some(i => i.name == "Gold")
+    if (exists) this.items[slot].find(i => i.name == "Gold").amount += amount
+    else this.items[slot].push({name: "Gold", amount: amount})
   }
   
   addItem(item = {}, slot = 1) {
