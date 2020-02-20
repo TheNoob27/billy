@@ -3,6 +3,10 @@ class Trade {
     this.client = user.client
     this.trader = user
     this.tradingWith = user2
+    this.accepted = {
+      "1": false,
+      "2": false
+    }
     this.items = {
       "1": [],
       "2": []
@@ -10,13 +14,21 @@ class Trade {
     return this
   }
   
+  modify(slot) {
+    if (this.accepted[slot]) this.accepted[slot] = false
+  }
+  
   addGold(slot, amount = 500) {
+    this.modify(slot)
+    
     let exists = this.items[slot].some(i => i.name == "Gold")
     if (exists) this.items[slot].find(i => i.name == "Gold").amount += amount
     else this.items[slot].push({name: "Gold", amount: amount})
   }
   
   removeGold(slot, amount = 500) {
+    this.modify(slot)
+    
     let exists = this.items[slot].some(i => i.name == "Gold")
     if (exists) this.items[slot].find(i => i.name == "Gold").amount -= amount
   }
@@ -24,6 +36,8 @@ class Trade {
   addItem(item = {}, slot = 1) {
     if (!item.name || !this.items[slot]) return false;
 
+    this.modify(slot)
+    
     if (item.name !== "Gold") {
       let exists = this.items[slot].some(i => i.name == item.name)
       if (exists) this.items[slot].find(i => i.name == item.name).amount += item.amount

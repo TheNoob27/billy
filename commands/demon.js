@@ -92,7 +92,7 @@ class Demon extends Command {
       let filter = (r, user) => ["⚔️"].includes(r.emoji.name) && game.players.has(user.id)
       let collector = game.collector = msg.createReactionCollector(filter, {time: 600000})
       let enemydied = false
-    
+      let helpers = []
     
       let updatedmg = setInterval(() => {
         if (game.players.size > 0) {
@@ -124,6 +124,8 @@ class Demon extends Command {
       
       if (Math.random() > 0.15) game.attackEnemy(player)
       else game.attackEnemy(player, Math.ceil(player.damage / 3))
+      
+      if (!helpers.includes(user.id)) helpers.push(user.id)
       
       if (enemy.hp <= 0) {
         return game.endCollector(msg, hp, updatedmg) // enemydied
@@ -163,8 +165,7 @@ class Demon extends Command {
         }
         if (enemydied) message.channel.send("The Demon has been defeated!!! \n\nWait, it's raining... gems.")
         
-        game.enemy = null
-        game.collector = null
+        game.reward(helpers, hp)
         
         gemrain()
       })

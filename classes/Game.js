@@ -19,7 +19,7 @@ module.exports = class Game {
   }
   
   get fightingDemon() {
-    return this.enemy ? this.enemy.name == "Demon" : true
+    return this.enemy ? this.enemy.name == "Demon" : this.enemycount === this.rounds + 1
   }
   
   get shouldSpawnDemon() {
@@ -219,7 +219,7 @@ module.exports = class Game {
       .setColor(this.client.config.color)
     )
     
-    this.enemy = null
+    this.enemy = "null"
     this.collector = null
     
     return msg
