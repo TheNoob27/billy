@@ -16,6 +16,11 @@ class Trade {
     else this.items[slot].push({name: "Gold", amount: amount})
   }
   
+  removeGold(slot, amount = 500) {
+    let exists = this.items[slot].some(i => i.name == "Gold")
+    if (exists) this.items[slot].find(i => i.name == "Gold").amount -= amount
+  }
+  
   addItem(item = {}, slot = 1) {
     if (!item.name || !this.items[slot]) return false;
 
