@@ -19,7 +19,7 @@ module.exports = class Game {
   }
   
   get fightingDemon() {
-    return this.enemy ? this.enemy.name == "Demon" : false
+    return this.enemy ? this.enemy.name == "Demon" : true
   }
   
   get shouldSpawnDemon() {
