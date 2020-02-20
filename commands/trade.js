@@ -73,7 +73,8 @@ class TradeCMD extends Command {
           else if (r.emoji == opts[1]) trade.removeGold(slot)
           else if (r.emoji == opts[2]) {}
           else if (r.emoji == opts[3]) {}
-          else if (r.emoji == opts[4]) trade.items[slot]
+          else if (r.emoji == opts[4]) trade.clear(slot)
+          else if (r.emoji == opts[5]) {}
         })
       })
     }
