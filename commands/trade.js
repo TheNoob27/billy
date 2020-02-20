@@ -22,7 +22,7 @@ class TradeCMD extends Command {
     
     if (!user) return message.channel.send("Couldn't find that user.")
     
-    message.channel.send(
+    message.channel.send(user.toString(), 
       new RichEmbed()
       .setTitle("New Trade")
       .setColor(colors.color)
@@ -30,24 +30,27 @@ class TradeCMD extends Command {
     ).then(msg => {
     let filter = (r, u) => u.id == user.id && ["✅", "❌"].includes(r.emoji.name)
     let collector = msg.createReactionCollector(filter, {time: 600000})
-    let accepted = false
+    
     collector.once("collect", r => {
       if (r.emoji == "✅") {
-        accepted = true
-        collector.stop()
+        collector.stop("accepted")
       } else {
         collector.stop()
       }
     })
     
-    collector.once("end", () => {
-      if (accepted) {
+    collector.once("end", (_, reason) => {
+      if (reason == "accepted") {
         let trade = new Trade(message.author, user)
-        
+        trading(trade)
       }
       return message.reply("They did not accept your request.")
     })
     })
+    
+    function trading(trade) {
+      
+    }
   }
 }
 
