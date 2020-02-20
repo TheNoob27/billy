@@ -190,7 +190,7 @@ class Demon extends Command {
   }
   
   function collectgem(game, gems) {
-      let user = client.users.get(game.players.random())
+      let user = client.users.get(game.players.random().id)
       if (!user) return message.channel.send("The Gem Rain has been cancelled, due to not being able to find a user.")
       
       let jokes = [
@@ -243,8 +243,8 @@ class Demon extends Command {
         collector.on("end", () => {
           if (denied || toolong) {
             let reason = denied ? "The person who was going for this gem changed their mind, so you got it." : " The person who was going for this gem was too slow, so you got it."
-            let id = game.players.filter(u => u != user.id).random()
-            let newuser = game.players.length > 1 ? client.users.get(id) : client.users.get(game.players.random())
+            let id = game.players.filter(u => u != user.id).random().id
+            let newuser = game.players.size > 1 ? client.users.get(id) : client.users.get(game.players.random().id)
             console.log(id, client.users.has(id))
             
             let gem = gems[0]
