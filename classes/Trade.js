@@ -18,6 +18,11 @@ class Trade {
     if (this.accepted[slot]) this.accepted[slot] = false
   }
   
+  clear(slot) {
+    this.modify(slot)
+    
+    this.items[slot] = []
+  }
   addGold(slot, amount = 500) {
     this.modify(slot)
     
