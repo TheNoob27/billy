@@ -51,12 +51,16 @@ class TradeCMD extends Command {
     function trading(trade) {
       let embed = new RichEmbed() 
       .setTitle("Trade")
+      .setDescription("React with ➕ to add 500 gold and ➖ to remove 500 gold. \nReact with 💎 to add a gem and ☄️ to remove a gem.\nReact with 🗑 to clear all your items. \nReact with ✅ to accept and ❌ to cancel.")
       .addField(message.author.username + "'s Items", "​" + trade.items[1].map(i => "**" + i.name + "**: " + i.amount).join("\n"))
       .addField(user.username + "'s Items", "​" + trade.items[2].map(i => "**" + i.name + "**: " + i.amount).join("\n"))
       .setColor(colors.color)
       
-      message.channel.send(embed).then(msg => {
-        let opts = []
+      message.channel.send(embed).then(async msg => {
+        let opts = ["➕", "➖", "💎", "☄️", "🗑", "✅", "❌"]
+        for (let i of opts) {
+          await msg.react(i)
+        }
       })
     }
   }

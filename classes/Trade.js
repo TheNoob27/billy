@@ -7,6 +7,7 @@ class Trade {
       "1": [],
       "2": []
     }
+    return this
   }
   
   addGold(slot, amount = 500) {
@@ -38,3 +39,4 @@ class Trade {
     return this.addItem(item, slot)
   }
 }
+module.exports = Trade
