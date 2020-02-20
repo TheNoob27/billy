@@ -144,7 +144,7 @@ class Demon extends Command {
         message.channel.send("**"+player.tag+"** got flung!")
         game.removePlayer(player, false)
         
-        if (game.target.player.id == player.id) game.target.player = game.players.random()
+        if (game.target.player ? game.target.player.id == player.id : true) game.target.player = game.players.random()
         
         setTimeout(() => {
           message.channel.send("**"+player.tag+"** got lost in the void! They respawn in 7 seconds..")

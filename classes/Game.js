@@ -23,7 +23,7 @@ module.exports = class Game {
   }
   
   get shouldSpawnDemon() {
-    return this.players.size > 1 && Math.random() < 14.3
+    return this.players.size > 1 && Math.random() < 0.5
   }
   
   get shouldSpawnGeneral() {

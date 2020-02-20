@@ -61,6 +61,14 @@ class TradeCMD extends Command {
         for (let i of opts) {
           await msg.react(i)
         }
+        
+        let filter = (r, u) => opts.includes(r.emoji.name) && [message.author.id, user.id].includes(u.id)
+        let collector = msg.createReactionCollector(filter, {idle: 120000})
+        
+        collector.on("collect", r => {
+          let js
+          if (r.emoji == opts[0]) trade.addGold
+        })
       })
     }
   }

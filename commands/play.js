@@ -132,6 +132,8 @@ class Play extends Command {
           } else if (r.emoji == "🏹") {
             if (Math.random() < 0.5) return;
             game.attackWithBow(player)
+            if (!helped.includes(player.id)) helped.push(player.id)
+            
             if (collector.ended || enemy.hp <= 0) return game.endCollector(msg, hp, updatedmg)
             if (["Archer", "Mage"].includes(enemy.name) && Math.random() > 0.5) game.attackPlayer(player)
             if (enemy.hp <= 0 || game.players.size <= 0) return game.endCollector(msg, hp, updatedmg) // all players or enemy died
