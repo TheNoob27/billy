@@ -43,7 +43,7 @@ class Trade {
     if (exists) this.items[slot].find(i => i.name == "Gold").amount -= amount
   }
   
-  addItem(item = {}, slot = 1) {
+  addItem(slot = 1, item = {}) {
     if (!item.name || !this.items[slot]) return false;
 
     this.modify(slot)
