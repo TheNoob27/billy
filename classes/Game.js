@@ -71,9 +71,9 @@ module.exports = class Game {
   }
   
   addPlayer(user) {
-    let data = this.client.fob.fetch(user.id);
+    let data = this.client.fob.fetch(user.id) || {}
     let inv = data.inventory || {}
-    let level = data.level || {}
+    let level = data.level || {level: 1}
     let sword = inv.sword || {}
     let armour = inv.armour || {health: 0}
     let bow = inv.bow || {damage: 5}
