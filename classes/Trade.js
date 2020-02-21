@@ -23,7 +23,12 @@ class Trade {
     
     this.items[slot] = []
   }
-  addGold(slot, amount = 500) {
+  
+  getItem(slot = 1, name) {
+    return this.items[slot]
+  }
+  
+  addGold(slot = 1, amount = 500) {
     this.modify(slot)
     
     let exists = this.items[slot].some(i => i.name == "Gold")
@@ -31,7 +36,7 @@ class Trade {
     else this.items[slot].push({name: "Gold", amount: amount})
   }
   
-  removeGold(slot, amount = 500) {
+  removeGold(slot = 1, amount = 500) {
     this.modify(slot)
     
     let exists = this.items[slot].some(i => i.name == "Gold")

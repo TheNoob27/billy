@@ -69,7 +69,11 @@ class TradeCMD extends Command {
           let u = r.users.last()
           let slot = [0, message.author.id, user.id].indexOf(u.id)
           
-          if (r.emoji == opts[0]) trade.addGold(slot)
+          if (r.emoji == opts[0]) {
+            let gold = client.db.fetch(u.id + ".gold")
+            if (!gold) return;
+            if (gold < 500) return trade.addGold(slot, gold)
+          }
           else if (r.emoji == opts[1]) trade.removeGold(slot)
           else if (r.emoji == opts[2]) {}
           else if (r.emoji == opts[3]) {}
