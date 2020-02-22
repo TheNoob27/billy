@@ -68,5 +68,9 @@ class Trade {
     item.amount = -item.amount
     return this.addItem(item, slot)
   }
+  
+  checkItem(slot) {
+    
+  }
 }
 module.exports = Trade
