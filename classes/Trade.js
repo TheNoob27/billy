@@ -31,16 +31,17 @@ class Trade {
   addGold(slot = 1, amount = 500) {
     this.modify(slot)
     
-    let exists = this.items[slot].some(i => i.name == "Gold")
-    if (exists) this.items[slot].find(i => i.name == "Gold").amount += amount
+    let exists = this.items[slot].find(i => i.name == "Gold")
+    if (exists) exists.amount += amount
     else this.items[slot].push({name: "Gold", amount: amount})
   }
   
   removeGold(slot = 1, amount = 500) {
     this.modify(slot)
     
-    let exists = this.items[slot].some(i => i.name == "Gold")
-    if (exists) this.items[slot].find(i => i.name == "Gold").amount -= amount
+    let exists = this.items[slot].find(i => i.name == "Gold")
+    if (exists) exists.amount -= amount
+    
   }
   
   addItem(slot = 1, item = {}) {
