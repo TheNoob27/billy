@@ -9,7 +9,9 @@ app.get("/", (request, response) => {
 });
 app.listen(process.env.PORT);
 setInterval(() => {
-  require("node-fetch")(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`)
+  const fetch = require("node-fetch")
+  fetch(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`)
+  fetch("http://thenoob27-billy.glitch.me/")
 }, 280000);
 /*
 */
