@@ -2,7 +2,7 @@ const { Event, Embed } = require("../classes")
 
 module.exports = class extends Event {
   constructor(client) {
-    super(client, "event")
+    super(client, "message")
   }
 
   shouldRun(message) {
@@ -48,7 +48,7 @@ module.exports = class extends Event {
         return message.channel.send(
           new Embed()
           .setTitle("Command Disabled")
-          .setDescription("This command is currently disabled. " + (command.settings.disableMessage ? "The reason for that is: **" + command.settings.disableMessage + "**." : "It was probably disabled because something wasn't functioning properly, otherwise another reason.") + "\nPlease try again later, or **[join the support server](" + this.client.config.links.support + ")** for more info.")
+          .setDescription("This command is currently disabled. " + (command.settings.disableMessage ? "The reason for that is: **" + command.settings.disableMessage + "**." : "It was probably disabled because something wasn't functioning properly, otherwise another reason.") + "\nPlease try again later.")
           .setColor(this.client.colors.error)
           .setTimestamp()
         )
@@ -78,7 +78,7 @@ module.exports = class extends Event {
           new Embed()
           .setTitle("An Error Occurred!")
           .setColor(this.client.colors.error)
-          .setDescription("Something went wrong while trying to run this command! This shouldn't happen. " + (command.settings.errorMessage ? "\nNote: **" + command.settings.errorMessage + "**" : "If this persists, please **[join the support server](" + this.client.config.links.support + ")** to get help and we will try to fix it as soon as possible.") + "\n\n**Error**: ```js\n" + err[message.author.owner ? "stack" : "message"] + "\n```")
+          .setDescription("Something went wrong while trying to run this command! This shouldn't happen. " + (command.settings.errorMessage ? "\nNote: **" + command.settings.errorMessage + "**" : "") + "\n\n**Error**: ```js\n" + err[message.author.owner ? "stack" : "message"] + "\n```")
           .setFooter("Failed to run " + this.client.config.prefix + command.help.name + ".")
           .setTimestamp()
         ).silence()

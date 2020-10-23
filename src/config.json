@@ -1,11 +1,11 @@
 {
-  "prefix": "PREFIX",
-  "owner": "BOT_OWNER_ID",
+  "prefix": "b!",
+  "owner": "342421078066593803",
   
   "colors": {
-    "color": "#000000",
-    "help": "#000000",
-    "error": "#000000",
+    "color": "#f5da64",
+    "help": "#778ba2",
+    "error": "#ff0000",
     "invis": "#36393e",
     "embed": "#303136",
     "discord": "#7289da"
@@ -13,20 +13,13 @@
 
   "emojis": {},
   "links": {
-    "vote": "https://top.gg/bot/BOT_ID/vote",
     "patreon": "https://patreon.com/TheNoob27",
-    "invite": "https://discordapp.com/oauth2/authorize?client_id=BOT_ID&scope=bot&permissions=PERMISSIONS",
-    "server": "SERVER_INVITE",
-    "support": "SERVER_INVITE"
+    "invite": "https://discordapp.com/oauth2/authorize?client_id=BOT_ID&scope=bot&permissions=PERMISSIONS"
   },
 
   "ids": {
     "emojis": {},
-    "channels": {
-      "": "i suggest putting useful IDs in this ids object such as server-logs channels and emoji ids etc"
-    },
-    "guilds": {
-      "support": "SUPPORT_SERVER_ID"
-    }
+    "channels": {},
+    "guilds": {}
   }
 }
