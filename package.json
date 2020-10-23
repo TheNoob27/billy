@@ -1,30 +1,28 @@
 {
-  "name": "BillyRayJoe",
+  "name": "billy",
   "version": "0.0.1",
-  "description": "Better billy ray joe.",
-  "main": "index.js",
+  "description": "Billy Ray Joe, ouir favourite Roblox Field of Battle NPC.",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/index.js"
   },
   "dependencies": {
-    "express": "^4.16.4",
-    "util": "^0.12.1",
-    "discord.js": "^11.5.1",
-    "quick.db": "latest",
-    "parse-ms": "^2.0.0",
+    "@discordjs/uws": "^10.149.0",
+    "better-sqlite3": "^7.1.0",
+    "bufferutil": "^4.0.1",
+    "command-tags": "^1.1.4",
+    "discord.js": "^12.2.0",
+    "dotenv": "^8.2.0",
+    "erlpack": "^0.1.3",
+    "libsodium-wrappers": "^0.7.6",
+    "lodash": "^4.17.19",
+    "on-change": "^2.0.1",
     "pretty-ms": "^5.1.0",
-    "node-fetch": "latest"
-  },
-  "engines": {
-    "node": "8.x"
-  },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/hello-express"
+    "utf-8-validate": "^5.0.2",
+    "zlib-sync": "^0.1.6"
   },
   "license": "MIT",
-  "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+  "repository": {
+    "url": "https://github.com/TheNoob27/DiscordBotTemplate"
+  }
 }
