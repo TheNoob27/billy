@@ -132,6 +132,7 @@ module.exports = ({ Structures, Base, Collection, MessageAttachment, MessageFlag
     }
 
     applyToClass(Message, M, [
+      "createReactionCollector",
       "deletable",
       "delete",
       "equals",

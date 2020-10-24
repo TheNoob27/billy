@@ -51,11 +51,14 @@ class Game {
     return this.constructor.enemies(this.team.toLowerCase())
   }
 
+  get message() {
+    return this.collector && this.collector.message || null
+  }
+
   get playerList() {
     return this.players
     .map(player => `**${player.tag}** - HP: ${player.hp < 0 ? 0 : player.hp}/${player.maxHP}`)
     .join("\n")
-    .concat("\u200b")
   }
 
   addPlayer(user) {
