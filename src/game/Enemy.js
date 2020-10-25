@@ -49,6 +49,9 @@ class Enemy {
     this.attackTarget = this.attackTarget.bind(this)
   }
 
+  get general() { return this.name === "General" }
+  get demon() { return this.name === "Demon" }
+  
   attack(player) {
     return this.game.attackPlayer(player)
   }
