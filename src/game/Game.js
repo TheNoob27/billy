@@ -57,6 +57,7 @@ class Game {
       "⚔️", // sword
       "🏹", // bow
       "🪓", // axe
+      "🔪", // axe 2
       
       "☄️", // magic missile
       "🩹", // heal 
@@ -69,29 +70,31 @@ class Game {
       let s;
       switch(i) {
         case 0: case 1: return true;
-        case 2: return this.players.some(p => p.axe);
-        case 3: s = "Magic Missile"; break;
-        case 4: s = "Heal"; break;
-        case 5: s = "Lifesteal"; break;
-        case 6: s = "Fireball"; break;
-        case 7: s = "Greater Fireball"; break;
-        case 8: s = "Blink"; break;
+        case 2: return this.players.some(p => p.axes.length);
+        case 3: return this.players.some(p => p.axes.length > 1)
+        case 4: s = "Magic Missile"; break;
+        case 5: s = "Heal"; break;
+        case 6: s = "Lifesteal"; break;
+        case 7: s = "Fireball"; break;
+        case 8: s = "Greater Fireball"; break;
+        case 9: s = "Blink"; break;
       }
       return this.players.some(p => p.spells.includes(s))
     })
   }
 
   get message() {
-    return this.collector && this.collector.message || null
+    return this._collector && this._collector.message || null
   }
 
   get playerList() {
     const statuses = [
-      "🎯", // targetted
+      "🎯", // targeted
       "😰", // one hit
       "🤕", // teamate with lowest hp
       "💪", // teammate with highest hp
     ]
+    
     return this.players
     .map(player => {
       const status = statuses.filter((_, i) => {
@@ -129,7 +132,9 @@ class Game {
     if (player.mana < spell.mana || player.spellCooldowns[spell]) return;
     
     if (spell.use && !spell.use(this.enemy, player)) return;
+    if (spell.effect) this.enemy.addEffect(spell.effect)
     this.attackEnemy(player, spell.damage, true)
+    
     player.spellCooldowns[spell] = true
     setTimeout(() => delete player.spellCooldowns[spell], 2000)
     return this
@@ -182,7 +187,7 @@ class Game {
       }
       
       player.raw.inventory.gold += Math.ceil(hp / 16)
-      let levelup = this.client.addXP(this.client.users.cache.get(id), Math.ceil(hp / 25), this.channel)
+      let levelup = this.client.addXP(player.user, Math.ceil(hp / 25), this.channel)
       if (levelup) {
         player.level++ // why refresh lol
       }
@@ -318,8 +323,8 @@ class Game {
       msg.edit(
         new Embed()
         .setTitle("Field of Battle")
-        .addField(`Enemy #${this.enemycount}`, `You and your team have encountered ${this.enemy.general ? `the **${this.enemy.name}**` : `a ${this.enemy.name}`}! Press the sword reaction to hit them, or the bow to shoot them. You have ${time(Date.now())}`)
-        .addField("Enemy's HP", `${this.enemy.hp}/${this.enemy.maxHP}`)
+        .addField(`Enemy #${this.enemycount}`, `You and your team have encountered ${this.enemy.general ? `the **${this.enemy.name}**` : `a ${this.enemy.name}`}! Press the sword reaction to hit them, the bow to shoot them, or the other reactions to perform various spells. You have ${time(Date.now())}.`)
+        .addField("Enemy's HP", `${this.enemy.hp}/${this.enemy.maxHP}HP | ${this.enemy.status}`)
         .addField("Your Team", this.playerList)
         .setColor(this.client.colors.color)
       )
@@ -329,6 +334,7 @@ class Game {
   _endCollector(msg, ...ints) {
     ints.forEach(clearInterval) // don't think i need this anymore
     clearInterval(this._updateDamageInterval)
+    
     // this.fightingDemon ?
     //   msg.edit(
     //   new RichEmbed()
@@ -339,12 +345,7 @@ class Game {
     //   .setColor(this.client.config.color)
     // ) :
     msg = msg.edit(
-      new Embed()
-      .setTitle("Field of Battle")
-      .addField(`Enemy #${this.enemycount}`, `You and your team have encountered ${this.enemy.general ? `the **${this.enemy.name}**` : `a ${this.enemy.name}`}! Press the sword reaction to hit them, or the bow to shoot them. You have 0s.`)
-      .addField("Enemy's HP", this.enemy.hp > 0 ? `${this.enemy.hp}/${this.enemy.maxHP}` : `0/${this.enemy.maxHP}`)
-      .addField("Your Team", this.playerList)
-      .setColor(this.client.colors.color)
+      "\u200b" // will add back later
     )
     
     this.enemy = null
@@ -359,6 +360,35 @@ Game.enemies = {
   humans: ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"],
   // orc's enemies
   orcs: ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"],
+}
+
+Game.swords = {
+  "Sharp Iron Sword": { damage: 8 },
+  "Fine Steel Sword": { damage: 11 },
+  "Power Katana": { damage: 13 },
+  "Ice Blade": { damage: 15 },
+  "Pure Energy": { damage: 24 },
+  "Heaven's Edge": {
+    damage: 30,
+    effect: "💀" // smite
+  }
+}
+
+Game.axes = {
+  "Axe of Skirmishing": {
+    damage: 10
+  },
+  "Battle Cleaver": {
+    damage: 15
+  },
+  "Flaming Fury": {
+    damage: 16,
+    effect: "🔥",
+  },
+  "Venomancer": {
+    damage: 20,
+    effect: "🧪" // closest thing to poison
+  }
 }
 
 Game.spells = {
@@ -395,10 +425,7 @@ Game.spells = {
   "Greater Fireball": {
     damage: 40,
     mana: 45,
-    use(enemy, player) {
-      enemy.addEffect("🔥") // fire
-      return true
-    }
+    effect: "🔥"
   },
   "Blink": {
     damage: 0,
