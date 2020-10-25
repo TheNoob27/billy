@@ -67,6 +67,13 @@ class Player {
   attack(damage) {
     return this.game.attackEnemy(this, damage)
   }
+  
+  heal(hp) {
+    if (isNaN(hp)) return this.hp
+    this.hp += hp
+    if (this.hp > this.maxHP) this.hp = this.maxHP
+    return this.hp
+  }
 
   refresh() {
     const p = new this.constructor(this.user, this.game)
