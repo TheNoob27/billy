@@ -48,7 +48,37 @@ class Game {
   }
 
   get enemyTeam() {
-    return this.constructor.enemies(this.team.toLowerCase())
+    return Game.enemies(this.team.toLowerCase())
+  }
+  
+  get emojis() {
+    // emojis used to attack
+    return [
+      "⚔️", // sword
+      "🏹", // bow
+      "🪓", // axe
+      
+      "☄️", // magic missile
+      "🩹", // heal 
+      "🔮", // lifesteal
+      "💥", // fireball
+      "🔥", // greater fireball
+      "⚡️", // blink
+    ]
+    .filter((_, i) => {
+      let s;
+      switch(i) {
+        case 0: case 1: return true;
+        case 2: return this.players.some(p => p.axe);
+        case 3: s = "Magic Missile"; break;
+        case 4: s = "Heal"; break;
+        case 5: s = "Lifesteal"; break;
+        case 6: s = "Fireball"; break;
+        case 7: s = "Greater Fireball"; break;
+        case 8: s = "Blink"; break;
+      }
+      return this.players.some(p => p.spells.includes(s))
+    })
   }
 
   get message() {
@@ -56,8 +86,25 @@ class Game {
   }
 
   get playerList() {
+    const statuses = [
+      "🎯", // targetted
+      "😰", // one hit
+      "🤕", // teamate with lowest hp
+      "💪", // teammate with highest hp
+    ]
     return this.players
-    .map(player => `**${player.tag}** - HP: ${player.hp < 0 ? 0 : player.hp}/${player.maxHP}`)
+    .map(player => {
+      const status = statuses.filter((_, i) => {
+        if (i > 1 && this.players.size === 1) return;
+        switch(i) {
+          case 0: return this.enemy && this.enemy.target = player;
+          case 1: return this.enemy && this.enemy.damage > player.hp;
+          case 2: return player === this.players.sorted((a, b) => a.hp - b.hp).first();
+          case 3: return player === this.players.sorted((a, b) => b.hp - a.hp).first();
+        })
+      }).join(" ")
+      `${status} **${player.tag}** - HP: ${player.hp < 0 ? 0 : player.hp}/${player.maxHP}`
+    })
     .join("\n")
   }
 
@@ -67,16 +114,29 @@ class Game {
     return player
   }
 
-  attackEnemy(player, damage) {
+  attackEnemy(player, damage, noTarget) {
     if (!this.enemy || !this._collector) return null
     
-    this.enemy.attacked(player, damage)
+    this.enemy.attacked(player, damage, noTarget)
 
+    return this
+  }
+  
+  attackWithSpell(player, spell) {
+    if (!this.enemy) return;
+    spell = Game.spells[spell]
+    if (!spell) return;
+    if (player.mana < spell.mana || player.spellCooldowns[spell]) return;
+    
+    if (spell.use && !spell.use(this.enemy, player)) return;
+    this.attackEnemy(player, spell.damage, true)
+    player.spellCooldowns[spell] = true
+    setTimeout(() => delete player.spellCooldowns[spell], 2000)
     return this
   }
 
   attackPlayer(player, damage) {
-    if (!this.enemy || !this.collector) return null
+    if (!this.enemy || !this._collector) return null
     
     damage = damage || this.enemy.damage
     player.hp -= damage
@@ -144,10 +204,7 @@ class Game {
     )
 
     this._regen = setInterval(() => { 
-      this.players.each(p => {
-        if (p.hp < p.maxHP) p.hp += 2
-        if (p.hp > p.maxHP) p.hp = p.maxHP
-      })
+      this.players.each(p => p.heal(2 + Math.floor(p.level * 0.16))) // 2-10 hp regen
     }, 4000)
 
     return this
@@ -253,15 +310,15 @@ class Game {
     const now = Date.now()
     const time = (t) =>
       ms(
-        (general ? 300000 : 180000) - (t - now) > 0
-          ? (general ? 300000 : 180000) - (t - now)
+        (this.enemy.general ? 300000 : 180000) - (t - now) > 0
+          ? (this.enemy.general ? 300000 : 180000) - (t - now)
           : "0s"
       )
     this._updateDamageInterval = setInterval(() => {
       msg.edit(
         new Embed()
         .setTitle("Field of Battle")
-        .addField(`Enemy #${this.enemycount}`, `You and your team have encountered ${this.enemy.name === "General" ? `the **${this.enemy.name}**` : `a ${this.enemy.name}`}! Press the sword reaction to hit them, or the bow to shoot them. You have ${time(Date.now())}`)
+        .addField(`Enemy #${this.enemycount}`, `You and your team have encountered ${this.enemy.general ? `the **${this.enemy.name}**` : `a ${this.enemy.name}`}! Press the sword reaction to hit them, or the bow to shoot them. You have ${time(Date.now())}`)
         .addField("Enemy's HP", `${this.enemy.hp}/${this.enemy.maxHP}`)
         .addField("Your Team", this.playerList)
         .setColor(this.client.colors.color)
@@ -284,7 +341,7 @@ class Game {
     msg = msg.edit(
       new Embed()
       .setTitle("Field of Battle")
-      .addField(`Enemy #${this.enemycount}`, `You and your team have encountered ${this.enemy.name === "General" ? `the **${this.enemy.name}**` : `a ${this.enemy.name}`}! Press the sword reaction to hit them, or the bow to shoot them. You have 0s.`)
+      .addField(`Enemy #${this.enemycount}`, `You and your team have encountered ${this.enemy.general ? `the **${this.enemy.name}**` : `a ${this.enemy.name}`}! Press the sword reaction to hit them, or the bow to shoot them. You have 0s.`)
       .addField("Enemy's HP", this.enemy.hp > 0 ? `${this.enemy.hp}/${this.enemy.maxHP}` : `0/${this.enemy.maxHP}`)
       .addField("Your Team", this.playerList)
       .setColor(this.client.colors.color)
@@ -297,11 +354,60 @@ class Game {
   }
 }
 
-Game.constructor.enemies = {
+Game.enemies = {
   // human's enemies
   humans: ["Grunt", "Smasher", "Warrior", "Assassin", "Blademaster", "Elite Blademaster", "Warlord", "Tyrant", "Mage", "Archer", "KorKron Elite"],
   // orc's enemies
   orcs: ["Soldier", "Knight", "Assassin", "Captain", "Mage", "Archer", "Giant", "Guard", "Royal Guard"],
+}
+
+Game.spells = {
+  "Magic Missile": {
+    damage: 32,
+    mana: 20
+  },
+  "Heal": {
+    damage: 0,
+    mana: 40,
+    use(_, player) {
+      const weakest = player.game.players
+      .sorted((a, b) => a.hp - b.hp)
+      .filter(p => p !== player && p.hp !== p.maxHP)
+      .first()
+      if (!weakest) return;
+      
+      weakest.heal(115)
+      return true
+    }
+  },
+  "Lifesteal": {
+    damage: 75,
+    mana: 45,
+    use(_, player) {
+      player.heal(Math.ceil(Math.random() * 30) + 50) // 50-80hp heal
+      return true
+    }
+  },
+  "Fireball": {
+    damage: 25,
+    mana: 20
+  },
+  "Greater Fireball": {
+    damage: 40,
+    mana: 45,
+    use(enemy, player) {
+      enemy.addEffect("🔥") // fire
+      return true
+    }
+  },
+  "Blink": {
+    damage: 0,
+    mana: 30,
+    use(enemy, player) {
+      if (enemy.target === player) enemy.clearTarget()
+      return true
+    }
+  },
 }
 
 module.exports = Game
