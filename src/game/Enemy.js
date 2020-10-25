@@ -13,15 +13,18 @@ class Enemy {
     this.name = name
     /**
      * The amount of HP this enemy has.
+     * @type {number}
      */
     this.hp = hp
 
     /**
      * The max amount of HP this enemy can have.
+     * @type {number}
      */
     this.maxHP = hp
     /**
      * The amount of damage this enemy deals.
+     * @type {number}
      */
     this.damage = damage
 
@@ -53,6 +56,7 @@ class Enemy {
   get demon() { return this.name === "Demon" }
   
   attack(player) {
+    if (this.name === "Archer" && Math.random() > 0.9) return this.game
     return this.game.attackPlayer(player)
   }
 
@@ -64,10 +68,10 @@ class Enemy {
 
   attackTarget() {
     if (!this.target) return this.clearTarget()
-    this.attack(player)
+    this.attack(this.target)
     this.targetHits++
     if (!["Demon", "Mage", "Archer"].includes(this.name) && this.targetHits > 4) this.clearTarget()
-    else if (this.name === "Archer" && this.targetHits > 17) this.clearTarget
+    else if (this.name === "Archer" && this.targetHits > 17) this.clearTarget()
   }
 
   createTarget(player) {
