@@ -66,7 +66,7 @@ class EventHandler extends Collection {
   reload(ev, throws, throwev) {
     if (ev == null) {
       this.clear()
-      ["Toggle", "Event"].forEach(i => delete require.cache[require.resolve(`../classes/${i}.js`)])
+      ;["Toggle", "Event"].forEach(i => delete require.cache[require.resolve(`../classes/${i}.js`)])
       return this.load(null, true)
     }
 

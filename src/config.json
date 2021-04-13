@@ -1,6 +1,81 @@
 {
   "prefix": "b!",
   "owner": "342421078066593803",
+
+  "gems": [
+    "Mithril",
+    "Demonite",
+    "Fury Stone",
+    "Spirit Shard",
+    "Dragon Bone",
+    "Red Diamond",
+    "Grandidierite",
+    "Poudretteite",
+    "Benitoite",
+    "Tanzanite",
+    "Alexandrite",
+    "Diamond",
+    "Sapphire",
+    "Ruby",
+    "Lapis Lazuli",
+    "Topaz",
+    "Garnet",
+    "Aquamarine",
+    "Spinel",
+    "Amber",
+    "Titanite",
+    "Tourmaline",
+    "Kunzite",
+    "Amethyst",
+    "Citrine",
+    "Peridot",
+    "Iolite",
+    "Onyx",
+    "Turquoise",
+    "Malachite",
+    "Feldspar",
+    "Jade",
+    "Nephrite",
+    "Olivine",
+    "Copal"
+  ],
+  "items": {
+    "swords": [
+      "Heavens Edge",
+      "Pure Energy",
+      "Ice Blade", 
+      "Power Katana",
+      "Fine Steel Sword",
+      "Sharp Iron Sword"
+    ],
+    "axes": [
+      "Venomancer",
+      "Flaming Fury",
+      "Battle Cleaver",
+      "Axe of Skirmishing"
+    ],
+    "bows": [
+      "Legendary Bow", 
+      "Enchanted Crossbow",
+      "Long Bow"
+    ],
+    "spells": [
+      "Greater Fireball",
+      "Lifesteal",
+      "Fireball",
+      "Blink",
+      "Heal",
+      "Magic Missile"
+    ],
+    "armour": [
+      "Eternal Inferno",
+      "Frost Guard Armour",
+      "Emperor Armour", 
+      "Redcliff Elite Armour",
+      "Knight Armour",
+      "Chain Armour"
+    ]
+  },
   
   "colors": {
     "color": "#f5da64",
@@ -11,7 +86,25 @@
     "discord": "#7289da"
   },
 
-  "emojis": {},
+  "emojis": {
+    "targeted": "🎯",
+    "oneHit": "😰",
+    "lowestHP": "🤕",
+    "highestHP": "💪",
+    "sword": "⚔️",
+    "bow": "🏹",
+    "axe": "🪓",
+    "axe2": "🔪",
+    "magicMissile": "☄️",
+    "heal": "🩹",
+    "lifesteal": "🔮",
+    "fireball": "💥",
+    "greaterFireball": "🔥",
+    "blink": "⚡️",
+    "fire": "🔥",
+    "poison": "🧪",
+    "smite": "💀"
+  },
   "links": {
     "patreon": "https://patreon.com/TheNoob27",
     "invite": "https://discordapp.com/oauth2/authorize?client_id=BOT_ID&scope=bot&permissions=PERMISSIONS"

@@ -1,10 +1,8 @@
 class Player {
   constructor(user, game) {
-    const data = this.client.db.get(user.id) || {}
-    const inv = data.inventory || {}
-    const level = data.level || { level: 1 }
-    const armour = inv.armour || { health: 0 }
-    
+    const { constructor: Game } = game
+    const data = game.client.db.get(user.id) || {}
+
     this.raw = data
 
     /**
@@ -14,38 +12,55 @@ class Player {
     this.game = game
     /**
      * The user this player is for.
+     * @type {import("discord.js").User}
      */
     this.user = user
     /**
      * The level of this player.
      * @type {number}
      */
-    this.level = data.level && data.level.level || 1
+    this.level = data.level?.level || 1
     /**
      * The damage this player does.
      * @type {number}
      */
-    this.damage = inv.sword && inv.sword.damage || 8
+    this.damage = Game.get(data.inventory?.sword || "Rusty Iron Sword")?.damage
+    /**
+     * The mana this player currently has.
+     * @type {number}
+     */
+    this.mana = 100
+
+    /**
+     * The armour this player has.
+     * @type {Armour}
+     */
+    this.armour = Game.get(data.inventory?.armour) || { health: 0 }
     /**
      * The HP this player currently has.
      * @type {number}
      */
-    this.hp = 18 * (level.level - 1) + 100 + armour.health
-    
-    /**
-     * The armour this player has.
-     * @property {string} name The name of this armour.
-     * @property {number} health The amount of health this armour has.
-     * @type {object}
-     */
-    this.armour = armour
+    this.hp = 18 * (this.level - 1) + 100 + this.armour.health
+
     /**
      * The bow this player has.
-     * @property {string} name The name of this bow.
-     * @property {number} damage The amount of damage this bow deals.
-     * @type {object}
+     * @type {Bow}
      */
-    this.bow = inv.bow || { damage: 5 }
+    this.bow = Game.get(data.inventory?.bow) || { damage: 5 }
+
+    /**
+     * The axes this player has.
+     * @type {Axe[]}
+     */
+    this.axes = [].concat(data.inventory?.axes || []).map(Game.get).trim(null)
+
+    /**
+     * The list of spells this player has.
+     * @type {(keyof (typeof import("./Game"))["spells"])[]}
+     */
+    this.spells = data.inventory?.spells || []
+
+    this._spellCooldowns = {}
   }
 
   get id() {
@@ -64,6 +79,18 @@ class Player {
     return 18 * (this.level - 1) + 100 + this.armour.health
   }
 
+  /**
+   * The sword this player has.
+   * @type {Sword}
+   */
+  get sword() {
+    return this.game.constructor.get(this.raw.inventory?.sword || "Rusty Iron Sword")
+  }
+
+  toString() {
+    return this.tag
+  }
+
   attack(damage) {
     return this.game.attackEnemy(this, damage)
   }
@@ -76,9 +103,33 @@ class Player {
   }
 
   refresh() {
-    const p = new this.constructor(this.user, this.game)
+    const p = new Player(this.user, this.game)
     return Object.assign(this, p)
   }
 }
 
 module.exports = Player
+
+/**
+ * @typedef Armour
+ * @property {string} name The name of this armour.
+ * @property {number} health The amount of health this armour has.
+ * @property {number} recoil The amount of damage the enemy will receive back.
+ */
+/**
+ * @typedef Bow
+ * @property {string} name The name of this bow.
+ * @property {number} damage The amount of damage this bow deals.
+ */
+/**
+ * @typedef Axe
+ * @property {string} name The name of this axe.
+ * @property {number} damage The amount of damage this axe deals.
+ * @property {string} effect The effect this axe has.
+ */
+/**
+ * @typedef Sword
+ * @property {keyof (typeof import("./Game"))["swords"]} name The name of this sword.
+ * @property {number} damage The amount of damage this sword does.
+ * @property {string} effect The effect this sword has.
+ */

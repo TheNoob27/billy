@@ -6,7 +6,7 @@ module.exports = class extends Command {
       name: "reload",
       aliases: ["refresh", "update", "rl"],
       description: "Reloads a command.",
-      usage: `util reload <command>`,
+      usage: `b!reload <command>`,
       category: "Owner Commands",
       lowerCaseArgs: [0],
       owner: true,

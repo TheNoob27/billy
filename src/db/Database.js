@@ -184,7 +184,10 @@ class Database {
     if (isNaN(number) || number === Infinity) throw new TypeError("The data must be a number." + (number === Infinity ? " Recieved Infinity." : ""))
     
     let data = this.get(key, table) // no need for raw, it should be a number
-    if (data === undefined) return this.set(key, number, table)
+    if (data === undefined) {
+      this.set(key, number, table)
+      return number
+    }
     if (isNaN(data)) throw new TypeError("The target is not a number.")
     
     this.set(key, data + number, table)

@@ -12,7 +12,7 @@ class CommandHandler extends Collection {
     if (this._aliases) return this._aliases
     const aliases = new Collection()
     for (const command of this.values()) {
-      for (const alias of command.help.aliases) aliases.set(alias, command.help.name)
+      for (const alias of command.aliases) aliases.set(alias, command.name)
     }
     return this._aliases = aliases
   }
@@ -36,7 +36,7 @@ class CommandHandler extends Collection {
       try {
         if (reload) delete require.cache[require.resolve(`../commands/${f}`)]
         cmd = new (require(`../commands/${f}`))(this.client)
-        this.set(cmd.help.name, cmd)
+        this.set(cmd.name, cmd)
       } catch(e) {
         if (reload) throw e 
         return console.error(`Couldn't load command: ${f} - Error:`, e)
@@ -51,7 +51,7 @@ class CommandHandler extends Collection {
   reload(cmd, throws, throwcmd) {
     if (cmd == null) {
       this.clear()
-      ["Toggle", "Command"].forEach(i => delete require.cache[require.resolve(`../classes/${i}.js`)])
+      ;["Toggle", "Command"].forEach(i => delete require.cache[require.resolve(`../classes/${i}.js`)])
       return this.load(null, true)
     }
 

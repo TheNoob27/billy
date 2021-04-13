@@ -2,6 +2,7 @@ const { Client, Structures } = require("discord.js")
 const ClientEmojiManager = require("./ClientEmojiManager")
 const { CommandHandler, EventHandler } = require("../handlers")
 const db = require("../db")
+const Util = require("./Util")
 const { Table } = db
 
 class Billy extends Client {
@@ -50,15 +51,18 @@ class Billy extends Client {
 
     this.commands = new CommandHandler(this)
     this.events = new EventHandler(this)
-    this.config = require("../config")
+    this.util = new Util(this)
+    this.config = require("../config.json")
     this.colors = this.config.colors
     this.db = new Table(
-      "data", // input your own table name if you want
+      "players", // input your own table name if you want
       true, // cache the stuff we get
       true // automatically save to the db when an entry has been changed 
     )
 
     this.ownerID = this.config.owner
+    /** @type {import("../game/Game")} */
+    this.game
 
     // state of the art emoji manager
     Object.defineProperty(this, "emojis", { value: new ClientEmojiManager(this), configurable: true })
