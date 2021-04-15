@@ -44,9 +44,10 @@ module.exports = class extends Command {
             name: t.toProperCase(),
             value: this.client.config.items[t].map(name => {
               const item = this.client.util.resolveItem(name)
+              const value = t === "armour" ? "Extra HP" : "Damage"
               return `
               **__${name}__**${status(item)}${item.description ? `\nDescription: ${item.description}` : ""}
-              Damage: ${item.value}
+              ${value}: ${item.value}
               Gold: ${item.cost.toLocaleString()}${
                 item.gemsNeeded.length ? `\nGems Needed: ${item.gemsNeeded.map(g => g.toProperCase(true)).join(", ")}` : ""
               }${item.bonus ? `\nBonus: ${item.bonus}` : ""}

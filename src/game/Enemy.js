@@ -15,18 +15,17 @@ class Enemy {
      * The amount of HP this enemy has.
      * @type {number}
      */
-    this.hp = hp
+    this.hp = hp * game.difficulty
 
     /**
      * The max amount of HP this enemy can have.
-     * @type {number}
      */
-    this.maxHP = hp
+    this.maxHP = this.hp
     /**
      * The amount of damage this enemy deals.
      * @type {number}
      */
-    this.damage = damage
+    this.damage = damage + (game.difficulty === 1 ? 0 : game.difficulty * 3) // 10, 16, 19
 
     /**
      * The current target the enemy would go for.
@@ -35,7 +34,7 @@ class Enemy {
     this.target = null
 
     /**
-     * The amount of times the enemy has hit the target. Note that if its archer, demon or mage the target won't change
+     * The amount of times the enemy has hit the target. Note that if its archer, demon or mage the target won't change.
      */
     this.targetHits = 0
 
@@ -119,8 +118,8 @@ class Enemy {
     this.attack(this.target)
     this.targetHits++
     if (this.target.hp <= 0) this.clearTarget()
-    else if (!["Demon", "Mage", "Archer"].includes(this.name) && this.targetHits > 4) this.clearTarget()
-    else if (this.name === "Archer" && this.targetHits > 17) this.clearTarget()
+    else if (!["Demon", "Mage", "Archer"].includes(this.name) && this.targetHits > 4 + this.game.difficulty) this.clearTarget() // 5, 6, 7
+    else if (this.name === "Archer" && this.targetHits > 12 + this.game.difficulty * 5) this.clearTarget() // 17, 22, 27
   }
 
   createTarget(player) {

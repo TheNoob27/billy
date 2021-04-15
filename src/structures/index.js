@@ -6,6 +6,7 @@ module.exports = {
   GuildMember: require("./GuildMember.js"),
   Message: require("./Message.js"),
   TextChannel: require("./TextChannel.js"),
+  MessageReaction: require("./MessageReaction.js"),
   
   init() {
     const bypass = (structure, _class) => {

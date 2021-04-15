@@ -5,7 +5,7 @@ const Player = require("./Player")
 const ms = require("pretty-ms")
 
 class Game {
-  constructor(channel) {
+  constructor(channel, host) {
     /**
      * The Client.
      * @type {import("../classes/Client")}
@@ -23,9 +23,13 @@ class Game {
      */
     this.players = new Collection()
     /**
+     * This game's host.
+     */
+    this.host = host ? this.addPlayer(host) : null
+    /**
      * The amount of enemies players will fight.
      */
-    this.rounds = Math.ceil(Math.random() * 5) + 5 // 5-10
+    this.rounds = Math.ceil(Math.random() * (this.difficulty * 5)) + 5 // 5-10, 5-15, 5-20
     /**
      * The name of the team the players are on.
      * @type {"Humans" | "Orcs"}
@@ -50,8 +54,8 @@ class Game {
     this.ended = false
   }
 
-  get config() {
-    return this.client.config
+  get difficulty() {
+    return this.host?.difficulty || 1
   }
 
   /**
@@ -145,6 +149,7 @@ class Game {
   addPlayer(user) {
     const player = new Player(user, this)
     this.players.set(user.id, player)
+    if (user.id === this.host?.id) this.host = player
     return player
   }
 
@@ -197,7 +202,7 @@ class Game {
     if (player.hp <= 0)
       !this.fightingDemon
         ? this.removePlayer(player)
-        : this.respawnPlayer(player.user, 7 + Math.floor(player.level * 0.1) * 1000)
+        : this.respawnPlayer(player.user, (7 + Math.floor(player.level * 0.1)) * 1000)
     if (this.enemy?.hp <= 0) this.killEnemy() // enemy isn't present if last player died
     return this
   }
@@ -235,7 +240,7 @@ class Game {
     if (this.players.has(user.id)) {
       this.players.delete(user.id)
       if (this._collector && this.enemy && announce)
-        this.channel.send(`**${user.tag}** died! They respawn in ${ms(time)} seconds.`)
+        this.channel.send(`**${user.tag}** died! They respawn in ${ms(time, { verbose: true })}.`)
     }
     setTimeout(() => {
       const player = this.addPlayer(user)
@@ -282,6 +287,7 @@ class Game {
       .addField("Players", `**${this.players.map(p => p.user.tag).join("\n")}**`)
       .setColor(this.client.colors.color)
       .setTimestamp()
+      .setFooter(`Field of Battle ${["Beginner", "Pro", "Elite"][this.difficulty - 1]}`)
     )
 
     this._regen = setInterval(() => { 
@@ -420,7 +426,7 @@ class Game {
     return new Embed()
       .setTitle("Field of Battle")
       .addField(
-        `Enemy #${this.enemyCount}`,
+        !this.fightingDemon && `Enemy #${this.enemyCount}`,
         `${
           !this.enemy.demon
             ? `You and your team have encountered ${
@@ -432,14 +438,14 @@ class Game {
             ? `Press the ${e.sword} reaction to hit them and the ${e.bow} to shoot them${
                 this.emojis.includes(e.axe) ? `, and the ${e.axe} ${e.axe2} to use your axes` : ""
               }${
-                this.emojis.length > 3 ? ", or the other reactions to perform various spells" : "."
+                this.emojis.length > 3 ? ", or the other reactions to perform various spells." : "."
               } You have ${getTime(Date.now())}.`
             : ""
         }`
       )
       .addField(this.enemy.demon ? "Demon's HP" : "Enemy's HP", `${Math.max(this.enemy.hp, 0)}/${this.enemy.maxHP}HP ${this.enemy.status}`)
       .addField("Your Team", this.playerList)
-      .setColor(this.enemy.demon ? "#632f2f" : this.client.colors.color)
+      .setColor(this.enemy.demon ? this.client.colors.demon : this.client.colors.color)
   }
 
   /**
@@ -540,8 +546,9 @@ Game.spells = {
   "Lifesteal": {
     damage: 75,
     mana: 45,
-    use(_, player) {
+    use(enemy, player) {
       player.heal(Math.ceil(Math.random() * 30) + 50) // 50-80hp heal
+      enemy.targetHits += 5
       return true
     }
   },

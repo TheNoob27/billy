@@ -61,6 +61,12 @@ class Player {
     this.spells = data.inventory?.spells || []
 
     this._spellCooldowns = {}
+
+    /**
+     * The player's difficulty.
+     * @type {1 | 2 | 3}
+     */
+    this.difficulty = data.difficulty || 1
   }
 
   get id() {

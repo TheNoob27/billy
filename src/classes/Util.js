@@ -30,6 +30,7 @@ class Util {
       name: null,
       code: undefined,
       isLegendary: false,
+      sell: 0
     }
 
     const { gems } = this.client.config
@@ -55,10 +56,50 @@ class Util {
       }
     }
 
-    // aquamarine, iolite, spiritShard, furyStone, demonite
+    // aquamarine, iolite, spiritShard, furyStone, demonite etc
     gem.code = gem.name.toLowerCase().replace(/ \w/, w => w.slice(1).toUpperCase())
 
     if (["Mithril", "Demonite", "Fury Stone", "Spirit Shard", "Dragon Bone"].includes(gem.name)) gem.isLegendary = true
+
+    const sell = n => gem.sell = n
+    switch (gem.name) {
+      case "Mithril": sell(2800); break
+      case "Demonite": sell(2400); break
+      case "Fury Stone":
+      case "Spirit Shard": sell(1600); break
+      case "Dragon Bone": sell(1200); break
+      case "Red Diamond": sell(825); break
+      case "Grandidierite": sell(200); break
+      case "Poudretteite": sell(100); break
+      case "Benitoite": sell(75); break
+      case "Tanzanite": sell(50); break
+      case "Alexandrite": sell(43); break
+      case "Diamond": sell(38); break
+      case "Sapphire": sell(32); break
+      case "Emerald": sell(29); break
+      case "Ruby": sell(26); break
+      case "Lapis Lazuli": sell(23); break
+      case "Topaz": sell(20); break
+      case "Garnet": sell(17); break
+      case "Aquamarine": sell(14); break
+      case "Spinel": sell(12); break
+      case "Amber": sell(11); break
+      case "Titanite": sell(10); break
+      case "Tourmaline": sell(9); break
+      case "Kunzite": sell(8); break
+      case "Amethyst": sell(7); break
+      case "Citrine": sell(6); break
+      case "Peridot": sell(5); break
+      case "Iolite":
+      case "Onyx": sell(4); break
+      case "Turquoise":
+      case "Malachite": sell(3); break
+      case "Feldspar":
+      case "Jade": sell(2); break
+      case "Nephrite":
+      case "Olivine":
+      case "Copal": sell(1); break
+    }
 
     return gem
   }
@@ -229,7 +270,7 @@ class Util {
     return item
   }
 
-  generateGem(legendaries = false, { legendsOnly = false, equalChance = false } = {}) {
+  generateGem(legendaries = false, { legendsOnly = false, equalChance = false, rares: rareGems = true } = {}) {
     const { gems } = this.client.config
     if (equalChance) return this.resolveGem(gems.random())
 
@@ -248,10 +289,13 @@ class Util {
       else if (chance > 0.85) gem = rares.random() // 10% chance
       else if (chance > 0.5) gem = uncommon.random() // 35% chance
       else gem = common.random() // 50% chance
-    } else {
+    } else if (rareGems) {
       if (chance > 0.85) gem = rares.random() // 15% chance
       else if (chance > 0.5) gem = uncommon.random() // 35% chance
       else gem = common.random() // 50% chance
+    } else {
+      if (chance > 0.6) gem = uncommon.random()
+      else gem = common.random()
     }
     return this.resolveGem(gem)
   }
@@ -259,11 +303,11 @@ class Util {
   addXP(user, add, channel) {
     if (typeof user === "string") user = this.client.users.cache.get(user)
     if (!user || !channel) return
-    const level = this.client.db.get(`${user.id}.level.level`) || 1
+    const level = this.client.db.get(`${user.id}.level.level`)
     const xp = this.client.db.add(`${user.id}.level.xp`, add)
     const check = n => {
       if (xp > n) {
-        this.client.db.add(`${user.id}.level.level`, 1)
+        this.client.db.add(`${user.id}.level.level`, level ? 1 : 2)
         if (level === 49) {
           const bal = this.client.db.add(`${user.id}.inventory.gold`, 100000)
           channel.send(
@@ -284,7 +328,7 @@ class Util {
           channel.send(
             new Embed()
               .setTitle("🎉 You levelled up! 🎉")
-              .setDescription(`You have levelled up! You are now level **${level + 1}**!`)
+              .setDescription(`You have levelled up! You are now level **${(level || 1) + 1}**!`)
               .setColor(this.client.colors.color)
               .setTimestamp()
               .setFooter(user.username, user.displayAvatarURL({ dynamic: true, format: "png" }))
@@ -294,7 +338,7 @@ class Util {
     }
 
     // wack
-    switch (level) {
+    switch (level || 1) {
       case 1: return check(10)
       case 2: return check(25)
       case 3: return check(50)

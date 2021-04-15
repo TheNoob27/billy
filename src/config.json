@@ -16,6 +16,7 @@
     "Alexandrite",
     "Diamond",
     "Sapphire",
+    "Emerald",
     "Ruby",
     "Lapis Lazuli",
     "Topaz",
@@ -83,7 +84,10 @@
     "error": "#ff0000",
     "invis": "#36393e",
     "embed": "#303136",
-    "discord": "#7289da"
+    "discord": "#7289da",
+    "humans": "#1f5699",
+    "orcs": "#3d8a29",
+    "demon": "#632f2f"
   },
 
   "emojis": {
@@ -100,10 +104,37 @@
     "lifesteal": "🔮",
     "fireball": "💥",
     "greaterFireball": "🔥",
-    "blink": "⚡️",
+    "blink": "⚡",
     "fire": "🔥",
     "poison": "🧪",
-    "smite": "💀"
+    "smite": "💀",
+    "gems": [
+      "🔴",
+      "🔵",
+      "🟤",
+      "🟣",
+      "🟢",
+      "🟡",
+      "🟠",
+      "⬛",
+      "⬜",
+      "🟧",
+      "🟦",
+      "🟥",
+      "🟫",
+      "🟪",
+      "🟩",
+      "🟨",
+      "🔺",
+      "🔻",
+      "🔸",
+      "🔹",
+      "🔶",
+      "🔷",
+      "⚪",
+      "⚫",
+      "💎"
+    ]
   },
   "links": {
     "patreon": "https://patreon.com/TheNoob27",

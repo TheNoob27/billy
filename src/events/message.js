@@ -39,7 +39,7 @@ module.exports = class extends Event {
     if (command) {
       if (command.botPerms && !message.channel.hasPermission(command.botPerms)) return message.channel.send("Sorry, but I am missing the permissions `" + command.botPerms.join("`, `") + "` which I need for this command.").silence() // maybe parse the perms into strings for permission bits? (todo)
       
-      if (command.owner && !message.author.owner) message.channel.send("You need to be the owner to use this command.")
+      if (command.owner && !message.author.owner) return message.channel.send("You need to be the owner to use this command.")
       if (command.requiredPermissions && !message.member.hasPermission(command.requiredPermissions)) return message.channel.send("You are missing the permissions `" + command.requiredPermissions.join("`, `") + "` for this command.")
       
       if (command.cooldowns.has(message.author.id)) return command.sendCooldown(message.channel, message.author.id)
