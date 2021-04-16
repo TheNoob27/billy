@@ -6,7 +6,7 @@ module.exports = class extends Command {
   constructor(client) {
     super(client, {
       name: "play",
-      aliases: ["p", "fob", "battle", "fight"],
+      aliases: ["p", "fob", "battle"],
       description: "Play a game of Field of Battle with friends or by yourself!",
       usage: "b!play",
       category: "FOB",

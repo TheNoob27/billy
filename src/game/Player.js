@@ -1,3 +1,5 @@
+const Enemy = require("./Enemy")
+
 class Player {
   constructor(user, game) {
     const { constructor: Game } = game
@@ -7,7 +9,7 @@ class Player {
 
     /**
      * The game.
-     * @type {import("./Game")}
+     * @type {import("./Game") | import("./Versus")}
      */
     this.game = game
     /**
@@ -67,6 +69,15 @@ class Player {
      * @type {1 | 2 | 3}
      */
     this.difficulty = data.difficulty || 1
+
+    this.effects = []
+        /** @type {NodeJS.Timeout} */
+    this._fireInterval
+    /** @type {NodeJS.Timeout} */
+    this._poisonInterval
+    /** @type {NodeJS.Timeout} */
+    this._smiteInterval
+
   }
 
   get id() {
@@ -97,8 +108,35 @@ class Player {
     return this.tag
   }
 
+  addEffect(effect) {
+    if (!this.game.versus) return
+    if (this.hp <= 0) return
+    if (!this.effects.includes(effect)) this.effects.push(effect)
+    const handle = (name, dmg, limit = 10) => {
+      if (this[`_${name}Interval`]) clearInterval(this[`_${name}Interval`])
+      let n = 0
+      this[`_${name}Interval`] = setInterval(() => {
+        const res = this.game.attack(this.game.opposite(this), dmg)
+        if (++n === limit || !res) {
+          clearInterval(this[`_${name}Interval`])
+          delete this[`_${name}Interval`]
+        }
+      }, 750)
+    }
+    switch (effect) {
+      case this.game.client.config.emojis.fire:
+        handle("fire", 10)
+        break
+      case this.game.client.config.emojis.poison:
+        handle("poison", 12)
+      case this.game.client.config.emojis.smite:
+        handle("smite", 15, 3)
+        break
+    }
+  }
+
   attack(damage) {
-    return this.game.attackEnemy(this, damage)
+    return this.game[this.game.versus ? "attack" : "attackEnemy"](this, damage)
   }
   
   heal(hp) {
