@@ -23,8 +23,8 @@ module.exports = class extends Command {
       item.gemsNeeded.every(g => inv.gems?.[g] > 0) // has required gems
     const status = item => 
       (
-        Array.isArray(inv[type(item.name)])
-          ? inv[type(item.name)].includes(item.name)
+        Array.isArray(inv[`${type(item.name)}s`])
+          ? inv[`${type(item.name)}s`].includes(item.name)
           : inv[type(item.name)] === item.name
       )
         ? " ✅"

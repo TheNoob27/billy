@@ -22,8 +22,8 @@ module.exports = class extends Command {
     const canBuy = item =>
       inv.gold > item.cost && // has enough gold
       item.gemsNeeded.every(g => inv.gems?.[g] > 0) && // has required gems
-      (Array.isArray(inv[type(item.name)]) // doesn't have item
-        ? !inv[type(item.name)].includes(item.name)
+      (Array.isArray(inv[`${type(item.name)}s`]) // doesn't have item
+        ? !inv[`${type(item.name)}s`].includes(item.name)
         : inv[type(item.name)] !== item.name) &&
       (type(item.name) !== "axe" || inv.axes?.length === 2 === false) // isn't at max axes
     const reason = item =>
