@@ -87,7 +87,7 @@ class Database {
     if (key == null) throw new Error("No key was provided.")
     key = String(key)
     
-    let data = !force && this.caching ? this.cache.get(key) : undefined
+    let data = !force && this.caching ? this.cache.get(key.split(".")[0]) : undefined
     let path;
       [key, ...path] = key.split(".")
     if (data === undefined) {

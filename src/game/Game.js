@@ -158,6 +158,20 @@ class Game extends BaseGame {
   }
 
   /**
+   * Remove a player from the game, after they died.
+   * @param {import("discord.js").User} user The user to remove.
+   * @param {boolean} autoEnd Automatically end the game if everyone is dead.
+   */
+  removePlayer(user, autoEnd = true) {
+    this.players.delete(user.id || user)
+    if (this._collector && this.enemy && autoEnd) {
+      this.channel.send(`**${user.tag}** died!`)
+      if (this.players.size <= 0) this._collector.stop("allDied")
+    }
+    return this
+  }
+
+  /**
    * Respawn a player.
    * @param {import("discord.js").User} user The user to respawn.
    * @param {number} time The time to wait before respawning them.

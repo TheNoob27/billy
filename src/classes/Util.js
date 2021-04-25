@@ -5,7 +5,6 @@ class Util {
   constructor(client) {
     /** @type {import("./Client")} */
     this.client = client
-    this.gems = ""
 
     this.items = {
       0: "ALL",
