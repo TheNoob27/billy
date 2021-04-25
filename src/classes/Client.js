@@ -22,9 +22,9 @@ class Billy extends Client {
       retryLimit: 2,
       restTimeOffset: 750,
       presence: {
-        status: "dnd",
+        status: "online",
         activity: {
-          name: "Loading...",
+          name: "Field of Battle",
           type: "PLAYING"
         }
       },
