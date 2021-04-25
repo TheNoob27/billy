@@ -19,9 +19,17 @@ module.exports = class extends Command {
     if (this.client.game.enemy?.general) return d(), message.channel.send("You cannot mine right now! You're too busy fighting the general.")
 
     const gem = this.client.util.generateGem(false)
-    for (const i of 3) { // true fob experience
-      await message.channel.send(`You mined a ${gem.name}! You now have ${this.client.db.add(`${message.author.id}.inventory.gems.${gem.code}`, 1)}.`)
-      await waitTimeout(2000)
-    }
+    return this.sendToAuthor(
+      message,
+      `You mined a ${gem.name} 3 times! You now have ${this.client.db.add(
+        `${message.author.id}.inventory.gems.${gem.code}`,
+        3
+      )}.`
+    )
+    // nvm lol this is annoying
+    // for (const i of 3) { // true fob experience
+    //   await message.channel.send(`You mined a ${gem.name}! You now have ${this.client.db.add(`${message.author.id}.inventory.gems.${gem.code}`, 1)}.`)
+    //   await waitTimeout(2000)
+    // }
   }
 }
