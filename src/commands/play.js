@@ -159,6 +159,7 @@ module.exports = class extends Command {
     const game = this.client.game
     // clearInterval(game._regen)
     const enemyTeam = game.team === "Humans" ? "Orcs" : "Humans"
+    game.players.each(player => player.addStat("wins"))
     await message.channel.send(
       new Embed()
         .setTitle(`${game.team} Win!`)
@@ -206,6 +207,7 @@ module.exports = class extends Command {
   /** @param {import("discord.js").Message} message */
   async demon(message) {
     const { game } = this.client
+    game.players.each(player => player.addStat("demons"))
     const enemy = game.spawnEnemy({
       name: "Demon",
       hp: 1882,

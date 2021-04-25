@@ -104,7 +104,14 @@ class Game extends BaseGame {
   attackEnemy(player, damage, noTarget = false) {
     if (!this.enemy || !this._collector) return null
     this.enemy.attacked(player, damage, noTarget)
-    if (player && !this._helpers.includes(player.id)) this._helpers.push(player.id)
+    if (player) {
+      player.addStat("hits")
+      player.addStat("damage", isNaN(damage) ? player.damage : damage)
+    }
+    if (player && !this._helpers.includes(player.id)) {
+      this._helpers.push(player.id)
+      player.addStat("helpedKill")
+    }
     return this
   }
 
@@ -123,6 +130,7 @@ class Game extends BaseGame {
     player.mana = Math.max(0, player.mana - s.mana)
     if (s.effect) this.enemy.addEffect(s.effect)
     this.attackEnemy(player, s.damage, true)
+    player.addStat("spellsUsed")
     
     player._spellCooldowns[spell] = true
     setTimeout(() => delete player._spellCooldowns[spell], 5000)
@@ -206,6 +214,7 @@ class Game extends BaseGame {
    */
   start() {
     this.players.initial = [...this.players.keys()]
+    this.players.forEach(player => player.addStat("games"))
     this.channel.send(
       new Embed()
       .setTitle("Game Starting!")

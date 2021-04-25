@@ -150,6 +150,17 @@ class Player {
     const p = new Player(this.user, this.game)
     return Object.assign(this, p)
   }
+
+  /**
+   * Add a stat to the user's stats.
+   * @param {string} stat The stat to add.
+   * @param {number} add The number to add.
+   * @returns {number}
+   */
+  addStat(stat, add = 1) {
+    if (isNaN(add)) return 0
+    return this.game.client.db.add(`${this.id}.stats.${stat}`, add)
+  }
 }
 
 module.exports = Player

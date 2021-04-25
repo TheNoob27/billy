@@ -107,7 +107,7 @@ class Enemy {
 
   attacked(player, damage, noTarget = false) {
     this.hp -= isNaN(damage) ? player.damage : damage
-    if (this.hp <= 0) return this.game.killEnemy()
+    if (this.hp <= 0) return player?.addStat("kills"), this.game.killEnemy()
     if (!this.target && !this.targetCooldown && (!noTarget || this.name === "Mage" || this.name === "Archer"))
       this.createTarget(player)
   }

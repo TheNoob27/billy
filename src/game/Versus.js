@@ -83,7 +83,11 @@ class Versus extends BaseGame {
   attack(player, damage) {
     if (!this.started) return null
     const opponent = this.opposite(player)
-    opponent.hp -= isNaN(damage) ? player.damage : damage
+    damage = isNaN(damage) ? player.damage : damage
+    opponent.hp -= damage
+    player.addStat("hits")
+    player.addStat("damage", damage)
+    
     if (opponent.armour.recoil) player.hp -= damage * player.armour.recoil
     const o = opponent === this.opponent
     if (opponent.hp <= 0) this.end(o ? "player" : "opponent")
@@ -107,6 +111,7 @@ class Versus extends BaseGame {
     player.mana = Math.max(0, player.mana - s.mana)
     if (s.effect) opponent.addEffect(s.effect)
     this.attack(player, s.damage)
+    player.addStat("spellsUsed")
 
     player._spellCooldowns[spell] = true
     setTimeout(() => delete player._spellCooldowns[spell], 5000)
@@ -114,6 +119,8 @@ class Versus extends BaseGame {
   }
 
   end(r) {
+    this[r]?.addStat("kills")
+    this[r]?.addStat("wins")
     ["_fireInterval", "_poisonInterval", "_smiteInterval"].forEach(e => {
       clearInterval(this.player[e])
       clearInterval(this.opponent[e])
@@ -123,8 +130,15 @@ class Versus extends BaseGame {
 
   start() {
     this.started = true
+    this.player.addStat("games")
+    this.opponent.addStat("games")
     super.start()
   }
+
+  // reward(id, hp) {
+  //   this.players.get(id).addStat("helpedKill")
+  //   return super.reward(id, hp)
+  // }
 
   /**
    * Start the embed editing interval

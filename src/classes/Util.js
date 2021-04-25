@@ -305,6 +305,7 @@ class Util {
     const level = this.client.db.get(`${user.id}.level.level`)
     const xp = this.client.db.add(`${user.id}.level.xp`, add)
     const check = n => {
+      if (!n) return false
       if (xp > n) {
         this.client.db.add(`${user.id}.level.level`, level ? 1 : 2)
         if (level === 49) {
@@ -336,58 +337,7 @@ class Util {
       return true
     }
 
-    // wack
-    switch (level || 1) {
-      case 1: return check(10)
-      case 2: return check(25)
-      case 3: return check(50)
-      case 4: return check(125)
-      case 5: return check(200)
-      case 6: return check(266)
-      case 7: return check(330)
-      case 8: return check(457)
-      case 9: return check(525)
-      case 10: return check(608)
-      case 11: return check(860)
-      case 12: return check(1080)
-      case 13: return check(1648)
-      case 14: return check(4069)
-      case 15: return check(7025)
-      case 16: return check(10607)
-      case 17: return check(13796)
-      case 18: return check(17693)
-      case 19: return check(20175)
-      case 20: return check(22650)
-      case 21: return check(30869)
-      case 22: return check(57920)
-      case 23: return check(80916)
-      case 24: return check(108203)
-      case 25: return check(127349)
-      case 26: return check(151089)
-      case 27: return check(199999)
-      case 28: return check(261869)
-      case 29: return check(308108)
-      case 30: return check(376190)
-      case 31: return check(418301)
-      case 32: return check(425639)
-      case 33: return check(430615)
-      case 34: return check(571820)
-      case 35: return check(658442)
-      case 36: return check(811739)
-      case 37: return check(1009108)
-      case 38: return check(1231376)
-      case 39: return check(1522833)
-      case 40: return check(1860284)
-      case 41: return check(2274907)
-      case 42: return check(2913905)
-      case 43: return check(3618307)
-      case 44: return check(4141599)
-      case 45: return check(4816390)
-      case 46: return check(6352997)
-      case 47: return check(8247291)
-      case 48: return check(9311344)
-      case 49: return check(13096582)
-    }
+    return check(this.client.config.xpNeeded[level || 1])
   }
 
   get discordUtil() {
