@@ -123,7 +123,6 @@ class BaseGame {
   }
 }
 
-// todo rusty iron sword
 BaseGame.swords = {
   "Rusty Iron Sword": { damage: 6 },
   "Sharp Iron Sword": { damage: 8 },

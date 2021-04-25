@@ -78,7 +78,7 @@ module.exports = class extends Event {
           new Embed()
           .setTitle("An Error Occurred!")
           .setColor(this.client.colors.error)
-          .setDescription("Something went wrong while trying to run this command! This shouldn't happen. " + (command.errorMessage ? "\nNote: **" + command.errorMessage + "**" : "") + "\n\n**Error**: ```js\n" + err[message.author.owner_todo ? "stack" : "message"] + "\n```")
+          .setDescription("Something went wrong while trying to run this command! This shouldn't happen. " + (command.errorMessage ? "\nNote: **" + command.errorMessage + "**" : "") + "\n\n**Error**: ```js\n" + err[message.author.owner ? "stack" : "message"] + "\n```")
           .setFooter("Failed to run " + this.client.config.prefix + command.name + ".")
           .setTimestamp()
         ).silence()
