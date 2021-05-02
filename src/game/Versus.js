@@ -121,7 +121,7 @@ class Versus extends BaseGame {
   end(r) {
     this[r]?.addStat("kills")
     this[r]?.addStat("wins")
-    ["_fireInterval", "_poisonInterval", "_smiteInterval"].forEach(e => {
+    ;["_fireInterval", "_poisonInterval", "_smiteInterval"].forEach(e => {
       clearInterval(this.player[e])
       clearInterval(this.opponent[e])
     })
