@@ -154,7 +154,7 @@ module.exports = class extends Command {
           return state.accept()
         case emojis[6]: // X decline
           collector.stop("Delete")
-          return message.channel.send(`${user.id === message.author.id ? message.author : trade.tradingWith}, ${user} declined the trade.`)
+          return message.channel.send(`${user.id !== message.author.id ? message.author : trade.tradingWith}, ${user} declined the trade.`)
       }
     })
     collector.on("remove", async (r, user) => {
@@ -189,8 +189,8 @@ module.exports = class extends Command {
             add(inv2, "gold", state.gold)
           }
           for (const g in state.gems) {
-            add(inv, g, -state.gems[g])
-            add(inv2, g, state.gems[g])
+            add(inv, `gems.${g}`, -state.gems[g])
+            add(inv2, `gems.${g}`, state.gems[g])
           }
         }
         return message.channel.send(`${message.author} ${user}, the trade was successful.`)

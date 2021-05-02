@@ -312,7 +312,7 @@ module.exports = class extends Command {
         .setColor(this.client.colors.embed)
         .setDescription(`It's raining gems! Please wait while some gems fall from the sky. When they do, react to collect a gem before someone else does. Know that you have a cooldown of a few seconds after collecting a gem.`)
     )
-    await m.react(remaining.first(5).map(g => g.emoji))
+    await m.react(remaining.first(10).map(g => g.emoji))
     const now = Date.now()
     const iEdit = setInterval(() => {
       const embed = new Embed()
@@ -337,10 +337,10 @@ module.exports = class extends Command {
     }, 2100)
     /** @returns {string[]} */ 
     const emojisLeft = () => remaining.filter(g => !g.collectedAt).map(g => g.emoji)
-    const gen = remaining.slice(5).values()
+    const gen = remaining.slice(10).values()
     let i = 0
     const iGem = setInterval(() => {
-      console.log(`adding gem reaction #${5+ ++i}`)
+      console.log(`adding gem reaction #${10+ ++i}`)
       if (m.reactions.cache.size === 20) {
         const r = m.reactions.cache.find(r => !emojisLeft().includes(r.emoji.name))
         if (r && message.channel.hasPermission(["READ_MESSAGES", "MANAGE_MESSAGES"])) r.remove().silence() // permission handling is stinky
