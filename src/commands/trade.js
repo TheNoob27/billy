@@ -175,7 +175,7 @@ module.exports = class extends Command {
       if (reason.includes("Delete")) return
       if (reason === "ended") {
         // subtract and add stuff and stuff
-        const add = (o, n, a) => console.log("adding", a, "to", n + ":", o[n] = (o[n] || 0) + a)
+        const add = (o, n, a) => console.log("adding", a, "to", n + ":", n.includes(".") ? o[n.split(".")[0]][n.split(".")[1]] = (o[n.split(".")[0]][n.split(".")[1]] || 0) + a : o[n] = (o[n] || 0) + a) // i'm keeping this code cursed whether you like it or not
         for (const t of ["trader", "tradingWith"]) {
           /** @type {Trade.TradeState} */
           const state = trade.state[t]
