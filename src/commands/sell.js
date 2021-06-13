@@ -35,7 +35,7 @@ module.exports = class extends Command {
         const gem = this.client.util.resolveGem(name)
         if ((inv.gems?.[gem.code] || 0) < n) continue
         inv.gems[gem.code] -= n
-        inv.gold += gem.sell
+        inv.gold += gem.sell * n
         sold = true
         continue
       } else {
